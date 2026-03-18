@@ -1,0 +1,16 @@
+using System;
+using System.Collections.Generic;
+using Baruah.ModelSystem;
+
+namespace {{NAMESPACE}}
+{
+    public sealed partial class {{MODEL_NAME}} : ListGameModel<{{DATA_TYPE}}>
+    {        
+        public {{QUERY_NAME}} Query()
+        {
+            return new {{QUERY_NAME}}(_items);
+        }
+
+{{ACCESSORS}}
+    }
+}

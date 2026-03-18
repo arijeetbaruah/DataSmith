@@ -1,0 +1,18 @@
+{
+    "name": "Baruah.ModelSystem.Editor",
+    "rootNamespace": "Baruah.ModelSystem.Editor",
+    "references": [
+        "GUID:43db6601fd095684eb28de9f409e1a25"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

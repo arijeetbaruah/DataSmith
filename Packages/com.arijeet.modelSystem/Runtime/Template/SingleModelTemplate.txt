@@ -1,0 +1,15 @@
+using System;
+using Baruah.ModelSystem;
+
+namespace {{NAMESPACE}}
+{
+    public sealed partial class {{MODEL_NAME}} : SingleGameModel<{{DATA_TYPE}}>
+    {
+        public {{MODEL_NAME}}()
+        {
+            Value = new {{DATA_TYPE}}();
+        }
+
+{{ACCESSORS}}
+    }
+}
