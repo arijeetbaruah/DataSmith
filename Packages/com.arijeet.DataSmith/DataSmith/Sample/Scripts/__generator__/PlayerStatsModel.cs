@@ -9,12 +9,19 @@ namespace Baruah.DataSmith.Sample
 {
     public sealed partial class PlayerStatsModel : SingleGameModel<Baruah.DataSmith.Sample.PlayerStats>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayerStatsModel"/> class and assigns a new <see cref="Baruah.DataSmith.Sample.PlayerStats"/> to <c>Value</c>.
+        /// </summary>
         public PlayerStatsModel()
         {
             Value = new Baruah.DataSmith.Sample.PlayerStats();
         }
 
-        public System.Int32 GetHealth() => Value.Health;
+        /// <summary>
+/// Gets the player's current health.
+/// </summary>
+/// <returns>The player's current health.</returns>
+public System.Int32 GetHealth() => Value.Health;
 
         public void SetHealth(System.Int32 value)
         {
@@ -47,8 +54,16 @@ namespace Baruah.DataSmith.Sample
 
         public event Action<System.Single> OnSpeedChanged;
 
-        public Baruah.DataSmith.Sample.InventoryItem GetItem() => Value.item;
+        /// <summary>
+/// Gets the current inventory item for the player.
+/// </summary>
+/// <returns>The current <see cref="Baruah.DataSmith.Sample.InventoryItem"/> stored on the model; may be null.</returns>
+public Baruah.DataSmith.Sample.InventoryItem GetItem() => Value.item;
 
+        /// <summary>
+        /// Sets the player's inventory item and invokes <c>OnItemChanged</c> if the stored item changes.
+        /// </summary>
+        /// <param name="value">The new inventory item to assign; if equal to the current item, no change occurs and the event is not raised.</param>
         public void SetItem(Baruah.DataSmith.Sample.InventoryItem value)
         {
             if (Equals(Value.item, value)) return;

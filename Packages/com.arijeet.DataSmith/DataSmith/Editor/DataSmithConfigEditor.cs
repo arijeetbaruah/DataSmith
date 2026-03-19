@@ -12,6 +12,9 @@ namespace Baruah.DataSmith.Editor
         private SerializedProperty _includePaths;
         private SerializedProperty _excludePaths;
         
+        /// <summary>
+        /// Initializes and caches the serialized properties used by this custom inspector: `_outputFolder`, `_includePaths`, and `_excludePaths`.
+        /// </summary>
         private void OnEnable()
         {
             _outputFolder = serializedObject.FindProperty("_outputFolder");
@@ -19,6 +22,13 @@ namespace Baruah.DataSmith.Editor
             _excludePaths = serializedObject.FindProperty("_excludePaths");
         }
         
+        /// <summary>
+        /// Renders the custom inspector UI for DataSmithConfig, including the output-folder controls, include/exclude path fields, and an "Open Window" button.
+        /// </summary>
+        /// <remarks>
+        /// Synchronizes serialized state before drawing and applies any modified properties after drawing.
+        /// Clicking the "Open Window" button opens the DataSmith generator window.
+        /// </remarks>
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
@@ -38,6 +48,12 @@ namespace Baruah.DataSmith.Editor
             serializedObject.ApplyModifiedProperties();
         }
         
+        /// <summary>
+        /// Renders the "Output Folder" inspector UI: a property field with a "Browse" button, validation, and a folder creation control.
+        /// </summary>
+        /// <remarks>
+        /// The "Browse" button opens a folder picker and, if a folder inside the project's Assets path is selected, stores the path as a project-relative "Assets/..." value. If a selection is outside the project, an "Invalid Folder" dialog is shown. If the configured folder does not exist, a warning is displayed and a "Create Folder" button is provided to create the folder in the project.
+        /// </remarks>
         private void DrawOutputFolder()
         {
             EditorGUILayout.LabelField("Output Folder", EditorStyles.boldLabel);
@@ -80,6 +96,10 @@ namespace Baruah.DataSmith.Editor
             }
         }
         
+        /// <summary>
+        /// Ensures the given Unity asset folder exists by creating the folder and any missing parent folders in the AssetDatabase.
+        /// </summary>
+        /// <param name="assetPath">Project-relative folder path (for example "Assets/Textures/SubFolder"). If null or empty, no action is taken.</param>
         private void CreateFolder(string assetPath)
         {
             if (string.IsNullOrEmpty(assetPath))

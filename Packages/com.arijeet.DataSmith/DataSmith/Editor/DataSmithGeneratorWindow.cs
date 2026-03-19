@@ -81,7 +81,9 @@ namespace Baruah.DataSmith.Editor
         
         // =========================================================
         // OPEN WINDOW
-        // =========================================================
+        /// <summary>
+        /// Opens the Game Model Generator editor window.
+        /// </summary>
 
         [MenuItem("Tools/Game Model Generator")]
         public static void ShowWindow()
@@ -90,6 +92,13 @@ namespace Baruah.DataSmith.Editor
                 "Game Model Generator");
         }
 
+        /// <summary>
+        /// Initialize the window's configuration and scan state when the editor window is enabled.
+        /// </summary>
+        /// <remarks>
+        /// Loads a previously saved config reference (if any), selects a fallback config when none is saved,
+        /// and performs a rescan to populate the model entries when a valid config is available.
+        /// </remarks>
         private void OnEnable()
         {
             LoadSavedConfig();
@@ -103,7 +112,12 @@ namespace Baruah.DataSmith.Editor
 
         // =========================================================
         // UI
-        // =========================================================
+        /// <summary>
+        /// Renders the editor window UI for the DataSmith generator.
+        /// </summary>
+        /// <remarks>
+        /// Draws the configuration selector; if no config is assigned, displays a warning and stops further rendering. When a config is present, renders the top bar and the results list.
+        /// </remarks>
 
         private void OnGUI()
         {
@@ -123,6 +137,13 @@ namespace Baruah.DataSmith.Editor
             DrawResults();
         }
         
+        /// <summary>
+        /// Creates a new Texture2D of the specified size filled entirely with the given color.
+        /// </summary>
+        /// <param name="w">Texture width in pixels.</param>
+        /// <param name="h">Texture height in pixels.</param>
+        /// <param name="col">Color to fill every pixel with.</param>
+        /// <returns>A Texture2D of size <paramref name="w"/>×<paramref name="h"/> where every pixel is <paramref name="col"/>.</returns>
         private Texture2D MakeTex(int w, int h, Color col)
         {
             var tex = new Texture2D(w, h);
@@ -139,7 +160,13 @@ namespace Baruah.DataSmith.Editor
 
         // =========================================================
         // TOP BAR
-        // =========================================================
+        /// <summary>
+        /// Renders the top toolbar with actions for operating on the current scan results.
+        /// </summary>
+        /// <remarks>
+        /// The "Generate All" button starts generation for all currently scanned entries using the active configuration's output folder.
+        /// The "Rescan" button refreshes the scan results.
+        /// </remarks>
 
         private void DrawTopBar()
         {
@@ -160,7 +187,12 @@ namespace Baruah.DataSmith.Editor
 
         // =========================================================
         // RESULTS TABLE
-        // =========================================================
+        /// <summary>
+        /// Renders the "Scripts To Generate" panel: displays the entry count and a scrollable table of model entries with their columns and action buttons.
+        /// </summary>
+        /// <remarks>
+        /// Computes column widths from the current window width, draws the table header, and iterates the cached entries to render each row inside a scroll view.
+        /// </remarks>
 
         private void DrawResults()
         {
@@ -187,6 +219,12 @@ namespace Baruah.DataSmith.Editor
             EditorGUILayout.EndScrollView();
         }
         
+        /// <summary>
+        /// Draws the table header row for the results list with column labels for Type, Namespace, and the action column.
+        /// </summary>
+        /// <param name="nameWidth">Pixel width of the "Type" column.</param>
+        /// <param name="nsWidth">Pixel width of the "Namespace" column.</param>
+        /// <param name="btnWidth">Pixel width of the rightmost action column (Generate button area).</param>
         private void DrawHeader(float nameWidth, float nsWidth, float btnWidth)
         {
             EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
@@ -199,6 +237,14 @@ namespace Baruah.DataSmith.Editor
             EditorGUILayout.EndHorizontal();
         }
         
+        /// <summary>
+        /// Renders a single table row for a model entry showing its type name, namespace, and a "Generate" action.
+        /// </summary>
+        /// <param name="entry">The model entry to display.</param>
+        /// <param name="index">Row index used to alternate row styling.</param>
+        /// <param name="nameWidth">Column width allocated for the type name.</param>
+        /// <param name="nsWidth">Column width allocated for the namespace (used to compute wrapped height).</param>
+        /// <param name="btnWidth">Column width allocated for the action button.</param>
         private void DrawEntryRow(ModelEntry entry, int index, float nameWidth, float nsWidth, float btnWidth)
         {
             float singleLine = EditorGUIUtility.singleLineHeight;
@@ -223,7 +269,12 @@ namespace Baruah.DataSmith.Editor
 
         // =========================================================
         // PIPELINE
-        // =========================================================
+        /// <summary>
+        /// Recomputes the list of model entries from the current config include/exclude paths and updates the window.
+        /// </summary>
+        /// <remarks>
+        /// This replaces the cached entries with the latest scan results and schedules the editor window to repaint.
+        /// </remarks>
 
         private void Rescan()
         {
@@ -232,6 +283,12 @@ namespace Baruah.DataSmith.Editor
             Repaint();
         }
         
+        /// <summary>
+        /// Renders the DataSmith configuration object field and updates the window state when the selection changes.
+        /// </summary>
+        /// <remarks>
+        /// If the user changes the selected <see cref="DataSmithConfig"/>, the new reference is persisted and the entries list is rescanned to reflect the updated configuration.
+        /// </remarks>
         private void DrawConfigField()
         {
             EditorGUI.BeginChangeCheck();
@@ -249,6 +306,9 @@ namespace Baruah.DataSmith.Editor
             }
         }
         
+        /// <summary>
+        /// Persist the currently selected DataSmithConfig reference by storing its asset GUID in EditorPrefs, or remove the saved reference if none is selected.
+        /// </summary>
         private void SaveConfigReference()
         {
             if (_config == null)
@@ -263,6 +323,12 @@ namespace Baruah.DataSmith.Editor
             EditorPrefs.SetString(ConfigPrefKey, guid);
         }
         
+        /// <summary>
+        /// Restores the previously selected DataSmithConfig from EditorPrefs and assigns it to the window's _config field.
+        /// </summary>
+        /// <remarks>
+        /// If no saved config GUID exists in EditorPrefs under the configured key, the method leaves _config unchanged.
+        /// </remarks>
         private void LoadSavedConfig()
         {
             if (!EditorPrefs.HasKey(ConfigPrefKey))
@@ -275,6 +341,10 @@ namespace Baruah.DataSmith.Editor
             _config = AssetDatabase.LoadAssetAtPath<DataSmithConfig>(path);
         }
         
+        /// <summary>
+        /// Locates a DataSmithConfig asset in the project, preferring assets under "Assets/" and then "Packages/".
+        /// </summary>
+        /// <returns>The first `DataSmithConfig` found under the Assets folder, or if none exists, the first under Packages; returns `null` if no matching asset is found.</returns>
         private DataSmithConfig FindFallbackConfig()
         {
             var guids = AssetDatabase.FindAssets("t:GameModelConfig");
