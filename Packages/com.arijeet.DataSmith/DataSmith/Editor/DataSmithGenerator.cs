@@ -1,0 +1,382 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using UnityEditor;
+using UnityEngine;
+
+namespace Baruah.DataSmith.Editor
+{
+    public static class DataSmithGenerator
+    {
+        /// <summary>
+        /// Generates model and query C# source files for the given ModelEntry into the specified output folder.
+        /// </summary>
+        /// <remarks>
+        /// Selects a code template based on the entry's ValueType; if no template is found, the method returns without producing files.
+        /// Writes two files named &lt;TypeName&gt;Model.cs and &lt;TypeName&gt;Query.cs into <paramref name="outputFolder"/> and imports them into the Unity AssetDatabase using a synchronous import.
+        /// </remarks>
+        /// <param name="entry">Metadata describing the model type and generation attributes.</param>
+        /// <param name="outputFolder">Destination folder path where the generated .cs files will be written.</param>
+        public static void GenerateEntry(ModelEntry entry, string outputFolder)
+        {
+            var templates = LoadTemplates();
+
+            if (!templates.TryGetValue(entry.Attribute.ValueType, out var template))
+                return;
+
+            string modelCode  = BuildModel(entry, template);
+
+            string queryCode  = BuildQuery(entry);
+            
+            string modelPath = Path.Combine(outputFolder,
+                entry.Type.Name + "Model.cs");
+
+            string queryPath = Path.Combine(outputFolder,
+                entry.Type.Name + "Query.cs");
+            
+            File.WriteAllText(modelPath, modelCode);
+            File.WriteAllText(queryPath, queryCode);
+
+            AssetDatabase.ImportAsset(modelPath, ImportAssetOptions.ForceSynchronousImport);
+            AssetDatabase.ImportAsset(queryPath, ImportAssetOptions.ForceSynchronousImport);
+        }
+        
+        /// <summary>
+        /// Generate source files for all provided model entries into the specified output folder.
+        /// </summary>
+        /// <param name="entries">ModelEntry definitions to generate files for.</param>
+        /// <param name="outputFolder">Target folder path where generated files will be written (within the Unity project).</param>
+        public static void GenerateAll(IEnumerable<ModelEntry> entries, string outputFolder)
+        {
+            foreach (var entry in entries)
+                GenerateEntry(entry, outputFolder);
+
+            AssetDatabase.Refresh();
+        }
+
+        /// <summary>
+        /// Iteratively generates model and query source files for the given entries while displaying a cancelable editor progress bar.
+        /// </summary>
+        /// <param name="entries">The collection of model entries to process.</param>
+        /// <param name="outputFolder">The folder path where generated source files will be written.</param>
+        /// <returns>An IEnumerator that advances one generation step per iteration, allowing the editor to remain responsive and enabling cancellation via the progress bar.</returns>
+        private static IEnumerator GenerateAllAsync(IEnumerable<ModelEntry> entries, string outputFolder)
+        {
+            EditorUtility.DisplayProgressBar("Generating Models", "Generating Models", 0);
+            
+            int count = 0;
+            foreach (var entry in entries)
+            {
+                float progress = (float) count / (float) entries.Count();
+                if (EditorUtility.DisplayCancelableProgressBar("Generating Models", $"Generating {entry.Type.FullName}", progress))
+                {
+                    break;
+                }
+                
+                GenerateEntry(entry, outputFolder);
+                
+                yield return null;
+                count++;
+            }
+
+            EditorUtility.ClearProgressBar();
+            AssetDatabase.Refresh();
+        } 
+        
+        /// <summary>
+        /// Loads TextAsset templates from the Unity project and maps value types to template text by detecting assets whose names contain "SingleModelTemplate" or "ListModelTemplate".
+        /// </summary>
+        /// <returns>A dictionary mapping found ModelValueType keys (e.g. Single, List) to the matching template text; value types with no matching asset are omitted.</returns>
+        public static Dictionary<ModelValueType, string> LoadTemplates()
+        {
+            var cache = new Dictionary<ModelValueType, string>();
+
+            var paths = AssetDatabase.FindAssets("t:TextAsset")
+                .Select(g => AssetDatabase.GUIDToAssetPath(g));
+
+            foreach (var path in paths)
+            {
+                var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+                if (asset == null) continue;
+
+                if (asset.name.Contains("SingleModelTemplate"))
+                    cache[ModelValueType.Single] = asset.text;
+
+                if (asset.name.Contains("ListModelTemplate"))
+                    cache[ModelValueType.List] = asset.text;
+            }
+
+            return cache;
+        }
+        
+        /// <summary>
+        /// Generate the C# source code for a model class described by a ModelEntry using a text template.
+        /// </summary>
+        /// <param name="entry">Metadata describing the model type and generation attributes.</param>
+        /// <param name="template">Template text containing placeholders (e.g. {{MODEL_NAME}}, {{DATA_TYPE}}, {{ACCESSORS}}, {{NAMESPACE}}, {{QUERY_NAME}}).</param>
+        /// <returns>The generated model source code with placeholders replaced; if the model type has no namespace, the template's namespace wrapper is removed.</returns>
+        public static string BuildModel(ModelEntry entry, string template)
+        {
+            var type = entry.Type;
+            var kind = entry.Attribute.ValueType;
+
+            string accessors =
+                kind == ModelValueType.Single
+                    ? BuildSingleAccessors(type)
+                    : BuildListAccessors(type);
+
+            string namespaceName = type.Namespace;
+
+            string result = template
+                .Replace("{{MODEL_NAME}}", type.Name + "Model")
+                .Replace("{{DATA_TYPE}}", type.FullName)
+                .Replace("{{ACCESSORS}}", accessors)
+                .Replace("{{NAMESPACE}}", namespaceName ?? "")
+                .Replace("{{QUERY_NAME}}", type.Name + "Query");
+
+            if (string.IsNullOrEmpty(namespaceName))
+                result = RemoveNamespaceBlock(result);
+
+            return result;
+        }
+        
+        /// <summary>
+        /// Generates the C# source code for a strongly-typed query class corresponding to the model described by <paramref name="entry"/>.
+        /// </summary>
+        /// <param name="entry">The model entry whose Type and metadata are used to build the query class.</param>
+        /// <returns>The generated C# source code for a sealed query class named &lt;TypeName&gt;Query; the output includes a namespace wrapper when the model type defines a namespace and contains fluent condition methods based on the model's public instance fields.</returns>
+        public static string BuildQuery(ModelEntry entry)
+        {
+            var type = entry.Type;
+            string queryName = type.Name + "Query";
+
+            var sb = new System.Text.StringBuilder();
+
+            sb.AppendLine("/* Auto-generated. DO NOT MODIFY */");
+            sb.AppendLine();
+
+            if (!string.IsNullOrEmpty(type.Namespace))
+            {
+                sb.AppendLine($"namespace {type.Namespace}");
+                sb.AppendLine("{");
+            }
+
+            sb.AppendLine(
+                $@"    public sealed class {queryName} 
+        : ModelQuery<{type.FullName}>
+    {{
+        public {queryName}(System.Collections.Generic.IReadOnlyList<{type.FullName}> source)
+            : base(source) {{ }}
+");
+
+            foreach (var field in type.GetFields(
+                         BindingFlags.Public | BindingFlags.Instance))
+            {
+                BuildQueryMethods(sb, type, field);
+            }
+
+            sb.AppendLine(
+                $@"        public {queryName} Where(System.Func<{type.Name}, bool> predicate)
+        {{
+            AddCondition(predicate);
+            return this;
+        }}
+");
+
+            sb.AppendLine("    }");
+
+            if (!string.IsNullOrEmpty(type.Namespace))
+                sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+        
+        /// <summary>
+        /// Generates C# accessor members for each public instance field of the provided data type.
+        /// </summary>
+        /// <param name="dataType">The model type whose public instance fields will be turned into accessors and events.</param>
+        /// <returns>A string containing generated C# code: for each field a getter, a setter that updates the field and invokes a change event when the value changes, and a corresponding change event declaration.</returns>
+        private static string BuildSingleAccessors(Type dataType)
+        {
+            var sb = new System.Text.StringBuilder();
+
+            foreach (var field in dataType.GetFields(
+                         BindingFlags.Public | BindingFlags.Instance))
+            {
+                string typeName = GetTypeName(field.FieldType);
+                string name = field.Name;
+                string pascal = UpperFirst(name);
+
+                sb.AppendLine($"        public {typeName} Get{pascal}() => Value.{name};");
+                sb.AppendLine();
+
+                sb.AppendLine($"        public void Set{pascal}({typeName} value)");
+                sb.AppendLine("        {");
+                sb.AppendLine($"            if (Equals(Value.{name}, value)) return;");
+                sb.AppendLine($"            Value.{name} = value;");
+                sb.AppendLine($"            On{pascal}Changed?.Invoke(value);");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+
+                sb.AppendLine($"        public event Action<{typeName}> On{pascal}Changed;");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+        
+        /// <summary>
+        /// Generates iterator-style `FindBy{Field}` methods for a list-backed model using the public instance fields of the provided data type.
+        /// </summary>
+        /// <param name="dataType">The data model type whose public instance fields will be used to create `FindBy...` methods.</param>
+        /// <returns>A C# source fragment that defines `IEnumerable&lt;T&gt; FindBy{Field}(fieldType value)` methods which yield items from `_items` where the field equals the provided value.</returns>
+        private static string BuildListAccessors(Type dataType)
+        {
+            var sb = new System.Text.StringBuilder();
+
+            foreach (var field in dataType.GetFields(
+                         BindingFlags.Public | BindingFlags.Instance))
+            {
+                string typeName = GetTypeName(field.FieldType);
+                string name = field.Name;
+                string pascal = UpperFirst(name);
+
+                sb.AppendLine($"        public IEnumerable<{dataType.FullName}> FindBy{pascal}({typeName} value)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            foreach (var item in _items)");
+                sb.AppendLine($"                if (Equals(item.{name}, value))");
+                sb.AppendLine("                    yield return item;");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+        
+        /// <summary>
+        /// Appends fluent query-method source code for a single field to the provided StringBuilder.
+        /// </summary>
+        /// <param name="sb">The StringBuilder to receive generated method code.</param>
+        /// <param name="dataType">The model type that owns the field; used to name the generated query class.</param>
+        /// <param name="field">The FieldInfo describing the field for which equality, numeric comparison, and string containment methods will be generated as applicable.</param>
+        private static void BuildQueryMethods(System.Text.StringBuilder sb, Type dataType, FieldInfo field)
+        {
+            string typeName = GetTypeName(field.FieldType);
+            string name = field.Name;
+            string pascal = UpperFirst(name);
+            string queryName = dataType.Name + "Query";
+
+            // Equality (all types)
+            sb.AppendLine(
+                $@"        public {queryName} {pascal}Equals({typeName} value)
+        {{
+            AddCondition(i => i.{name} == value);
+            return this;
+        }}
+");
+
+            // Numeric comparisons
+            if (IsNumeric(field.FieldType))
+            {
+                sb.AppendLine(
+                    $@"        public {queryName} {pascal}GreaterThan({typeName} value)
+        {{
+            AddCondition(i => i.{name} > value);
+            return this;
+        }}
+
+        public {queryName} {pascal}LessThan({typeName} value)
+        {{
+            AddCondition(i => i.{name} < value);
+            return this;
+        }}
+
+        public {queryName} {pascal}GreaterThanEqualTo({typeName} value)
+        {{
+            AddCondition(i => i.{name} >= value);
+            return this;
+        }}
+
+        public {queryName} {pascal}LessThanEqualTo({typeName} value)
+        {{
+            AddCondition(i => i.{name} <= value);
+            return this;
+        }}
+");
+            }
+
+            // String helpers
+            if (field.FieldType == typeof(string))
+            {
+                sb.AppendLine(
+                    $@"        public {queryName} {pascal}Contains(string value)
+        {{
+            AddCondition(i => i.{name} != null && i.{name}.Contains(value));
+            return this;
+        }}
+");
+            }
+        }
+        
+        /// <summary>
+        /// Determines whether the provided Type represents a supported numeric primitive.
+        /// </summary>
+        /// <param name="type">The CLR type to check.</param>
+        /// <returns>`true` if the type is one of: `int`, `float`, `double`, `long`, `short`, or `byte`; `false` otherwise.</returns>
+        private static bool IsNumeric(Type type)
+        {
+            return type == typeof(int) ||
+                   type == typeof(float) ||
+                   type == typeof(double) ||
+                   type == typeof(long) ||
+                   type == typeof(short) ||
+                   type == typeof(byte);
+        }
+        
+        /// <summary>
+            /// Converts the first character of the provided string to uppercase.
+            /// </summary>
+            /// <param name="s">The input string; must be non-empty.</param>
+            /// <returns>The input string with its first character converted to uppercase and the remainder unchanged.</returns>
+            private static string UpperFirst(string s)
+            => char.ToUpper(s[0]) + s.Substring(1);
+
+        /// <summary>
+        /// Removes an outer `namespace` wrapper from a C# source text and returns the inner contents without the enclosing namespace block.
+        /// </summary>
+        /// <param name="text">C# source text that may contain a top-level `namespace { ... }` wrapper.</param>
+        /// <returns>The contents between the first `{` after the `namespace` keyword and the last `}` in the input, trimmed; if no `namespace` keyword is found, returns the original text.</returns>
+        private static string RemoveNamespaceBlock(string text)
+        {
+            const string keyword = "namespace ";
+
+            int start = text.IndexOf(keyword, StringComparison.Ordinal);
+            if (start < 0) return text;
+
+            int open = text.IndexOf('{', start);
+            int close = text.LastIndexOf('}');
+
+            return text.Substring(open + 1, close - open - 1).Trim();
+        }
+
+        /// <summary>
+        /// Produce a C#-style full name for the given Type, formatting generic types with their type arguments in angle brackets.
+        /// </summary>
+        /// <param name="type">The type to format.</param>
+        /// <returns>The full name of the type. For generic types, returns the generic definition name followed by `<T1, T2, ...>` where each argument is formatted recursively.</returns>
+        private static string GetTypeName(Type type)
+        {
+            if (!type.IsGenericType)
+                return type.FullName;
+
+            var generic = type.GetGenericTypeDefinition();
+            var args = type.GetGenericArguments()
+                .Select(GetTypeName);
+
+            return $"{generic.FullName.Split('`')[0]}<{string.Join(", ", args)}>";
+        }
+    }
+}

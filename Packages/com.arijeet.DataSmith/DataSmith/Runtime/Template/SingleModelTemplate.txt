@@ -3,7 +3,7 @@
  */
  
 using System;
-using Baruah.ModelSystem;
+using Baruah.DataSmith;
 
 namespace {{NAMESPACE}}
 {

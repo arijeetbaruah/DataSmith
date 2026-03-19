@@ -1,15 +1,22 @@
-/*
- * This is a Auto-Generated code. DO NOT MODIFY
- */
+/* Auto-generated. DO NOT MODIFY */
 
 namespace Baruah.DataSmith.Sample
 {
     public sealed class PlayerStatsQuery 
-        : ModelQuery<PlayerStats>
+        : ModelQuery<Baruah.DataSmith.Sample.PlayerStats>
     {
-        public PlayerStatsQuery(System.Collections.Generic.IReadOnlyList<PlayerStats> source)
+        /// <summary>
+            /// Initializes a new instance that builds query conditions over the provided collection of PlayerStats.
+            /// </summary>
+            /// <param name="source">The read-only collection of PlayerStats to query against.</param>
+            public PlayerStatsQuery(System.Collections.Generic.IReadOnlyList<Baruah.DataSmith.Sample.PlayerStats> source)
             : base(source) { }
 
+        /// <summary>
+        /// Adds a filter requiring a player's Health to equal the specified value.
+        /// </summary>
+        /// <param name="value">The Health value to match.</param>
+        /// <returns>This query instance for fluent chaining.</returns>
         public PlayerStatsQuery HealthEquals(System.Int32 value)
         {
             AddCondition(i => i.Health == value);
@@ -94,13 +101,23 @@ namespace Baruah.DataSmith.Sample
             return this;
         }
 
+        /// <summary>
+        /// Adds a filter that requires a player's Speed to be less than or equal to the specified value.
+        /// </summary>
+        /// <param name="value">The maximum Speed value (inclusive) to match.</param>
+        /// <returns>The current PlayerStatsQuery instance for fluent chaining.</returns>
         public PlayerStatsQuery SpeedLessThanEqualTo(System.Single value)
         {
             AddCondition(i => i.Speed <= value);
             return this;
         }
 
-        public PlayerStatsQuery ItemEquals(InventoryItem value)
+        /// <summary>
+        /// Adds a filter that selects PlayerStats whose `item` field is equal to the specified inventory item.
+        /// </summary>
+        /// <param name="value">The inventory item to match against the PlayerStats' `item` field.</param>
+        /// <returns>The current PlayerStatsQuery instance for fluent chaining.</returns>
+        public PlayerStatsQuery ItemEquals(Baruah.DataSmith.Sample.InventoryItem value)
         {
             AddCondition(i => i.item == value);
             return this;
