@@ -1,13 +1,11 @@
-/*
- * This is a Auto-Generated code. DO NOT MODIFY
- */
+/* Auto-generated. DO NOT MODIFY */
 
 namespace Baruah.DataSmith.Sample
 {
     public sealed class PlayerStatsQuery 
-        : ModelQuery<PlayerStats>
+        : ModelQuery<Baruah.DataSmith.Sample.PlayerStats>
     {
-        public PlayerStatsQuery(System.Collections.Generic.IReadOnlyList<PlayerStats> source)
+        public PlayerStatsQuery(System.Collections.Generic.IReadOnlyList<Baruah.DataSmith.Sample.PlayerStats> source)
             : base(source) { }
 
         public PlayerStatsQuery HealthEquals(System.Int32 value)
@@ -100,7 +98,7 @@ namespace Baruah.DataSmith.Sample
             return this;
         }
 
-        public PlayerStatsQuery ItemEquals(InventoryItem value)
+        public PlayerStatsQuery ItemEquals(Baruah.DataSmith.Sample.InventoryItem value)
         {
             AddCondition(i => i.item == value);
             return this;

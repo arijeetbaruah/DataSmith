@@ -7,11 +7,11 @@ using Baruah.DataSmith;
 
 namespace Baruah.DataSmith.Sample
 {
-    public sealed partial class PlayerStatsModel : SingleGameModel<PlayerStats>
+    public sealed partial class PlayerStatsModel : SingleGameModel<Baruah.DataSmith.Sample.PlayerStats>
     {
         public PlayerStatsModel()
         {
-            Value = new PlayerStats();
+            Value = new Baruah.DataSmith.Sample.PlayerStats();
         }
 
         public System.Int32 GetHealth() => Value.Health;
@@ -47,16 +47,16 @@ namespace Baruah.DataSmith.Sample
 
         public event Action<System.Single> OnSpeedChanged;
 
-        public InventoryItem GetItem() => Value.item;
+        public Baruah.DataSmith.Sample.InventoryItem GetItem() => Value.item;
 
-        public void SetItem(InventoryItem value)
+        public void SetItem(Baruah.DataSmith.Sample.InventoryItem value)
         {
             if (Equals(Value.item, value)) return;
             Value.item = value;
             OnItemChanged?.Invoke(value);
         }
 
-        public event Action<InventoryItem> OnItemChanged;
+        public event Action<Baruah.DataSmith.Sample.InventoryItem> OnItemChanged;
 
 
     }
