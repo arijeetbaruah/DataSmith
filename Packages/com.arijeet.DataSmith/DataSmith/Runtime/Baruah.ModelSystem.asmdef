@@ -1,6 +1,6 @@
 {
-    "name": "Baruah.ModelSystem",
-    "rootNamespace": "Baruah.ModelSystem",
+    "name": "Baruah.DataSmith",
+    "rootNamespace": "Baruah.DataSmith",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

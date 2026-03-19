@@ -1,6 +1,6 @@
 {
-    "name": "Baruah.ModelSystem.Editor",
-    "rootNamespace": "Baruah.ModelSystem.Editor",
+    "name": "Baruah.DataSmith.Editor",
+    "rootNamespace": "Baruah.DataSmith.Editor",
     "references": [
         "GUID:43db6601fd095684eb28de9f409e1a25"
     ],

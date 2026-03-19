@@ -1,10 +1,7 @@
-<p align="center">
-  <img src="docs/images/social-preview.png" alt="Maths Engine Banner"/>
-</p>
 
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/arijeetbaruah/Maths-Engine?utm_source=oss&utm_medium=github&utm_campaign=arijeetbaruah%2FMaths-Engine&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
-<h1 align="center">Maths Engine</h1>
+
+<h1 align="center">DataSmith</h1>
 
 <p align="center">
 Serializable Math Formula System for Unity
@@ -12,9 +9,9 @@ Serializable Math Formula System for Unity
 
 <p align="center">
 
-<img src="https://img.shields.io/github/stars/arijeetbaruah/Maths-Engine?style=for-the-badge">
-<img src="https://img.shields.io/github/license/arijeetbaruah/Maths-Engine?style=for-the-badge">
-<img src="https://img.shields.io/github/issues/arijeetbaruah/Maths-Engine?style=for-the-badge">
+<img src="https://img.shields.io/github/stars/arijeetbaruah/DataSmith?style=for-the-badge">
+<img src="https://img.shields.io/github/license/arijeetbaruah/DataSmith?style=for-the-badge">
+<img src="https://img.shields.io/github/issues/arijeetbaruah/DataSmith?style=for-the-badge">
 
 </p>
 
@@ -22,44 +19,50 @@ Serializable Math Formula System for Unity
 
 ## ✨ Overview
 
-**Maths Engine** is a modular system for building **serializable mathematical formulas in Unity**.
+**DataSmith** is an attribute-driven data modeling framework for Unity that automatically generates strongly-typed models and fluent query APIs.
 
-Instead of hardcoding equations in scripts, you can create flexible formula graphs using reusable **Math Nodes**.
-
-This makes it ideal for systems like:
-
-* Damage calculations
-* AI decision formulas
-* Gameplay balancing
-* Procedural systems
-* Conditional logic
+It delivers an ORM-like developer experience for in-memory gameplay data, enabling scalable, maintainable systems without boilerplate or runtime reflection.
 
 ---
 
 ## 🚀 Features
 
-* Modular **node-based math system**
-* Fully **serializable formulas**
-* Runtime **formula evaluation**
-* Human-readable **equation generation**
-* Extensible **custom math nodes**
-* Logical operators for conditional formulas
-* Comparison operators
+• Attribute-driven model definitions  
+• Automatic code generation (Models + Queries)  
+• Strongly-typed accessors and events  
+• Fluent, lazy query system  
+• ORM-like developer experience  
+• Centralized data architecture  
+• Zero runtime reflection  
+• Designer-friendly workflow  
+• Scales to large projects
+
+## 🚀 Why DataSmith?
+
+Managing gameplay data in Unity often leads to:
+
+❌ Boilerplate getters/setters  
+❌ Scattered data access logic  
+❌ Fragile string-based queries  
+❌ Hard-to-maintain systems  
+❌ Overuse of ScriptableObjects
+
+**DataSmith solves this** by turning plain C# classes into full data systems automatically.
 
 ---
 
-## 🧩 Example Formula
+## 🏗️ Core Concept
 
-Example conditional formula:
+Define your data once:
 
-```text
-(HP < 30 AND EnemyDistance < 5) ? Damage * 2 : Damage
-```
-
-Generated equation output:
-
-```text
-((HP < 30 AND EnemyDistance < 5) ? (Damage * 2) : Damage)
+```csharp
+[GameModel(ModelValueType.List)]
+public class InventoryItem
+{
+    public string Id;
+    public int Quantity;
+    public bool IsEquipped;
+}
 ```
 
 ---
@@ -73,7 +76,7 @@ Generated equation output:
 3. Paste:
 
 ```
-https://github.com/arijeetbaruah/Maths-Engine.git?path=Packages/com.arijeet.mathsengine/MathsEngine
+https://github.com/arijeetbaruah/DataSmith.git?path=Packages/com.arijeet.DataSmith/DataSmith
 ```
 
 Unity will install the package automatically.
@@ -85,7 +88,7 @@ Unity will install the package automatically.
 Clone the repository:
 
 ```
-git clone https://github.com/arijeetbaruah/Maths-Engine.git
+git clone https://github.com/arijeetbaruah/DataSmith.git
 ```
 
 Copy the runtime folder into your Unity project:
@@ -105,7 +108,7 @@ Unity will compile the scripts automatically.
 2. Navigate to:
 
 ```
-Create → Baruah → Maths Engine → Maths Formula
+Create → Baruah → DataSmith → Maths Formula
 ```
 
 3. Create a **Math Formula asset**
@@ -118,17 +121,17 @@ If the asset appears, installation succeeded.
 
 Full documentation is available here:
 
-https://arijeetbaruah.github.io/Maths-Engine/
+https://arijeetbaruah.github.io/DataSmith/
 
 Getting started guide:
 
-https://arijeetbaruah.github.io/Maths-Engine/getting_started.html
+https://arijeetbaruah.github.io/DataSmith/getting_started.html
 
 ---
 
 ## 🏗 Architecture
 
-Maths Engine is built around modular **Math Nodes**.
+DataSmith is built around modular **Math Nodes**.
 
 ```
 BaseMathNode
@@ -162,8 +165,8 @@ Pull requests should follow the repository template.
 
 Thanks to all contributors who help improve this project.
 
-<a href="https://github.com/arijeetbaruah/Maths-Engine/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=arijeetbaruah/Maths-Engine" />
+<a href="https://github.com/arijeetbaruah/DataSmith/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=arijeetbaruah/DataSmith" />
 </a>
 
 ---

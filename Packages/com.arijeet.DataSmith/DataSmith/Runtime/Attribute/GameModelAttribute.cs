@@ -1,6 +1,6 @@
 using System;
 
-namespace Baruah.ModelSystem
+namespace Baruah.DataSmith
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class GameModelAttribute : Attribute

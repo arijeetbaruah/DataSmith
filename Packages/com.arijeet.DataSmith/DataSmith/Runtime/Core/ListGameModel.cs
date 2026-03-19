@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Baruah.ModelSystem
+namespace Baruah.DataSmith
 {
     public abstract class ListGameModel<T> : GameModel
     {

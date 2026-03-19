@@ -7,7 +7,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace Baruah.ModelSystem.Editor
+namespace Baruah.DataSmith.Editor
 {
     public class GameModelGeneratorWindow : EditorWindow
     {
@@ -78,7 +78,8 @@ namespace Baruah.ModelSystem.Editor
                 EditorGUILayout.BeginHorizontal();
 
                 GUILayout.Label(entry.Type.Name, GUILayout.Width(180));
-                GUILayout.Label(entry.Type.Namespace ?? "", GUILayout.ExpandWidth(true));
+                GUILayout.Label(entry.Path ?? "", GUILayout.ExpandWidth(true));
+                GUILayout.Label(entry.Type.Namespace ?? "", GUILayout.Width(280));
 
                 if (GUILayout.Button("Generate", GUILayout.Width(90)))
                 {
@@ -227,12 +228,21 @@ namespace Baruah.ModelSystem.Editor
             {
                 if (!type.IsClass || type.IsAbstract)
                     continue;
+                
+                string scriptPath = GetScriptPath(type);
+                
+                if (string.IsNullOrEmpty(scriptPath))
+                    continue;
+
+                if (!IsPathAllowed(scriptPath))
+                    continue;
 
                 var attr = type.GetCustomAttribute<GameModelAttribute>();
 
                 _entries.Add(new ModelEntry
                 {
                     Type = type,
+                    Path = scriptPath,
                     Attribute = attr
                 });
             }
@@ -242,74 +252,103 @@ namespace Baruah.ModelSystem.Editor
         
         private static bool IsPathAllowed(string path)
         {
-            if (string.IsNullOrEmpty(path))
-                return false;
+            path = path.Replace('\\', '/');
 
-            if (_includePaths.Count > 0 &&
-                !_includePaths.Any(p => path.StartsWith(p)))
-                return false;
+            // ===== INCLUDE =====
+            if (_includePaths != null && _includePaths.Count > 0)
+            {
+                bool matchesInclude = _includePaths
+                    .Any(pattern => GlobMatch(path, pattern));
 
-            if (_excludePaths.Any(p => path.StartsWith(p)))
-                return false;
+                if (!matchesInclude)
+                    return false;
+            }
+
+            // ===== EXCLUDE =====
+            if (_excludePaths != null && _excludePaths.Count > 0)
+            {
+                bool matchesExclude = _excludePaths
+                    .Any(pattern => GlobMatch(path, pattern));
+
+                if (matchesExclude)
+                    return false;
+            }
 
             return true;
         }
         
-        private static void GenerateFromPath(string includePath)
+        private static bool GlobMatch(string path, string pattern)
         {
-            if (string.IsNullOrEmpty(includePath))
-                return;
+            if (string.IsNullOrEmpty(pattern))
+                return false;
 
-            EnsureOutputFolder(_outputFolder);
-            LoadTemplates();
+            pattern = pattern.Replace('\\', '/');
 
-            var types = TypeCache.GetTypesWithAttribute<GameModelAttribute>();
+            // Convert glob to regex
+            string regex = "^" + RegexEscape(pattern) + "$";
 
-            int count = 0;
+            return System.Text.RegularExpressions.Regex
+                .IsMatch(path, regex, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        }
+        
+        private static string RegexEscape(string pattern)
+        {
+            var sb = new StringBuilder();
 
-            foreach (var type in types)
+            for (int i = 0; i < pattern.Length; i++)
             {
-                if (!type.IsClass || type.IsAbstract)
-                    continue;
+                char c = pattern[i];
 
-                string scriptPath = GetScriptPath(type);
+                if (c == '*')
+                {
+                    bool isDoubleStar =
+                        i + 1 < pattern.Length &&
+                        pattern[i + 1] == '*';
 
-                if (string.IsNullOrEmpty(scriptPath))
-                    continue;
-
-                if (!scriptPath.StartsWith(includePath))
-                    continue;
-
-                if (_excludePaths.Any(p => scriptPath.StartsWith(p)))
-                    continue;
-
-                var attr = type.GetCustomAttribute<GameModelAttribute>();
-
-                if (!TemplateCache.TryGetValue(attr.ValueType, out var template))
-                    continue;
-
-                GenerateModel(type, attr.ValueType, template);
-                GenerateQueryClass(type);
-
-                count++;
+                    if (isDoubleStar)
+                    {
+                        sb.Append(".*"); // recursive
+                        i++;
+                    }
+                    else
+                    {
+                        sb.Append("[^/]*"); // single segment
+                    }
+                }
+                else
+                {
+                    sb.Append(System.Text.RegularExpressions.Regex.Escape(c.ToString()));
+                }
             }
 
-            AssetDatabase.Refresh();
-
-            Debug.Log($"Generated {count} model(s) from {includePath}");
+            return sb.ToString();
         }
         
         private static string GetScriptPath(Type type)
         {
-            var script = AssetDatabase
-                .FindAssets($"t:MonoScript {type.Name}")
-                .Select(AssetDatabase.GUIDToAssetPath)
-                .Select(p => AssetDatabase.LoadAssetAtPath<MonoScript>(p))
-                .FirstOrDefault(s => s != null && s.GetClass() == type);
+            var guids = AssetDatabase.FindAssets("t:MonoScript");
 
-            return script != null
-                ? AssetDatabase.GetAssetPath(script)
-                : null;
+            foreach (var guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+
+                var script = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
+
+                if (script == null)
+                    continue;
+
+                // Fast path: main class match
+                if (script.GetClass() == type)
+                    return path;
+
+                // Fallback: check text for nested/secondary classes
+                string text = script.text;
+
+                if (text.Contains($"class {type.Name}"))
+                    return path;
+            }
+
+            return null;
         }
         
         private static void DrawOutputFolder()
@@ -460,6 +499,11 @@ namespace Baruah.ModelSystem.Editor
                 queryName + ".cs");
 
             var sb = new StringBuilder();
+
+            sb.AppendLine($@"/*
+ * This is a Auto-Generated code. DO NOT MODIFY
+ */
+");
 
             string ns = dataType.Namespace;
 
@@ -693,6 +737,7 @@ namespace Baruah.ModelSystem.Editor
     class ModelEntry
     {
         public Type Type;
+        public string Path;
         public GameModelAttribute Attribute;
     }
 }

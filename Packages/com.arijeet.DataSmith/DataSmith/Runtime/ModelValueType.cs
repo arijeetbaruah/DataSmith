@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Baruah.ModelSystem
+namespace Baruah.DataSmith
 {
     public enum ModelValueType
     {

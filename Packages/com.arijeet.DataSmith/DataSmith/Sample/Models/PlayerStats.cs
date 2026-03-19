@@ -1,7 +1,7 @@
-using Baruah.ModelSystem;
+using Baruah.DataSmith;
 using UnityEngine;
 
-namespace Baruah.ModelSystem.Sample
+namespace Baruah.DataSmith.Sample
 {
     [GameModel(ModelValueType.Single)]
     [System.Serializable]

@@ -1,5 +1,5 @@
 using System.Linq;
-using Baruah.ModelSystem.Sample;
+using Baruah.DataSmith.Sample;
 using UnityEngine;
 
 public class QueryTest : MonoBehaviour

@@ -1,6 +1,6 @@
 using System;
 
-namespace Baruah.ModelSystem
+namespace Baruah.DataSmith
 {
     public static class PredicateExtensions
     {

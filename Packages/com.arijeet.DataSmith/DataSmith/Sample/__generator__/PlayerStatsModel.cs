@@ -1,13 +1,17 @@
+/*
+ * This is a Auto-Generated code. DO NOT MODIFY
+ */
+ 
 using System;
-using Baruah.ModelSystem;
+using Baruah.DataSmith;
 
-namespace Baruah.ModelSystem.Sample
+namespace Baruah.DataSmith.Sample
 {
-    public sealed partial class PlayerStatsModel : SingleGameModel<Baruah.ModelSystem.Sample.PlayerStats>
+    public sealed partial class PlayerStatsModel : SingleGameModel<PlayerStats>
     {
         public PlayerStatsModel()
         {
-            Value = new Baruah.ModelSystem.Sample.PlayerStats();
+            Value = new PlayerStats();
         }
 
         public System.Int32 GetHealth() => Value.Health;
@@ -43,16 +47,16 @@ namespace Baruah.ModelSystem.Sample
 
         public event Action<System.Single> OnSpeedChanged;
 
-        public Baruah.ModelSystem.Sample.InventoryItem GetItem() => Value.item;
+        public InventoryItem GetItem() => Value.item;
 
-        public void SetItem(Baruah.ModelSystem.Sample.InventoryItem value)
+        public void SetItem(InventoryItem value)
         {
             if (Equals(Value.item, value)) return;
             Value.item = value;
             OnItemChanged?.Invoke(value);
         }
 
-        public event Action<Baruah.ModelSystem.Sample.InventoryItem> OnItemChanged;
+        public event Action<InventoryItem> OnItemChanged;
 
 
     }

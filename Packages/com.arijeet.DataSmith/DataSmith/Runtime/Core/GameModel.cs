@@ -1,4 +1,4 @@
-namespace Baruah.ModelSystem
+namespace Baruah.DataSmith
 {
     public abstract class GameModel
     {

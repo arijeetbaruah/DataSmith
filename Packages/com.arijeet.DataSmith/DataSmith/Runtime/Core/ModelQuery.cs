@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Baruah.ModelSystem
+namespace Baruah.DataSmith
 {
     public abstract class ModelQuery<T> : IEnumerable<T>
     {

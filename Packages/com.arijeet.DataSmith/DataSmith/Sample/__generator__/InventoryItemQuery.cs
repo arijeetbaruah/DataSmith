@@ -1,9 +1,13 @@
-namespace Baruah.ModelSystem.Sample
+/*
+ * This is a Auto-Generated code. DO NOT MODIFY
+ */
+
+namespace Baruah.DataSmith.Sample
 {
     public sealed class InventoryItemQuery 
-        : ModelQuery<Baruah.ModelSystem.Sample.InventoryItem>
+        : ModelQuery<InventoryItem>
     {
-        public InventoryItemQuery(System.Collections.Generic.IReadOnlyList<Baruah.ModelSystem.Sample.InventoryItem> source)
+        public InventoryItemQuery(System.Collections.Generic.IReadOnlyList<InventoryItem> source)
             : base(source) { }
 
         public InventoryItemQuery IdEquals(System.String value)
