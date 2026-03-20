@@ -64,6 +64,17 @@ public class InventoryItem
     public bool IsEquipped;
 }
 ```
+Generate models with the editor tool:
+```
+Tools → Game Model Generator
+```
+DataSmith creates:
+
+- A model wrapper
+- Accessors
+- Events
+- Query builder
+- Utility methods
 
 ---
 
@@ -95,25 +106,10 @@ Copy the runtime folder into your Unity project:
 
 ```
 Assets/
- └── MathsEngine/
+ └── DataSmith/
 ```
 
 Unity will compile the scripts automatically.
-
----
-
-### Verify Installation
-
-1. Right-click in the Project window
-2. Navigate to:
-
-```
-Create → Baruah → DataSmith → Maths Formula
-```
-
-3. Create a **Math Formula asset**
-
-If the asset appears, installation succeeded.
 
 ---
 
@@ -129,20 +125,72 @@ https://arijeetbaruah.github.io/DataSmith/getting_started.html
 
 ---
 
-## 🏗 Architecture
-
-DataSmith is built around modular **Math Nodes**.
-
+## 🧩 Generated Model Example
+```csharp
+inventoryModel.Add(new InventoryItem
+{
+Id = "potion",
+Quantity = 5
+});
 ```
-BaseMathNode
- ├── Arithmetic Nodes
- ├── Comparison Nodes
- ├── Logical Nodes
- └── Custom Nodes
+Access data safely:
+```csharp
+var potions = inventoryModel.FindById("potion");
+````
+---
+## ⚙️ Model Types
+### List Model
+Represents a collection of entities.
+```csharp
+[GameModel(ModelValueType.List)]
+public class EnemyData { ... }
 ```
+### Single Model
 
-Each node can evaluate itself and generate a readable equation.
+Represents a single state object.
+```csharp
+[GameModel(ModelValueType.Single)]
+public class PlayerStats { ... }
+```
+---
+## 🛠️ Generator Tool
 
+Open:
+```
+Tools → Game Model Generator
+```
+Features:
+
+- Generate all models at once
+- Generate per-script
+- Custom output folder
+- Include / Exclude filters
+- Wildcard support (*, **, *.cs)
+- Template-based generation
+- Safe incremental updates
+---
+## ⚡ Performance
+
+DataSmith is optimized for gameplay use:
+
+✔ No runtime reflection<br>
+✔ No dynamic dispatch<br>
+✔ Lazy query execution<br>
+✔ Single-pass filtering<br>
+✔ IL2CPP safe<br>
+✔ Allocation-minimal
+
+---
+## 🎯 Use Cases
+
+- Gameplay state management
+- Inventory systems
+- Character stats
+- Quest systems
+- Simulation data
+- Strategy games
+- MMO-style data layers
+- Designer-driven content
 ---
 
 ## 🤝 Contributing
