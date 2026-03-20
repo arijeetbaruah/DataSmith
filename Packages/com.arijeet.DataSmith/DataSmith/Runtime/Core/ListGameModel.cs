@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Baruah.DataSmith
 {
@@ -22,6 +23,17 @@ namespace Baruah.DataSmith
         public bool Remove(T item)
         {
             return _items.Remove(item);
+        }
+        
+        public override string Serialize()
+        {
+            return JsonConvert.SerializeObject(_items);
+        }
+
+        public override void Deserialize(string data)
+        {
+            _items = JsonConvert.DeserializeObject<List<T>>(data);
+            OnDeserialized();
         }
     }
 }

@@ -10,7 +10,8 @@ namespace Baruah.DataSmith.Sample
         public int Health;
         public int Mana;
         public float Speed;
-        public InventoryItem item;
+
+        [Reference(typeof(InventoryItem))] public string ItemId;
 
         public bool IsAlive => Health > 0;
     }
@@ -19,7 +20,7 @@ namespace Baruah.DataSmith.Sample
     [System.Serializable]
     public class InventoryItem
     {
-        public string Id;
+        [PrimaryKey] public string Id;
         public int Quantity;
         public bool IsEquipped;
     }

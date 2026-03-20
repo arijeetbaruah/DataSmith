@@ -5,18 +5,9 @@ namespace Baruah.DataSmith.Sample
     public sealed class InventoryItemQuery 
         : ModelQuery<Baruah.DataSmith.Sample.InventoryItem>
     {
-        /// <summary>
-            /// Initializes a new InventoryItemQuery using the specified source collection of InventoryItem records.
-            /// </summary>
-            /// <param name="source">The read-only collection of InventoryItem objects to query against.</param>
-            public InventoryItemQuery(System.Collections.Generic.IReadOnlyList<Baruah.DataSmith.Sample.InventoryItem> source)
+        public InventoryItemQuery(System.Collections.Generic.IReadOnlyList<Baruah.DataSmith.Sample.InventoryItem> source)
             : base(source) { }
 
-        /// <summary>
-        /// Adds a predicate that matches inventory items whose Id equals the specified value.
-        /// </summary>
-        /// <param name="value">The Id value to match.</param>
-        /// <returns>The current query instance for fluent chaining.</returns>
         public InventoryItemQuery IdEquals(System.String value)
         {
             AddCondition(i => i.Id == value);
