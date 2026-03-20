@@ -9,19 +9,12 @@ namespace Baruah.DataSmith.Sample
 {
     public sealed partial class PlayerStatsModel : SingleGameModel<Baruah.DataSmith.Sample.PlayerStats>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PlayerStatsModel"/> class and assigns a new <see cref="Baruah.DataSmith.Sample.PlayerStats"/> to <c>Value</c>.
-        /// </summary>
         public PlayerStatsModel()
         {
             Value = new Baruah.DataSmith.Sample.PlayerStats();
         }
 
-        /// <summary>
-/// Gets the player's current health.
-/// </summary>
-/// <returns>The player's current health.</returns>
-public System.Int32 GetHealth() => Value.Health;
+        public System.Int32 GetHealth() => Value.Health;
 
         public void SetHealth(System.Int32 value)
         {
@@ -54,24 +47,27 @@ public System.Int32 GetHealth() => Value.Health;
 
         public event Action<System.Single> OnSpeedChanged;
 
-        /// <summary>
-/// Gets the current inventory item for the player.
-/// </summary>
-/// <returns>The current <see cref="Baruah.DataSmith.Sample.InventoryItem"/> stored on the model; may be null.</returns>
-public Baruah.DataSmith.Sample.InventoryItem GetItem() => Value.item;
+        public System.String GetItemId() => Value.ItemId;
 
-        /// <summary>
-        /// Sets the player's inventory item and invokes <c>OnItemChanged</c> if the stored item changes.
-        /// </summary>
-        /// <param name="value">The new inventory item to assign; if equal to the current item, no change occurs and the event is not raised.</param>
-        public void SetItem(Baruah.DataSmith.Sample.InventoryItem value)
+        public void SetItemId(System.String value)
         {
-            if (Equals(Value.item, value)) return;
-            Value.item = value;
-            OnItemChanged?.Invoke(value);
+            if (Equals(Value.ItemId, value)) return;
+            Value.ItemId = value;
+            OnItemIdChanged?.Invoke(value);
         }
 
-        public event Action<Baruah.DataSmith.Sample.InventoryItem> OnItemChanged;
+        public event Action<System.String> OnItemIdChanged;
+
+        public Baruah.DataSmith.Sample.InventoryItem GetInventoryItem()
+        {
+            if (Value.ItemId == null)
+                return default;
+
+            return DataContext.InventoryItemModel
+                .Query()
+                .IdEquals(Value.ItemId)
+                .FirstOrDefault();
+        }
 
 
     }

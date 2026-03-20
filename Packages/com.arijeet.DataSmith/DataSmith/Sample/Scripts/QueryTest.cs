@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class QueryTest : MonoBehaviour
 {
-    private InventoryItemModel m_inventoryItem;
-
     [SerializeField] private InventoryItem[] _sampleInventoryItems;
     
     private void Start()
     {
-        m_inventoryItem = new InventoryItemModel();
+        DataContext.Initialize();
         
-        m_inventoryItem.AddRange(_sampleInventoryItems);
-
-        int count = m_inventoryItem.Query()
+        DataContext.InventoryItemModel.AddRange(_sampleInventoryItems);
+        
+        int count = DataContext.InventoryItemModel
+            .Query()
             .IsEquippedEquals(false)
-            .QuantityGreaterThan(3)
+            .QuantityGreaterThanEqualTo(3)
             .Count();
         
         Debug.Log(count);

@@ -11,11 +11,14 @@
     "name": "Arijeet Baruah",
     "url": "https://github.com/arijeetbaruah"
   },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
+  },
   "samples": [
     {
       "displayName": "Basic Usage",
       "description": "Basic examples of Maths Engine usage",
-      "path": "Samples~/BasicUsage"
+      "path": "com.arijeet.DataSmith/DataSmith/Sample"
     }
   ]
 }
