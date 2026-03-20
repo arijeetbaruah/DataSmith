@@ -8,6 +8,13 @@ using Baruah.DataSmith;
 
 namespace Baruah.DataSmith.Sample
 {
+    /// <summary>
+    /// DataSmith model wrapper for <see cref="Baruah.DataSmith.Sample.InventoryItem"/>.
+    /// </summary>
+    /// <remarks>
+    /// This class is auto-generated. Do not modify manually.
+    /// Use the DataSmith generator to regenerate.
+    /// </remarks>
     public sealed partial class InventoryItemModel : ListGameModel<Baruah.DataSmith.Sample.InventoryItem>
     {        
         public InventoryItemQuery Query()
