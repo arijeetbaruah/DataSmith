@@ -7,6 +7,13 @@ using Baruah.DataSmith;
 
 namespace {{NAMESPACE}}
 {
+    /// <summary>
+    /// DataSmith model wrapper for <see cref="{{DATA_TYPE}}"/>.
+    /// </summary>
+    /// <remarks>
+    /// This class is auto-generated. Do not modify manually.
+    /// Use the DataSmith generator to regenerate.
+    /// </remarks>
     public sealed partial class {{MODEL_NAME}} : SingleGameModel<{{DATA_TYPE}}>
     {
         public {{MODEL_NAME}}()
