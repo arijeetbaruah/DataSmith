@@ -16,10 +16,41 @@ namespace Baruah.DataSmith.Sample
     /// </remarks>
     public sealed partial class PlayerStatsModel : SingleGameModel<Baruah.DataSmith.Sample.PlayerStats>
     {
+        /// <summary>
+        /// Initializes a new instance of PlayerStatsModel and sets its underlying Value to a new Baruah.DataSmith.Sample.PlayerStats.
+        /// </summary>
         public PlayerStatsModel()
         {
             Value = new Baruah.DataSmith.Sample.PlayerStats();
         }
+
+
+        /// <summary>
+        /// Getter for playerId
+        /// <summary>
+/// Gets the player identifier from the underlying PlayerStats value.
+/// </summary>
+/// <returns>The player's identifier, or null if not set.</returns>
+        public System.String GetPlayerId() => Value.playerId;
+
+        /// <summary>
+        /// Setter for playerId
+        /// <summary>
+        /// Sets the model's playerId and notifies subscribers if the value changed.
+        /// </summary>
+        /// <param name="value">The new player identifier to assign to the model.</param>
+        public void SetPlayerId(System.String value)
+        {
+            if (Equals(Value.playerId, value)) return;
+            Value.playerId = value;
+            OnPlayerIdChanged?.Invoke(value);
+        }
+
+        /// <summery>
+        /// Event which trigger when value is changed
+        /// </summery>
+        public event Action<System.String> OnPlayerIdChanged;
+
 
 
         /// <summary>
