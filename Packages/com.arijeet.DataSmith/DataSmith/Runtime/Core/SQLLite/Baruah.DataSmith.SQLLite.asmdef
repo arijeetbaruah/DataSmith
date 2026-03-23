@@ -1,0 +1,20 @@
+{
+    "name": "Baruah.DataSmith.SQLLite",
+    "rootNamespace": "Baruah.DataSmith.Database",
+    "references": [
+        "GUID:43db6601fd095684eb28de9f409e1a25"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Mono.Data.Sqlite.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "HAS_MONO_SQLITE"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

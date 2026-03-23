@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Baruah.DataSmith.Database;
 using Newtonsoft.Json;
 
 namespace Baruah.DataSmith
@@ -56,6 +57,21 @@ namespace Baruah.DataSmith
         {
 {{CONTEXT_TYPE}}
         };
+        
+        public static IDatabase Database
+        {
+            get
+            {
+                if (_database != null)
+                {
+                    return _database;
+                }
+                
+                throw new System.Exception("Database is not initialized");
+            }
+        }
+        
+        private static IDatabase _database;
 
         /// <summary>
         /// Initializes the context and creates instances for all registered models.

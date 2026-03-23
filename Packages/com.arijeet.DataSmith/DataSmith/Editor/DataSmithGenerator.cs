@@ -24,27 +24,27 @@ namespace Baruah.DataSmith.Editor
         public static void GenerateEntry(ModelEntry entry, string outputFolder)
         {
             var templates = LoadTemplates();
-
+            
             if (!templates.TryGetValue(entry.Attribute.ValueType, out var template))
                 return;
 
-            string modelCode  = BuildModel(entry, template);
+            string modelCode = BuildModel(entry, template);
 
-            string queryCode  = BuildQuery(entry);
-            
+            string queryCode = BuildQuery(entry);
+
             string modelPath = Path.Combine(outputFolder,
                 entry.Type.Name + "Model.cs");
 
             string queryPath = Path.Combine(outputFolder,
                 entry.Type.Name + "Query.cs");
-            
+
             File.WriteAllText(modelPath, modelCode);
             File.WriteAllText(queryPath, queryCode);
 
             AssetDatabase.ImportAsset(modelPath, ImportAssetOptions.ForceSynchronousImport);
             AssetDatabase.ImportAsset(queryPath, ImportAssetOptions.ForceSynchronousImport);
         }
-        
+
         /// <summary>
         /// Generate the DataContext file where you can access all of the model files
         /// </summary>
@@ -63,19 +63,19 @@ namespace Baruah.DataSmith.Editor
 
             foreach (var type in modelTypes)
             {
-                types.Add($"            typeof({type.FullName})");
+                types.Add($"            typeof({type.FullName}Model)");
             }
-            
+
             string tmp = asset.text;
             string code = tmp
-                .Replace("{{CONTEXT_TYPE}}", string.Join(",\n", types))
+                    .Replace("{{CONTEXT_TYPE}}", string.Join(",\n", types))
                 ;
-            
+
             File.WriteAllText(filePath, code);
             AssetDatabase.ImportAsset(filePath, ImportAssetOptions.ForceSynchronousImport);
-            
+
         }
-        
+
         /// <summary>
         /// Generate source files for all provided model entries into the specified output folder.
         /// </summary>
@@ -87,10 +87,10 @@ namespace Baruah.DataSmith.Editor
                 GenerateEntry(entry, outputFolder);
 
             GenerateDataContext(entries.Select(e => e.Type), outputFolder);
-            
+
             AssetDatabase.Refresh();
         }
-        
+
         /// <summary>
         /// Loads TextAsset templates from the Unity project and maps value types to template text by detecting assets whose names contain "SingleModelTemplate" or "ListModelTemplate".
         /// </summary>
@@ -112,11 +112,32 @@ namespace Baruah.DataSmith.Editor
 
                 if (asset.name.Contains("ListModelTemplate"))
                     cache[ModelValueType.List] = asset.text;
+                
+                if (asset.name.Contains("SQLGameModelTemplate"))
+                    cache[ModelValueType.DB] = asset.text;
             }
 
             return cache;
         }
-        
+
+        public static string BuildAccessors(ModelEntry entry)
+        {
+            var type = entry.Type;
+            var kind = entry.Attribute.ValueType;
+            
+            switch (kind)
+            {
+                case ModelValueType.Single:
+                    return BuildSingleAccessors(type);
+                case ModelValueType.List:
+                    return BuildListAccessors(type);
+                case ModelValueType.DB:
+                    return BuildDBAccessors(entry);;
+            }
+            
+            return "";
+        }
+
         /// <summary>
         /// Generate the C# source code for a model class described by a ModelEntry using a text template.
         /// </summary>
@@ -126,17 +147,14 @@ namespace Baruah.DataSmith.Editor
         public static string BuildModel(ModelEntry entry, string template)
         {
             var type = entry.Type;
-            var kind = entry.Attribute.ValueType;
 
-            string accessors =
-                kind == ModelValueType.Single
-                    ? BuildSingleAccessors(type)
-                    : BuildListAccessors(type);
+            string accessors = BuildAccessors(entry);
 
             string namespaceName = type.Namespace;
 
             string result = template
                 .Replace("{{MODEL_NAME}}", type.Name + "Model")
+                .Replace("{{TABLE_NAME}}", type.Name)
                 .Replace("{{DATA_TYPE}}", type.FullName)
                 .Replace("{{ACCESSORS}}", accessors)
                 .Replace("{{NAMESPACE}}", namespaceName ?? "")
@@ -147,7 +165,7 @@ namespace Baruah.DataSmith.Editor
 
             return result;
         }
-        
+
         /// <summary>
         /// Generates the C# source code for a strongly-typed query class corresponding to the model described by <paramref name="entry"/>.
         /// </summary>
@@ -198,7 +216,7 @@ namespace Baruah.DataSmith.Editor
 
             return sb.ToString();
         }
-        
+
         /// <summary>
         /// Generates C# accessor members for each public instance field of the provided data type.
         /// </summary>
@@ -237,7 +255,7 @@ namespace Baruah.DataSmith.Editor
         public event Action<{typeName}> On{pascal}Changed;
 
 ");
-                
+
                 var code = GenerateReferenceAccessor(field);
                 if (!string.IsNullOrEmpty(code))
                 {
@@ -247,7 +265,7 @@ namespace Baruah.DataSmith.Editor
 
             return sb.ToString();
         }
-        
+
         /// <summary>
         /// Generates iterator-style `FindBy{Field}` methods for a list-backed model using the public instance fields of the provided data type.
         /// </summary>
@@ -275,13 +293,153 @@ namespace Baruah.DataSmith.Editor
 
             return sb.ToString();
         }
-        
+
+        public static string BuildDBAccessors(ModelEntry entry)
+        {
+            var type = entry.Type;
+            string modelName = type.Name;
+            string dbClassName = modelName + "Model";
+
+            var fields = type.GetFields(
+                BindingFlags.Public | BindingFlags.Instance);
+
+            var pk = fields.FirstOrDefault(f =>
+                f.GetCustomAttribute<PrimaryKeyAttribute>() != null);
+
+            if (pk == null)
+                throw new Exception($"No [PrimaryKey] defined for DB model {modelName}");
+
+            string table = modelName;
+            
+            StringBuilder sb = new();
+            
+            sb.AppendLine("        /// <summary>Creates the database table if it does not exist.</summary>");
+            sb.AppendLine("        public override void CreateTable()");
+            sb.AppendLine("        {");
+            sb.AppendLine("            DataContext.Database.Execute(@\"");
+
+            sb.AppendLine($"CREATE TABLE IF NOT EXISTS {table} (");
+
+            var columns = new List<string>();
+
+            foreach (var f in fields)
+            {
+                string sqlType = GetSqlType(f.FieldType);
+
+                bool isPk =
+                    f.GetCustomAttribute<PrimaryKeyAttribute>() != null;
+
+                string col = $"    {f.Name} {sqlType}";
+
+                if (isPk)
+                    col += " PRIMARY KEY";
+
+                columns.Add(col);
+            }
+
+            sb.AppendLine(string.Join(",\n", columns));
+            sb.AppendLine(");\");");
+
+            sb.AppendLine("        }");
+            sb.AppendLine();
+
+            // ================================
+            // INSERT
+            // ================================
+
+            string colNames =
+                string.Join(", ", fields.Select(f => f.Name));
+
+            string paramNames =
+                string.Join(", ", fields.Select(f => "@" + f.Name));
+
+            sb.AppendLine($@"        /// <summary>
+        /// Inserts a new record of <see cref=""{type.Name}""/> into it. 
+        /// </summary>
+        /// <param name=""item"">Item to add</param>");
+            sb.AppendLine($"        public override void Insert({modelName} item)");
+            sb.AppendLine("        {");
+            sb.AppendLine("            DataContext.Database.Execute(@\"");
+            sb.AppendLine($"INSERT INTO {table} ({colNames})");
+            sb.AppendLine($"VALUES ({paramNames});\", item);");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+
+            // ================================
+            // UPDATE
+            // ================================
+
+            var setClause = string.Join(", ",
+                fields.Where(f => f != pk)
+                    .Select(f => $"{f.Name}=@{f.Name}"));
+
+            sb.AppendLine($@"        /// <summary>
+        /// Updates an existing <see cref=""{type.Name}""/>.
+        /// </summary>
+        /// <param name=""item"">Item to add</param>");
+            sb.AppendLine($"        public override void Update({modelName} item)");
+            sb.AppendLine("        {");
+            sb.AppendLine("            DataContext.Database.Execute(@\"");
+            sb.AppendLine($"UPDATE {table}");
+            sb.AppendLine($"SET {setClause}");
+            sb.AppendLine($"WHERE {pk.Name}=@{pk.Name};\", item);");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+
+            // ================================
+            // DELETE
+            // ================================
+
+            sb.AppendLine($@"        /// <summary>Deletes a <see cref=""{type.Name}""/>. by primary key.</summary>
+        /// <param name=""id"">item id to be delete</param>");
+            sb.AppendLine($"        public override void Delete({GetTypeName(pk.FieldType)} id)");
+            sb.AppendLine("        {");
+            sb.AppendLine("            DataContext.Database.Execute(");
+            sb.AppendLine($"                \"DELETE FROM {table} WHERE {pk.Name}=@Id;\",");
+            sb.AppendLine("                new { Id = id });");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+
+            // ================================
+            // GET BY ID
+            // ================================
+
+            sb.AppendLine($@"        /// <summary>
+        /// Retrieves a <see cref=""{type.Name}""/> by id.
+        /// </summary>
+        /// <param name=""id"">id of the <see cref=""{type.Name}""/></param>
+        /// <returns><see cref=""{type.Name}""/> in question</returns>");
+            sb.AppendLine($"        public override {modelName} GetById({GetTypeName(pk.FieldType)} id)");
+            sb.AppendLine("        {");
+            sb.AppendLine("            return DataContext.Database.QuerySingle<" + modelName + ">(");
+            sb.AppendLine($"                \"SELECT * FROM {table} WHERE {pk.Name}=@Id;\",");
+            sb.AppendLine("                new { Id = id });");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+
+            // ================================
+            // GET ALL
+            // ================================
+
+            sb.AppendLine($@"        /// <summary>
+        /// Retrieves all <see cref=""{type.Name}""/>.
+        /// </summary>
+        /// <returns>all of the <see cref=""{type.Name}""/>.</returns>");
+            sb.AppendLine($"        public override IEnumerable<{modelName}> GetAll()");
+            sb.AppendLine("        {");
+            sb.AppendLine($"            return DataContext.Database.Query<{modelName}>(");
+            sb.AppendLine($"                \"SELECT * FROM {table};\");");
+            sb.AppendLine("        }");
+
+            return sb.ToString();
+        }
+
         private static FieldInfo GetPrimaryKey(Type type)
         {
             return type.GetFields(BindingFlags.Public | BindingFlags.Instance)
                 .FirstOrDefault(f => f.GetCustomAttribute<PrimaryKeyAttribute>() != null);
         }
-        
+
         private static string GenerateReferenceAccessor(FieldInfo field)
         {
             var referenceAttr =
@@ -323,7 +481,7 @@ namespace Baruah.DataSmith.Editor
         }}
 ";
         }
-        
+
         private static string GenerateReferenceQueryMethod(Type dataType, FieldInfo field)
         {
             var refAttr = field.GetCustomAttribute<ReferenceAttribute>();
@@ -367,7 +525,7 @@ namespace Baruah.DataSmith.Editor
         }}
 ";
         }
-        
+
         /// <summary>
         /// Appends fluent query-method source code for a single field to the provided StringBuilder.
         /// </summary>
@@ -431,7 +589,7 @@ namespace Baruah.DataSmith.Editor
         }}
 ");
             }
-            
+
             string refMethod = GenerateReferenceQueryMethod(dataType, field);
 
             if (!string.IsNullOrEmpty(refMethod))
@@ -439,7 +597,7 @@ namespace Baruah.DataSmith.Editor
                 sb.AppendLine(refMethod);
             }
         }
-        
+
         /// <summary>
         /// Determines whether the provided Type represents a supported numeric primitive.
         /// </summary>
@@ -454,13 +612,13 @@ namespace Baruah.DataSmith.Editor
                    type == typeof(short) ||
                    type == typeof(byte);
         }
-        
+
         /// <summary>
-            /// Converts the first character of the provided string to uppercase.
-            /// </summary>
-            /// <param name="s">The input string; must be non-empty.</param>
-            /// <returns>The input string with its first character converted to uppercase and the remainder unchanged.</returns>
-            private static string UpperFirst(string s)
+        /// Converts the first character of the provided string to uppercase.
+        /// </summary>
+        /// <param name="s">The input string; must be non-empty.</param>
+        /// <returns>The input string with its first character converted to uppercase and the remainder unchanged.</returns>
+        private static string UpperFirst(string s)
             => char.ToUpper(s[0]) + s.Substring(1);
 
         /// <summary>
@@ -496,6 +654,76 @@ namespace Baruah.DataSmith.Editor
                 .Select(GetTypeName);
 
             return $"{generic.FullName.Split('`')[0]}<{string.Join(", ", args)}>";
+        }
+
+        public static string BuildDbModel(ModelEntry entry)
+        {
+            var type = entry.Type;
+            string modelName = type.Name;
+            string dbClassName = modelName + "Model";
+
+            var fields = type.GetFields(
+                BindingFlags.Public | BindingFlags.Instance);
+
+            var pk = fields.FirstOrDefault(f =>
+                f.GetCustomAttribute<PrimaryKeyAttribute>() != null);
+
+            if (pk == null)
+                throw new Exception($"No [PrimaryKey] defined for DB model {modelName}");
+
+            string table = modelName;
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("/* Auto-generated DB access code. DO NOT MODIFY */");
+            sb.AppendLine();
+
+            sb.AppendLine("using System.Collections.Generic;");
+            
+            // ================================
+            // Namespace
+            // ================================
+
+            if (!string.IsNullOrEmpty(type.Namespace))
+            {
+                sb.AppendLine($"namespace {type.Namespace}");
+                sb.AppendLine("{");
+            }
+
+            sb.AppendLine($"    public class {dbClassName} : SQLGameModel<{type.FullName}>");
+            sb.AppendLine("    {");
+
+            sb.AppendLine($"        public const string TableName = \"{table}\";");
+            sb.AppendLine();
+
+            // ================================
+            // CREATE TABLE
+            // ================================
+
+            sb.AppendLine("    }");
+
+            if (!string.IsNullOrEmpty(type.Namespace))
+                sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+
+        private static string GetSqlType(Type t)
+        {
+            if (t == typeof(int) || t == typeof(long) ||
+                t == typeof(short) || t == typeof(byte))
+                return "INTEGER";
+
+            if (t == typeof(float) || t == typeof(double))
+                return "REAL";
+
+            if (t == typeof(bool))
+                return "INTEGER";
+
+            if (t == typeof(string))
+                return "TEXT";
+
+            return "TEXT"; // fallback
         }
     }
 }

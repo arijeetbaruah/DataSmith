@@ -7,6 +7,7 @@ namespace Baruah.DataSmith.Sample
     [System.Serializable]
     public class PlayerStats
     {
+        [PrimaryKey] public string playerId;
         public int Health;
         public int Mana;
         public float Speed;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Baruah.DataSmith.Database;
 using Newtonsoft.Json;
 
 namespace Baruah.DataSmith
@@ -54,9 +55,24 @@ namespace Baruah.DataSmith
         /// </remarks>
         public static readonly Type[] Types =
         {
-            typeof(Baruah.DataSmith.Sample.InventoryItem),
-            typeof(Baruah.DataSmith.Sample.PlayerStats)
+            typeof(Baruah.DataSmith.Sample.InventoryItemModel),
+            typeof(Baruah.DataSmith.Sample.PlayerStatsModel)
         };
+        
+        public static IDatabase Database
+        {
+            get
+            {
+                if (_database != null)
+                {
+                    return _database;
+                }
+                
+                throw new System.Exception("Database is not initialized");
+            }
+        }
+        
+        private static IDatabase _database;
 
         /// <summary>
         /// Initializes the context and creates instances for all registered models.

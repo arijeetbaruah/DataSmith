@@ -23,6 +23,28 @@ namespace Baruah.DataSmith.Sample
 
 
         /// <summary>
+        /// Getter for playerId
+        /// </summary>
+        public System.String GetPlayerId() => Value.playerId;
+
+        /// <summary>
+        /// Setter for playerId
+        /// </summary>
+        public void SetPlayerId(System.String value)
+        {
+            if (Equals(Value.playerId, value)) return;
+            Value.playerId = value;
+            OnPlayerIdChanged?.Invoke(value);
+        }
+
+        /// <summery>
+        /// Event which trigger when value is changed
+        /// </summery>
+        public event Action<System.String> OnPlayerIdChanged;
+
+
+
+        /// <summary>
         /// Getter for Health
         /// </summary>
         public System.Int32 GetHealth() => Value.Health;

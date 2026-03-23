@@ -9,8 +9,6 @@ namespace Baruah.DataSmith.Sample
 
         private void Start()
         {
-            DataContext.Initialize();
-
             DataContext.Get<InventoryItemModel>().AddRange(_sampleInventoryItems);
 
             int count = DataContext.Get<InventoryItemModel>()
