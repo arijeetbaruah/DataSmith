@@ -20,7 +20,14 @@ namespace Baruah.DataSmith.Editor
         /// Writes two files named &lt;TypeName&gt;Model.cs and &lt;TypeName&gt;Query.cs into <paramref name="outputFolder"/> and imports them into the Unity AssetDatabase using a synchronous import.
         /// </remarks>
         /// <param name="entry">Metadata describing the model type and generation attributes.</param>
+        /// <summary>
+        /// Generates C# source files for the given model entry (model and query) and imports them into the Unity asset database.
+        /// </summary>
+        /// <param name="entry">Model metadata describing the CLR type and generation attributes (used to select the template and build code).</param>
         /// <param name="outputFolder">Destination folder path where the generated .cs files will be written.</param>
+        /// <remarks>
+        /// If no template matches the entry's value type, the method does nothing.
+        /// </remarks>
         public static void GenerateEntry(ModelEntry entry, string outputFolder)
         {
             var templates = LoadTemplates();
@@ -49,7 +56,11 @@ namespace Baruah.DataSmith.Editor
         /// Generate the DataContext file where you can access all of the model files
         /// </summary>
         /// <param name="modelTypes">list of all model used</param>
-        /// <param name="outputFolder">Destination folder path where the generated .cs files will be written.</param>
+        /// <summary>
+        /// Generates a DataContext.cs file that lists the provided model types, writes it into the specified output folder, and imports the file into the Unity asset database.
+        /// </summary>
+        /// <param name="modelTypes">Collection of model CLR types to include; each type will be referenced as <c>typeof(&lt;FullName&gt;Model)</c> in the generated context.</param>
+        /// <param name="outputFolder">Destination folder path where the generated .cs file will be written.</param>
         private static void GenerateDataContext(IEnumerable<Type> modelTypes, string outputFolder)
         {
             string filePath = Path.Combine(outputFolder, "DataContext.cs");
@@ -80,7 +91,11 @@ namespace Baruah.DataSmith.Editor
         /// Generate source files for all provided model entries into the specified output folder.
         /// </summary>
         /// <param name="entries">ModelEntry definitions to generate files for.</param>
-        /// <param name="outputFolder">Target folder path where generated files will be written (within the Unity project).</param>
+        /// <summary>
+        /// Generates model and query source files for each provided model entry, creates or updates the project DataContext, and refreshes Unity's asset database.
+        /// </summary>
+        /// <param name="entries">The collection of model entries to generate code for.</param>
+        /// <param name="outputFolder">Target folder path within the Unity project where generated files will be written.</param>
         public static void GenerateAll(IEnumerable<ModelEntry> entries, string outputFolder)
         {
             foreach (var entry in entries)
@@ -94,7 +109,13 @@ namespace Baruah.DataSmith.Editor
         /// <summary>
         /// Loads TextAsset templates from the Unity project and maps value types to template text by detecting assets whose names contain "SingleModelTemplate" or "ListModelTemplate".
         /// </summary>
-        /// <returns>A dictionary mapping found ModelValueType keys (e.g. Single, List) to the matching template text; value types with no matching asset are omitted.</returns>
+        /// <summary>
+        /// Searches the Unity project for TextAsset generation templates and returns the found templates keyed by their ModelValueType.
+        /// </summary>
+        /// <returns>
+        /// A dictionary mapping each discovered <see cref="ModelValueType"/> (for example, <c>Single</c>, <c>List</c>, <c>DB</c>) to the corresponding template text.
+        /// Asset names containing "SingleModelTemplate", "ListModelTemplate", or "SQLGameModelTemplate" are mapped to <c>ModelValueType.Single</c>, <c>ModelValueType.List</c>, and <c>ModelValueType.DB</c> respectively; value types with no matching asset are omitted.
+        /// </returns>
         public static Dictionary<ModelValueType, string> LoadTemplates()
         {
             var cache = new Dictionary<ModelValueType, string>();
@@ -120,6 +141,11 @@ namespace Baruah.DataSmith.Editor
             return cache;
         }
 
+        /// <summary>
+        /// Generates the accessor source fragment for a model described by the given entry based on its ValueType.
+        /// </summary>
+        /// <param name="entry">The model entry that provides the target Type and ValueType configuration used to select which accessor code to generate.</param>
+        /// <returns>The generated C# source fragment containing accessor methods and related declarations for the model, or an empty string if no accessor generator applies.</returns>
         public static string BuildAccessors(ModelEntry entry)
         {
             var type = entry.Type;
@@ -143,6 +169,11 @@ namespace Baruah.DataSmith.Editor
         /// </summary>
         /// <param name="entry">Metadata describing the model type and generation attributes.</param>
         /// <param name="template">Template text containing placeholders (e.g. {{MODEL_NAME}}, {{DATA_TYPE}}, {{ACCESSORS}}, {{NAMESPACE}}, {{QUERY_NAME}}).</param>
+        /// <summary>
+        /// Produce the model source code by filling the provided template with values derived from the given model entry.
+        /// </summary>
+        /// <param name="entry">Model metadata (type and generation attributes) used to populate template placeholders.</param>
+        /// <param name="template">Template text containing placeholders such as {{MODEL_NAME}}, {{TABLE_NAME}}, {{DATA_TYPE}}, {{ACCESSORS}}, {{NAMESPACE}}, and {{QUERY_NAME}}.</param>
         /// <returns>The generated model source code with placeholders replaced; if the model type has no namespace, the template's namespace wrapper is removed.</returns>
         public static string BuildModel(ModelEntry entry, string template)
         {
@@ -170,7 +201,11 @@ namespace Baruah.DataSmith.Editor
         /// Generates the C# source code for a strongly-typed query class corresponding to the model described by <paramref name="entry"/>.
         /// </summary>
         /// <param name="entry">The model entry whose Type and metadata are used to build the query class.</param>
-        /// <returns>The generated C# source code for a sealed query class named &lt;TypeName&gt;Query; the output includes a namespace wrapper when the model type defines a namespace and contains fluent condition methods based on the model's public instance fields.</returns>
+        /// <summary>
+        /// Generate C# source for a sealed query class for the model type described by the given entry.
+        /// </summary>
+        /// <param name="entry">ModelEntry that contains the model Type and metadata used to build the query class.</param>
+        /// <returns>The C# source code for a sealed query class named &lt;TypeName&gt;Query; the output is wrapped in the model's namespace when the model type defines one and includes fluent condition methods for each public instance field.</returns>
         public static string BuildQuery(ModelEntry entry)
         {
             var type = entry.Type;
@@ -221,7 +256,11 @@ namespace Baruah.DataSmith.Editor
         /// Generates C# accessor members for each public instance field of the provided data type.
         /// </summary>
         /// <param name="dataType">The model type whose public instance fields will be turned into accessors and events.</param>
-        /// <returns>A string containing generated C# code: for each field a getter, a setter that updates the field and invokes a change event when the value changes, and a corresponding change event declaration.</returns>
+        /// <summary>
+        /// Generates C# accessor methods and change-event declarations for each public instance field of the provided type.
+        /// </summary>
+        /// <param name="dataType">The data model type whose public instance fields will be inspected to produce accessors.</param>
+        /// <returns>A string containing the generated C# code: for each field a getter, a setter that updates the field and invokes a change event when the value changes, an event declaration, and any additional reference accessor code when applicable.</returns>
         private static string BuildSingleAccessors(Type dataType)
         {
             var sb = new System.Text.StringBuilder();
@@ -270,7 +309,10 @@ namespace Baruah.DataSmith.Editor
         /// Generates iterator-style `FindBy{Field}` methods for a list-backed model using the public instance fields of the provided data type.
         /// </summary>
         /// <param name="dataType">The data model type whose public instance fields will be used to create `FindBy...` methods.</param>
-        /// <returns>A C# source fragment that defines `IEnumerable&lt;T&gt; FindBy{Field}(fieldType value)` methods which yield items from `_items` where the field equals the provided value.</returns>
+        /// <summary>
+        /// Generate iterator-style FindBy methods for each public instance field of the provided type.
+        /// </summary>
+        /// <returns>A string containing C# source code that defines for each public instance field a method `IEnumerable{T} FindBy{Field}(FieldType value)` which yields items from `_items` where the field equals the provided value.</returns>
         private static string BuildListAccessors(Type dataType)
         {
             var sb = new System.Text.StringBuilder();
@@ -294,6 +336,12 @@ namespace Baruah.DataSmith.Editor
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Generates C# accessor code and SQL-backed CRUD method implementations for a database-backed model type.
+        /// </summary>
+        /// <param name="entry">Model metadata that contains the target type and generation attributes.</param>
+        /// <returns>The generated source code fragment implementing DB accessors and CRUD methods for the model.</returns>
+        /// <exception cref="Exception">Thrown when the target model does not declare exactly one field marked with [PrimaryKey].</exception>
         public static string BuildDBAccessors(ModelEntry entry)
         {
             var type = entry.Type;
@@ -303,13 +351,18 @@ namespace Baruah.DataSmith.Editor
             var fields = type.GetFields(
                 BindingFlags.Public | BindingFlags.Instance);
 
-            var pk = fields.FirstOrDefault(f =>
-                f.GetCustomAttribute<PrimaryKeyAttribute>() != null);
+            var pkFields = fields
+                .Where(f => f.GetCustomAttribute<PrimaryKeyAttribute>() != null)
+                .ToArray();
 
-            if (pk == null)
-                throw new Exception($"No [PrimaryKey] defined for DB model {modelName}");
+            if (pkFields.Length != 1)
+            {
+                throw new Exception($"Expected exactly one [PrimaryKey] on DB model {modelName}, found {pkFields.Length}.");
+            }
 
-            string table = modelName;
+            var pk = pkFields[0];
+
+            string table = QuoteSqlIdentifier(modelName);
             
             StringBuilder sb = new();
             
@@ -326,10 +379,9 @@ namespace Baruah.DataSmith.Editor
             {
                 string sqlType = GetSqlType(f.FieldType);
 
-                bool isPk =
-                    f.GetCustomAttribute<PrimaryKeyAttribute>() != null;
+                bool isPk = f == pk;
 
-                string col = $"    {f.Name} {sqlType}";
+                string col = $"    {QuoteSqlIdentifier(f.Name)} {sqlType}";
 
                 if (isPk)
                     col += " PRIMARY KEY";
@@ -348,10 +400,10 @@ namespace Baruah.DataSmith.Editor
             // ================================
 
             string colNames =
-                string.Join(", ", fields.Select(f => f.Name));
+                string.Join(", ", fields.Select(f => "@" + f.Name));
 
             string paramNames =
-                string.Join(", ", fields.Select(f => "@" + f.Name));
+                string.Join(", ", fields.Select(f => "@" + QuoteSqlIdentifier(f.Name)));
 
             sb.AppendLine($@"        /// <summary>
         /// Inserts a new record of <see cref=""{type.Name}""/> into it. 
@@ -371,7 +423,7 @@ namespace Baruah.DataSmith.Editor
 
             var setClause = string.Join(", ",
                 fields.Where(f => f != pk)
-                    .Select(f => $"{f.Name}=@{f.Name}"));
+                    .Select(f => $"{QuoteSqlIdentifier(f.Name)}=@{f.Name}"));
 
             sb.AppendLine($@"        /// <summary>
         /// Updates an existing <see cref=""{type.Name}""/>.
@@ -382,7 +434,7 @@ namespace Baruah.DataSmith.Editor
             sb.AppendLine("            DataContext.Database.Execute(@\"");
             sb.AppendLine($"UPDATE {table}");
             sb.AppendLine($"SET {setClause}");
-            sb.AppendLine($"WHERE {pk.Name}=@{pk.Name};\", item);");
+            sb.AppendLine($"WHERE {QuoteSqlIdentifier(pk.Name)}=@{pk.Name};\", item);");
             sb.AppendLine("        }");
             sb.AppendLine();
 
@@ -395,7 +447,7 @@ namespace Baruah.DataSmith.Editor
             sb.AppendLine($"        public override void Delete({GetTypeName(pk.FieldType)} id)");
             sb.AppendLine("        {");
             sb.AppendLine("            DataContext.Database.Execute(");
-            sb.AppendLine($"                \"DELETE FROM {table} WHERE {pk.Name}=@Id;\",");
+            sb.AppendLine($"                \"DELETE FROM {table} WHERE {QuoteSqlIdentifier(pk.Name)}=@Id;\",");
             sb.AppendLine("                new { Id = id });");
             sb.AppendLine("        }");
             sb.AppendLine();
@@ -412,7 +464,7 @@ namespace Baruah.DataSmith.Editor
             sb.AppendLine($"        public override {modelName} GetById({GetTypeName(pk.FieldType)} id)");
             sb.AppendLine("        {");
             sb.AppendLine("            return DataContext.Database.QuerySingle<" + modelName + ">(");
-            sb.AppendLine($"                \"SELECT * FROM {table} WHERE {pk.Name}=@Id;\",");
+            sb.AppendLine($"                \"SELECT * FROM {table} WHERE {QuoteSqlIdentifier(pk.Name)}=@Id;\",");
             sb.AppendLine("                new { Id = id });");
             sb.AppendLine("        }");
             sb.AppendLine();
@@ -433,13 +485,32 @@ namespace Baruah.DataSmith.Editor
 
             return sb.ToString();
         }
+        
+        /// <summary>
+            /// Quote an SQL identifier for safe use in SQL statements by wrapping it in double quotes.
+            /// </summary>
+            /// <param name="name">The identifier to quote (e.g., table or column name).</param>
+            /// <returns>The identifier wrapped in double quotes; any existing double quotes inside are doubled.</returns>
+            private static string QuoteSqlIdentifier(string name)
+            => "\"" + name.Replace("\"", "\"\"") + "\"";
 
+        /// <summary>
+        /// Finds the first public instance field on the given type that is annotated with <see cref="PrimaryKeyAttribute"/>.
+        /// </summary>
+        /// <param name="type">The type to inspect for a primary key field.</param>
+        /// <returns>The <see cref="FieldInfo"/> for the primary key field if one is found; otherwise <c>null</c>.</returns>
         private static FieldInfo GetPrimaryKey(Type type)
         {
             return type.GetFields(BindingFlags.Public | BindingFlags.Instance)
                 .FirstOrDefault(f => f.GetCustomAttribute<PrimaryKeyAttribute>() != null);
         }
 
+        /// <summary>
+        /// Generate C# source for a getter that resolves the referenced model instance for the given field.
+        /// </summary>
+        /// <param name="field">The field to inspect for a <c>ReferenceAttribute</c> and to generate the accessor for.</param>
+        /// <returns>The generated getter method source as a string, or <c>null</c> if the field has no <c>ReferenceAttribute</c>.</returns>
+        /// <exception cref="Exception">Thrown when the referenced target type does not declare a field marked with <c>PrimaryKeyAttribute</c>.</exception>
         private static string GenerateReferenceAccessor(FieldInfo field)
         {
             var referenceAttr =
@@ -482,6 +553,14 @@ namespace Baruah.DataSmith.Editor
 ";
         }
 
+        /// <summary>
+        /// Generates the C# source for a fluent query method on the owning query class that accepts the referenced model
+        /// and adds a condition comparing the owner's reference field to the referenced model's primary key.
+        /// </summary>
+        /// <param name="dataType">The type that owns the reference field (the model for which the query class is generated).</param>
+        /// <param name="field">The FieldInfo representing the reference field on <paramref name="dataType"/>.</param>
+        /// <returns>The method source code to append to the owning query class, or <c>null</c> if the field is not decorated with <c>ReferenceAttribute</c>.</returns>
+        /// <exception cref="Exception">Thrown when the referenced target model does not contain a field marked with <c>PrimaryKeyAttribute</c>.</exception>
         private static string GenerateReferenceQueryMethod(Type dataType, FieldInfo field)
         {
             var refAttr = field.GetCustomAttribute<ReferenceAttribute>();
@@ -531,7 +610,12 @@ namespace Baruah.DataSmith.Editor
         /// </summary>
         /// <param name="sb">The StringBuilder to receive generated method code.</param>
         /// <param name="dataType">The model type that owns the field; used to name the generated query class.</param>
-        /// <param name="field">The FieldInfo describing the field for which equality, numeric comparison, and string containment methods will be generated as applicable.</param>
+        /// <summary>
+        /// Appends fluent query-method source for the specified field to the given StringBuilder.
+        /// </summary>
+        /// <param name="sb">StringBuilder to which generated method code will be appended.</param>
+        /// <param name="dataType">The model type that owns the field; used to form the query class name.</param>
+        /// <param name="field">The FieldInfo describing the field for which equality, numeric comparison, and string containment methods will be generated when applicable.</param>
         private static void BuildQueryMethods(System.Text.StringBuilder sb, Type dataType, FieldInfo field)
         {
             string typeName = GetTypeName(field.FieldType);
@@ -602,6 +686,9 @@ namespace Baruah.DataSmith.Editor
         /// Determines whether the provided Type represents a supported numeric primitive.
         /// </summary>
         /// <param name="type">The CLR type to check.</param>
+        /// <summary>
+        /// Determines whether the provided <see cref="Type"/> is a supported numeric CLR type.
+        /// </summary>
         /// <returns>`true` if the type is one of: `int`, `float`, `double`, `long`, `short`, or `byte`; `false` otherwise.</returns>
         private static bool IsNumeric(Type type)
         {
@@ -617,7 +704,11 @@ namespace Baruah.DataSmith.Editor
         /// Converts the first character of the provided string to uppercase.
         /// </summary>
         /// <param name="s">The input string; must be non-empty.</param>
-        /// <returns>The input string with its first character converted to uppercase and the remainder unchanged.</returns>
+        /// <summary>
+            /// Convert the first character of the provided string to uppercase and return the resulting string.
+            /// </summary>
+            /// <param name="s">The input string; must contain at least one character.</param>
+            /// <returns>The input string with its first character converted to uppercase and the remainder unchanged.</returns>
         private static string UpperFirst(string s)
             => char.ToUpper(s[0]) + s.Substring(1);
 
@@ -643,7 +734,10 @@ namespace Baruah.DataSmith.Editor
         /// Produce a C#-style full name for the given Type, formatting generic types with their type arguments in angle brackets.
         /// </summary>
         /// <param name="type">The type to format.</param>
-        /// <returns>The full name of the type. For generic types, returns the generic definition name followed by `<T1, T2, ...>` where each argument is formatted recursively.</returns>
+        /// <summary>
+        /// Produces the type's full name, formatting generic types with their type arguments.
+        /// </summary>
+        /// <returns>The full name of the type. For generic types, returns the generic definition name followed by `&lt;T1, T2, ...&gt;` where each argument is formatted recursively.</returns>
         private static string GetTypeName(Type type)
         {
             if (!type.IsGenericType)
@@ -656,58 +750,12 @@ namespace Baruah.DataSmith.Editor
             return $"{generic.FullName.Split('`')[0]}<{string.Join(", ", args)}>";
         }
 
-        public static string BuildDbModel(ModelEntry entry)
-        {
-            var type = entry.Type;
-            string modelName = type.Name;
-            string dbClassName = modelName + "Model";
-
-            var fields = type.GetFields(
-                BindingFlags.Public | BindingFlags.Instance);
-
-            var pk = fields.FirstOrDefault(f =>
-                f.GetCustomAttribute<PrimaryKeyAttribute>() != null);
-
-            if (pk == null)
-                throw new Exception($"No [PrimaryKey] defined for DB model {modelName}");
-
-            string table = modelName;
-
-            var sb = new StringBuilder();
-
-            sb.AppendLine("/* Auto-generated DB access code. DO NOT MODIFY */");
-            sb.AppendLine();
-
-            sb.AppendLine("using System.Collections.Generic;");
-            
-            // ================================
-            // Namespace
-            // ================================
-
-            if (!string.IsNullOrEmpty(type.Namespace))
-            {
-                sb.AppendLine($"namespace {type.Namespace}");
-                sb.AppendLine("{");
-            }
-
-            sb.AppendLine($"    public class {dbClassName} : SQLGameModel<{type.FullName}>");
-            sb.AppendLine("    {");
-
-            sb.AppendLine($"        public const string TableName = \"{table}\";");
-            sb.AppendLine();
-
-            // ================================
-            // CREATE TABLE
-            // ================================
-
-            sb.AppendLine("    }");
-
-            if (!string.IsNullOrEmpty(type.Namespace))
-                sb.AppendLine("}");
-
-            return sb.ToString();
-        }
-
+        /// <summary>
+        /// Maps a CLR type to the corresponding SQLite column type name.
+        /// </summary>
+        /// <param name="t">The CLR type to map to an SQLite column type.</param>
+        /// <returns>The SQLite column type name (for example, "INTEGER", "REAL", or "TEXT").</returns>
+        /// <exception cref="NotSupportedException">Thrown when the provided CLR type has no supported SQLite mapping.</exception>
         private static string GetSqlType(Type t)
         {
             if (t == typeof(int) || t == typeof(long) ||
@@ -723,7 +771,7 @@ namespace Baruah.DataSmith.Editor
             if (t == typeof(string))
                 return "TEXT";
 
-            return "TEXT"; // fallback
+            throw new NotSupportedException($"Unsupported SQLite field type '{t.FullName}'. Add an explicit converter or extend GetSqlType().");
         }
     }
 }
