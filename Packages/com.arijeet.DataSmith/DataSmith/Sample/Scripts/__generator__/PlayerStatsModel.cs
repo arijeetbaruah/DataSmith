@@ -37,9 +37,9 @@ namespace Baruah.DataSmith.Sample
             OnPlayerIdChanged?.Invoke(value);
         }
 
-        /// <summery>
+        /// <summary>
         /// Event which trigger when value is changed
-        /// </summery>
+        /// </summary>
         public event Action<System.String> OnPlayerIdChanged;
 
 
@@ -59,9 +59,9 @@ namespace Baruah.DataSmith.Sample
             OnHealthChanged?.Invoke(value);
         }
 
-        /// <summery>
+        /// <summary>
         /// Event which trigger when value is changed
-        /// </summery>
+        /// </summary>
         public event Action<System.Int32> OnHealthChanged;
 
 
@@ -81,9 +81,9 @@ namespace Baruah.DataSmith.Sample
             OnManaChanged?.Invoke(value);
         }
 
-        /// <summery>
+        /// <summary>
         /// Event which trigger when value is changed
-        /// </summery>
+        /// </summary>
         public event Action<System.Int32> OnManaChanged;
 
 
@@ -103,9 +103,9 @@ namespace Baruah.DataSmith.Sample
             OnSpeedChanged?.Invoke(value);
         }
 
-        /// <summery>
+        /// <summary>
         /// Event which trigger when value is changed
-        /// </summery>
+        /// </summary>
         public event Action<System.Single> OnSpeedChanged;
 
 
@@ -125,9 +125,9 @@ namespace Baruah.DataSmith.Sample
             OnItemIdChanged?.Invoke(value);
         }
 
-        /// <summery>
+        /// <summary>
         /// Event which trigger when value is changed
-        /// </summery>
+        /// </summary>
         public event Action<System.String> OnItemIdChanged;
 
 

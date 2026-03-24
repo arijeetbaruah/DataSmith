@@ -67,7 +67,7 @@ namespace Baruah.DataSmith
                     return _database;
                 }
                 
-                throw new System.Exception("Database is not initialized");
+                throw new InvalidOperationException("Database is not initialized");
             }
         }
         

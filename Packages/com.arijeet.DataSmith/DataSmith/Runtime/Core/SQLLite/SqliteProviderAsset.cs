@@ -69,10 +69,19 @@ namespace Baruah.DataSmith.Database
             {
                 if (param == null) return;
 
-                foreach (var p in param.GetType().GetFields())
+                foreach (var p in param.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
                 {
                     var value = p.GetValue(param);
-                    cmd.Parameters.AddWithValue("@" + p.Name, value);
+                    cmd.Parameters.AddWithValue("@" + p.Name, value ?? System.DBNull.Value);
+                }
+
+                foreach (var p in param.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+                {
+                    if (!p.CanRead || p.GetIndexParameters().Length != 0)
+                        continue;
+
+                    var value = p.GetValue(param, null);
+                    cmd.Parameters.AddWithValue("@" + p.Name, value ?? System.DBNull.Value);
                 }
             }
 
@@ -81,15 +90,23 @@ namespace Baruah.DataSmith.Database
                 var obj = System.Activator.CreateInstance<T>();
 
                 var fields = typeof(T)
-                    .GetFields(System.Reflection.BindingFlags.Public |
-                               System.Reflection.BindingFlags.Instance);
+                    .GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
                 foreach (var f in fields)
                 {
                     int i = reader.GetOrdinal(f.Name);
 
                     if (!reader.IsDBNull(i))
-                        f.SetValue(obj, reader.GetValue(i));
+                    {
+                        object raw = reader.GetValue(i);
+                        object value = f.FieldType == typeof(bool)
+                                ? System.Convert.ToInt64(raw) != 0
+                                : f.FieldType.IsEnum
+                                    ? System.Enum.ToObject(f.FieldType, raw)
+                                    : System.Convert.ChangeType(raw, f.FieldType);
+
+                        f.SetValue(obj, value);
+                    }
                 }
 
                 return obj;

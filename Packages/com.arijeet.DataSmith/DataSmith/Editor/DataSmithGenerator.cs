@@ -309,7 +309,7 @@ namespace Baruah.DataSmith.Editor
             if (pk == null)
                 throw new Exception($"No [PrimaryKey] defined for DB model {modelName}");
 
-            string table = modelName;
+            string table = QuoteSqlIdentifier(modelName);
             
             StringBuilder sb = new();
             
@@ -329,7 +329,7 @@ namespace Baruah.DataSmith.Editor
                 bool isPk =
                     f.GetCustomAttribute<PrimaryKeyAttribute>() != null;
 
-                string col = $"    {f.Name} {sqlType}";
+                string col = $"    {QuoteSqlIdentifier(f.Name)} {sqlType}";
 
                 if (isPk)
                     col += " PRIMARY KEY";
@@ -348,10 +348,10 @@ namespace Baruah.DataSmith.Editor
             // ================================
 
             string colNames =
-                string.Join(", ", fields.Select(f => f.Name));
+                string.Join(", ", fields.Select(f => QuoteSqlIdentifier(f.Name)));
 
             string paramNames =
-                string.Join(", ", fields.Select(f => "@" + f.Name));
+                string.Join(", ", fields.Select(f => "@" + QuoteSqlIdentifier(f.Name)));
 
             sb.AppendLine($@"        /// <summary>
         /// Inserts a new record of <see cref=""{type.Name}""/> into it. 
@@ -371,7 +371,7 @@ namespace Baruah.DataSmith.Editor
 
             var setClause = string.Join(", ",
                 fields.Where(f => f != pk)
-                    .Select(f => $"{f.Name}=@{f.Name}"));
+                    .Select(f => $"{QuoteSqlIdentifier(f.Name)}=@{QuoteSqlIdentifier(f.Name)}"));
 
             sb.AppendLine($@"        /// <summary>
         /// Updates an existing <see cref=""{type.Name}""/>.
@@ -382,7 +382,7 @@ namespace Baruah.DataSmith.Editor
             sb.AppendLine("            DataContext.Database.Execute(@\"");
             sb.AppendLine($"UPDATE {table}");
             sb.AppendLine($"SET {setClause}");
-            sb.AppendLine($"WHERE {pk.Name}=@{pk.Name};\", item);");
+            sb.AppendLine($"WHERE {QuoteSqlIdentifier(pk.Name)}=@{QuoteSqlIdentifier(pk.Name)};\", item);");
             sb.AppendLine("        }");
             sb.AppendLine();
 
@@ -395,7 +395,7 @@ namespace Baruah.DataSmith.Editor
             sb.AppendLine($"        public override void Delete({GetTypeName(pk.FieldType)} id)");
             sb.AppendLine("        {");
             sb.AppendLine("            DataContext.Database.Execute(");
-            sb.AppendLine($"                \"DELETE FROM {table} WHERE {pk.Name}=@Id;\",");
+            sb.AppendLine($"                \"DELETE FROM {table} WHERE {QuoteSqlIdentifier(pk.Name)}=@Id;\",");
             sb.AppendLine("                new { Id = id });");
             sb.AppendLine("        }");
             sb.AppendLine();
@@ -412,7 +412,7 @@ namespace Baruah.DataSmith.Editor
             sb.AppendLine($"        public override {modelName} GetById({GetTypeName(pk.FieldType)} id)");
             sb.AppendLine("        {");
             sb.AppendLine("            return DataContext.Database.QuerySingle<" + modelName + ">(");
-            sb.AppendLine($"                \"SELECT * FROM {table} WHERE {pk.Name}=@Id;\",");
+            sb.AppendLine($"                \"SELECT * FROM {table} WHERE {QuoteSqlIdentifier(pk.Name)}=@Id;\",");
             sb.AppendLine("                new { Id = id });");
             sb.AppendLine("        }");
             sb.AppendLine();
@@ -433,6 +433,9 @@ namespace Baruah.DataSmith.Editor
 
             return sb.ToString();
         }
+        
+        private static string QuoteSqlIdentifier(string name)
+            => "\"" + name.Replace("\"", "\"\"") + "\"";
 
         private static FieldInfo GetPrimaryKey(Type type)
         {
@@ -656,58 +659,6 @@ namespace Baruah.DataSmith.Editor
             return $"{generic.FullName.Split('`')[0]}<{string.Join(", ", args)}>";
         }
 
-        public static string BuildDbModel(ModelEntry entry)
-        {
-            var type = entry.Type;
-            string modelName = type.Name;
-            string dbClassName = modelName + "Model";
-
-            var fields = type.GetFields(
-                BindingFlags.Public | BindingFlags.Instance);
-
-            var pk = fields.FirstOrDefault(f =>
-                f.GetCustomAttribute<PrimaryKeyAttribute>() != null);
-
-            if (pk == null)
-                throw new Exception($"No [PrimaryKey] defined for DB model {modelName}");
-
-            string table = modelName;
-
-            var sb = new StringBuilder();
-
-            sb.AppendLine("/* Auto-generated DB access code. DO NOT MODIFY */");
-            sb.AppendLine();
-
-            sb.AppendLine("using System.Collections.Generic;");
-            
-            // ================================
-            // Namespace
-            // ================================
-
-            if (!string.IsNullOrEmpty(type.Namespace))
-            {
-                sb.AppendLine($"namespace {type.Namespace}");
-                sb.AppendLine("{");
-            }
-
-            sb.AppendLine($"    public class {dbClassName} : SQLGameModel<{type.FullName}>");
-            sb.AppendLine("    {");
-
-            sb.AppendLine($"        public const string TableName = \"{table}\";");
-            sb.AppendLine();
-
-            // ================================
-            // CREATE TABLE
-            // ================================
-
-            sb.AppendLine("    }");
-
-            if (!string.IsNullOrEmpty(type.Namespace))
-                sb.AppendLine("}");
-
-            return sb.ToString();
-        }
-
         private static string GetSqlType(Type t)
         {
             if (t == typeof(int) || t == typeof(long) ||
@@ -723,7 +674,7 @@ namespace Baruah.DataSmith.Editor
             if (t == typeof(string))
                 return "TEXT";
 
-            return "TEXT"; // fallback
+            throw new NotSupportedException($"Unsupported SQLite field type '{t.FullName}'. Add an explicit converter or extend GetSqlType().");
         }
     }
 }

@@ -34,6 +34,9 @@ namespace Baruah.DataSmith.Editor
         [Button(ButtonSizes.Small)]
         private void Generate()
         {
+            if (_config == null)
+                return;
+
             DataSmithGenerator.GenerateEntry(this, _config.OutputFolder);
         }
 
