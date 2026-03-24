@@ -23,6 +23,28 @@ namespace Baruah.DataSmith.Sample
 
 
         /// <summary>
+        /// Getter for playerId
+        /// </summary>
+        public System.String GetPlayerId() => Value.playerId;
+
+        /// <summary>
+        /// Setter for playerId
+        /// </summary>
+        public void SetPlayerId(System.String value)
+        {
+            if (Equals(Value.playerId, value)) return;
+            Value.playerId = value;
+            OnPlayerIdChanged?.Invoke(value);
+        }
+
+        /// <summary>
+        /// Event which trigger when value is changed
+        /// </summary>
+        public event Action<System.String> OnPlayerIdChanged;
+
+
+
+        /// <summary>
         /// Getter for Health
         /// </summary>
         public System.Int32 GetHealth() => Value.Health;
@@ -37,9 +59,9 @@ namespace Baruah.DataSmith.Sample
             OnHealthChanged?.Invoke(value);
         }
 
-        /// <summery>
+        /// <summary>
         /// Event which trigger when value is changed
-        /// </summery>
+        /// </summary>
         public event Action<System.Int32> OnHealthChanged;
 
 
@@ -59,9 +81,9 @@ namespace Baruah.DataSmith.Sample
             OnManaChanged?.Invoke(value);
         }
 
-        /// <summery>
+        /// <summary>
         /// Event which trigger when value is changed
-        /// </summery>
+        /// </summary>
         public event Action<System.Int32> OnManaChanged;
 
 
@@ -81,9 +103,9 @@ namespace Baruah.DataSmith.Sample
             OnSpeedChanged?.Invoke(value);
         }
 
-        /// <summery>
+        /// <summary>
         /// Event which trigger when value is changed
-        /// </summery>
+        /// </summary>
         public event Action<System.Single> OnSpeedChanged;
 
 
@@ -103,9 +125,9 @@ namespace Baruah.DataSmith.Sample
             OnItemIdChanged?.Invoke(value);
         }
 
-        /// <summery>
+        /// <summary>
         /// Event which trigger when value is changed
-        /// </summery>
+        /// </summary>
         public event Action<System.String> OnItemIdChanged;
 
 

@@ -8,6 +8,18 @@ namespace Baruah.DataSmith.Sample
         public PlayerStatsQuery(System.Collections.Generic.IReadOnlyList<Baruah.DataSmith.Sample.PlayerStats> source)
             : base(source) { }
 
+        public PlayerStatsQuery PlayerIdEquals(System.String value)
+        {
+            AddCondition(i => i.playerId == value);
+            return this;
+        }
+
+        public PlayerStatsQuery PlayerIdContains(string value)
+        {
+            AddCondition(i => i.playerId != null && i.playerId.Contains(value));
+            return this;
+        }
+
         public PlayerStatsQuery HealthEquals(System.Int32 value)
         {
             AddCondition(i => i.Health == value);

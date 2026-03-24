@@ -347,7 +347,7 @@ namespace Baruah.DataSmith.Editor
         /// <returns>The first `DataSmithConfig` found under the Assets folder, or if none exists, the first under Packages; returns `null` if no matching asset is found.</returns>
         private DataSmithConfig FindFallbackConfig()
         {
-            var guids = AssetDatabase.FindAssets("t:GameModelConfig");
+            var guids = AssetDatabase.FindAssets($"t:{nameof(DataSmithConfig)}");
 
             foreach (var guid in guids)
             {

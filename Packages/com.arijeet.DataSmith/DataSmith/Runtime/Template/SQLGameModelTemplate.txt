@@ -1,0 +1,17 @@
+﻿/* Auto-generated DB access code. DO NOT MODIFY */
+
+using System.Collections.Generic;
+using Baruah.DataSmith;
+
+namespace {{NAMESPACE}}
+{
+    /// <summary>
+    /// Model files access sql commands for <see cref="{{TABLE_NAME}}"/>
+    /// </summary>
+    public class {{MODEL_NAME}} : SQLGameModel<{{DATA_TYPE}}>
+    {
+        public const string TableName = "{{TABLE_NAME}}";
+
+        {{ACCESSORS}}
+    }
+}

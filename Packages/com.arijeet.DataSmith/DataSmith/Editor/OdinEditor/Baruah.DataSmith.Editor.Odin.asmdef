@@ -1,8 +1,9 @@
 {
-    "name": "Baruah.DataSmith.Editor",
+    "name": "Baruah.DataSmith.Editor.Odin",
     "rootNamespace": "Baruah.DataSmith.Editor",
     "references": [
-        "GUID:43db6601fd095684eb28de9f409e1a25"
+        "GUID:43db6601fd095684eb28de9f409e1a25",
+        "GUID:f350fb974226e6c4db34213c5d71b417"
     ],
     "includePlatforms": [
         "Editor"
@@ -12,7 +13,9 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "ODIN_INSPECTOR"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }
