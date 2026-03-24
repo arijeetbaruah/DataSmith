@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3774738740d0e51408145c574389849e, type: 3}
   m_Name: GameModelConfig
   m_EditorClassIdentifier: Baruah.DataSmith.Editor::Baruah.DataSmith.Editor.GameModelConfig
-  _outputFolder: Assets/DataSmith/Packages/com.arijeet.DataSmith/DataSmith/Sample/Scripts/__generator__
+  _outputFolder: Assets/DataSmith/Packages/com.arijeet.DataSmith/DataSmith/Sample/Scripts/generated
   _includePaths: []
   _excludePaths: []

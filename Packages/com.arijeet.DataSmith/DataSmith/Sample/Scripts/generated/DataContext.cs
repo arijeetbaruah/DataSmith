@@ -184,7 +184,7 @@ namespace Baruah.DataSmith
         /// </para>
         /// </remarks>
         public static void DeserializeAll(string json)
-        {
+        { 
             Initialize();
 
             _models = JsonConvert.DeserializeObject<Dictionary<System.Type, GameModel>>(json);

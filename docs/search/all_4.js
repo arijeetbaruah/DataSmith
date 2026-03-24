@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['data_0',['Data',['../getting_started.html#autotoc_md64',1,'Query Data'],['../getting_started.html#autotoc_md65',1,'Save and Load Data']]],
+  ['data_1',['data',['../mainpage_8dox.html#a2974f422c345b6ae2bd7c74a797ade17',1,'mainpage.dox']]],
+  ['data_20model_2',['Creating a Data Model',['../getting_started.html#autotoc_md57',1,'']]],
+  ['database_20backed_20queries_3',['🗄 Database-Backed Queries',['../queries.html#autotoc_md118',1,'']]],
+  ['database_20model_20db_4',['🔹 Database Model (DB)',['../models.html#autotoc_md86',1,'']]],
+  ['database_20provider_20system_5',['🔌 Database Provider System',['../db_support.html#autotoc_md48',1,'']]],
+  ['database_20providers_6',['Custom Database Providers',['../db_support.html#autotoc_md52',1,'']]],
+  ['database_20support_7',['Database Support',['../db_support.html',1,'index']]],
+  ['databaseconfigasset_8',['DatabaseConfigAsset',['../class_baruah_1_1_data_smith_1_1_database_1_1_database_config_asset.html',1,'Baruah::DataSmith::Database']]],
+  ['databaseconfigasset_2ecs_9',['DatabaseConfigAsset.cs',['../_database_config_asset_8cs.html',1,'']]],
+  ['databaseproviderasset_10',['DatabaseProviderAsset',['../class_baruah_1_1_data_smith_1_1_database_1_1_database_provider_asset.html',1,'Baruah::DataSmith::Database']]],
+  ['databaseproviderasset_2ecs_11',['DatabaseProviderAsset.cs',['../_database_provider_asset_8cs.html',1,'']]],
+  ['datacontext_12',['DataContext',['../datacontext.html',1,'DataContext'],['../getting_started.html#autotoc_md62',1,'Initialize DataContext']]],
+  ['datacontext_2emd_13',['datacontext.md',['../datacontext_8md.html',1,'']]],
+  ['datacontext_3a_14',['Access your model through the DataContext:',['../getting_started.html#autotoc_md63',1,'']]],
+  ['datasmith_15',['DataSmith',['../index.html#autotoc_md72',1,'🚀 Why DataSmith?'],['../index.html',1,'DataSmith']]],
+  ['datasmithconfig_16',['DataSmithConfig',['../class_baruah_1_1_data_smith_1_1_editor_1_1_data_smith_config.html',1,'Baruah::DataSmith::Editor']]],
+  ['datasmithconfig_2ecs_17',['DataSmithConfig.cs',['../_data_smith_config_8cs.html',1,'']]],
+  ['db_18',['DB',['../models.html#autotoc_md86',1,'🔹 Database Model (DB)'],['../namespace_baruah_1_1_data_smith.html#a6d2836c5ed7f48b9cf3541e3eae3e43ea0a5a4d7386065c6c6ac19c303768c7e1',1,'Baruah.DataSmith.DB']]],
+  ['db_5fsupport_2emd_19',['db_support.md',['../db__support_8md.html',1,'']]],
+  ['delete_20',['Delete',['../class_baruah_1_1_data_smith_1_1_s_q_l_game_model-1-g.html#a6439aa8a5e017bd945163415158f7e2d',1,'Baruah::DataSmith::SQLGameModel-1-g']]],
+  ['deserialize_21',['Deserialize',['../class_baruah_1_1_data_smith_1_1_game_model.html#ab1e22d8c871fc5faf5eb00d12a5bf284',1,'Baruah.DataSmith.GameModel.Deserialize()'],['../class_baruah_1_1_data_smith_1_1_list_game_model-1-g.html#a2e1e8355902110da8a46bd4cd5cbfc67',1,'Baruah.DataSmith.ListGameModel-1-g.Deserialize()'],['../class_baruah_1_1_data_smith_1_1_single_game_model-1-g.html#a2532b44007bb88b76e724e18ea6164ca',1,'Baruah.DataSmith.SingleGameModel-1-g.Deserialize()'],['../class_baruah_1_1_data_smith_1_1_s_q_l_game_model-1-g.html#a25f3a96382b28ae3e308674bf094f6be',1,'Baruah.DataSmith.SQLGameModel-1-g.Deserialize()']]],
+  ['documentation_22',['Documentation',['../index.html#autotoc_md67',1,'']]]
+];
