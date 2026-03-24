@@ -94,16 +94,24 @@ namespace Baruah.DataSmith.Database
 
                 foreach (var f in fields)
                 {
-                    int i = reader.GetOrdinal(f.Name);
+                    int i;
+                    try
+                    {
+                        i = reader.GetOrdinal(f.Name);
+                    }
+                    catch (System.IndexOutOfRangeException)
+                    {
+                        continue; // column not present in current projection
+                    }
 
                     if (!reader.IsDBNull(i))
                     {
                         object raw = reader.GetValue(i);
                         object value = f.FieldType == typeof(bool)
-                                ? System.Convert.ToInt64(raw) != 0
-                                : f.FieldType.IsEnum
-                                    ? System.Enum.ToObject(f.FieldType, raw)
-                                    : System.Convert.ChangeType(raw, f.FieldType);
+                            ? System.Convert.ToInt64(raw) != 0
+                            : f.FieldType.IsEnum
+                                ? System.Enum.ToObject(f.FieldType, raw)
+                                : System.Convert.ChangeType(raw, f.FieldType);
 
                         f.SetValue(obj, value);
                     }

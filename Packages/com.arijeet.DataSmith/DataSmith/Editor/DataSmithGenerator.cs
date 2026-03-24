@@ -303,11 +303,16 @@ namespace Baruah.DataSmith.Editor
             var fields = type.GetFields(
                 BindingFlags.Public | BindingFlags.Instance);
 
-            var pk = fields.FirstOrDefault(f =>
-                f.GetCustomAttribute<PrimaryKeyAttribute>() != null);
+            var pkFields = fields
+                .Where(f => f.GetCustomAttribute<PrimaryKeyAttribute>() != null)
+                .ToArray();
 
-            if (pk == null)
-                throw new Exception($"No [PrimaryKey] defined for DB model {modelName}");
+            if (pkFields.Length != 1)
+            {
+                throw new Exception($"Expected exactly one [PrimaryKey] on DB model {modelName}, found {pkFields.Length}.");
+            }
+
+            var pk = pkFields[0];
 
             string table = QuoteSqlIdentifier(modelName);
             
@@ -326,8 +331,7 @@ namespace Baruah.DataSmith.Editor
             {
                 string sqlType = GetSqlType(f.FieldType);
 
-                bool isPk =
-                    f.GetCustomAttribute<PrimaryKeyAttribute>() != null;
+                bool isPk = f == pk;
 
                 string col = $"    {QuoteSqlIdentifier(f.Name)} {sqlType}";
 
@@ -348,7 +352,7 @@ namespace Baruah.DataSmith.Editor
             // ================================
 
             string colNames =
-                string.Join(", ", fields.Select(f => QuoteSqlIdentifier(f.Name)));
+                string.Join(", ", fields.Select(f => "@" + f.Name));
 
             string paramNames =
                 string.Join(", ", fields.Select(f => "@" + QuoteSqlIdentifier(f.Name)));
@@ -371,7 +375,7 @@ namespace Baruah.DataSmith.Editor
 
             var setClause = string.Join(", ",
                 fields.Where(f => f != pk)
-                    .Select(f => $"{QuoteSqlIdentifier(f.Name)}=@{QuoteSqlIdentifier(f.Name)}"));
+                    .Select(f => $"{QuoteSqlIdentifier(f.Name)}=@{f.Name}"));
 
             sb.AppendLine($@"        /// <summary>
         /// Updates an existing <see cref=""{type.Name}""/>.
@@ -382,7 +386,7 @@ namespace Baruah.DataSmith.Editor
             sb.AppendLine("            DataContext.Database.Execute(@\"");
             sb.AppendLine($"UPDATE {table}");
             sb.AppendLine($"SET {setClause}");
-            sb.AppendLine($"WHERE {QuoteSqlIdentifier(pk.Name)}=@{QuoteSqlIdentifier(pk.Name)};\", item);");
+            sb.AppendLine($"WHERE {QuoteSqlIdentifier(pk.Name)}=@{pk.Name};\", item);");
             sb.AppendLine("        }");
             sb.AppendLine();
 
