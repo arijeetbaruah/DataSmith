@@ -30,6 +30,10 @@ namespace Baruah.DataSmith.Editor
         #if ODIN_INSPECTOR
         private DataSmithConfig _config;
         
+        /// <summary>
+        /// Generates output for this model entry using the stored configuration's output folder.
+        /// If no configuration has been set, the method does nothing.
+        /// </summary>
         [TableColumnWidth(120)]
         [Button(ButtonSizes.Small)]
         private void Generate()
@@ -40,6 +44,10 @@ namespace Baruah.DataSmith.Editor
             DataSmithGenerator.GenerateEntry(this, _config.OutputFolder);
         }
 
+        /// <summary>
+        /// Assigns the DataSmith configuration used later when generating this model entry.
+        /// </summary>
+        /// <param name="config">The configuration to store for subsequent generation operations.</param>
         public void SetConfigFile(DataSmithConfig config)
         {
             _config = config;
