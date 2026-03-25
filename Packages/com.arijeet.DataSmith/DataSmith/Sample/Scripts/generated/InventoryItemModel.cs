@@ -15,7 +15,7 @@ namespace Baruah.DataSmith.Sample
     /// This class is auto-generated. Do not modify manually.
     /// Use the DataSmith generator to regenerate.
     /// </remarks>
-    public sealed partial class InventoryItemModel : ListGameModel<Baruah.DataSmith.Sample.InventoryItem>
+    public sealed partial class InventoryItemModel : ListAssetModel<Baruah.DataSmith.Sample.InventoryItem>
     {        
         public InventoryItemQuery Query()
         {

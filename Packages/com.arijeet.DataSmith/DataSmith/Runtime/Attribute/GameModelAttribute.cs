@@ -5,11 +5,13 @@ namespace Baruah.DataSmith
     [AttributeUsage(AttributeTargets.Class)]
     public class GameModelAttribute : Attribute
     {
-        public ModelValueType ValueType { get; }
+        public ModelStorageType StorageType { get; }
+        public ModelCollectionType CollectionType { get; }
 
-        public GameModelAttribute(ModelValueType valueType = ModelValueType.List)
+        public GameModelAttribute(ModelStorageType storageType = ModelStorageType.Memory, ModelCollectionType collectionType = ModelCollectionType.List)
         {
-            ValueType = valueType;
+            StorageType = storageType;
+            CollectionType = collectionType;
         }
     }
 }

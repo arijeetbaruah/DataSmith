@@ -1,0 +1,26 @@
+﻿/*
+ * This is a Auto-Generated code. DO NOT MODIFY
+ */
+ 
+using System;
+using Baruah.DataSmith;
+
+namespace {{NAMESPACE}}
+{
+    /// <summary>
+    /// DataSmith model wrapper for <see cref="{{DATA_TYPE}}"/>.
+    /// </summary>
+    /// <remarks>
+    /// This class is auto-generated. Do not modify manually.
+    /// Use the DataSmith generator to regenerate.
+    /// </remarks>
+    public sealed partial class {{MODEL_NAME}} : SingleAssetModel<{{DATA_TYPE}}>
+    {
+        public {{MODEL_NAME}}()
+        {
+            Value = new {{DATA_TYPE}}();
+        }
+
+{{ACCESSORS}}
+    }
+}

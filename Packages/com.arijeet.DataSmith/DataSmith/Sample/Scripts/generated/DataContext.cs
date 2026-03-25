@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Baruah.DataSmith.Database;
+using UnityEngine;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Baruah.DataSmith
 {
@@ -34,7 +36,7 @@ namespace Baruah.DataSmith
         /// <summary>
         /// Internal registry mapping model types to their instances.
         /// </summary>
-        private static Dictionary<System.Type, GameModel> _models = new();
+        private static Dictionary<System.Type, IGameModel> _models = new();
         
         /// <summary>
         /// Gets a value indicating whether the context has been initialized.
@@ -68,11 +70,33 @@ namespace Baruah.DataSmith
                     return _database;
                 }
                 
-                throw new System.Exception("Database is not initialized");
+                throw new InvalidOperationException("Database is not initialized");
+            }
+            set
+            {
+                _database = value;
+            }
+        }
+        
+        public static AssetContextsSO AssetContexts
+        {
+            get
+            {
+                if (_assetContextsSO != null)
+                {
+                    return _assetContextsSO;
+                }
+                
+                throw new InvalidOperationException("AssetContextsSO is not initialized");
+            }
+            set
+            {
+                _assetContextsSO = value;
             }
         }
         
         private static IDatabase _database;
+        private static AssetContextsSO _assetContextsSO;
 
         /// <summary>
         /// Initializes the context and creates instances for all registered models.
@@ -98,10 +122,16 @@ namespace Baruah.DataSmith
                 if (!typeof(GameModel).IsAssignableFrom(type))
                     continue;
 
-                var instance =
-                    (GameModel)Activator.CreateInstance(type);
-
-                _models[type] = instance;
+                if (typeof(ScriptableObject).IsAssignableFrom(type))
+                {
+                    var asset = AssetContexts.Assets.FirstOrDefault(asset => asset.GetType() == type);
+                    _models[type] = asset;
+                }
+                else
+                {
+                    var instance = (GameModel)Activator.CreateInstance(type);
+                    _models[type] = instance;
+                }
             }
 
             IsInitialized = true;
@@ -129,7 +159,7 @@ namespace Baruah.DataSmith
         /// This method provides global, strongly-typed access to models.
         /// </para>
         /// </remarks>
-        public static T Get<T>() where T : GameModel
+        public static T Get<T>() where T : IGameModel
         {
             Initialize();
 
@@ -184,10 +214,10 @@ namespace Baruah.DataSmith
         /// </para>
         /// </remarks>
         public static void DeserializeAll(string json)
-        { 
+        {
             Initialize();
 
-            _models = JsonConvert.DeserializeObject<Dictionary<System.Type, GameModel>>(json);
+            _models = JsonConvert.DeserializeObject<Dictionary<System.Type, IGameModel>>(json);
         }
     }
 }

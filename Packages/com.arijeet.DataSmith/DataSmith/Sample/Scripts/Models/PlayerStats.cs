@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Baruah.DataSmith.Sample
 {
-    [GameModel(ModelValueType.Single)]
+    [GameModel(ModelStorageType.Memory, ModelCollectionType.Single)]
     [System.Serializable]
     public class PlayerStats
     {
@@ -17,7 +17,7 @@ namespace Baruah.DataSmith.Sample
         public bool IsAlive => Health > 0;
     }
     
-    [GameModel(ModelValueType.List)]
+    [GameModel(ModelStorageType.Asset)]
     [System.Serializable]
     public class InventoryItem
     {

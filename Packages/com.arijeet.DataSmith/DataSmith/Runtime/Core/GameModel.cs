@@ -1,6 +1,10 @@
 namespace Baruah.DataSmith
 {
-    public abstract class GameModel
+    public interface IGameModel
+    {
+    }
+    
+    public abstract class GameModel : IGameModel
     {
         public abstract string Serialize();
         public abstract void Deserialize(string data);
