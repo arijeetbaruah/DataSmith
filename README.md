@@ -1,4 +1,4 @@
-
+![Cover Image](https://github.com/arijeetbaruah/DataSmith/blob/main/docs/Image/Cover.jpg)
 
 
 <h1 align="center">DataSmith</h1>
