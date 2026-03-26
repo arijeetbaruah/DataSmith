@@ -28,6 +28,8 @@ namespace Baruah.DataSmith.Editor
 
         // =========================================================
         // UI TOOLKIT ENTRY POINT
+        // =========================================================
+        
         /// <summary>
         /// Builds and initializes the UI Toolkit layout for the editor window, including the config selector, top toolbar, count label, and the list of model entries.
         /// </summary>
@@ -135,6 +137,8 @@ namespace Baruah.DataSmith.Editor
 
         // =========================================================
         // LIST VIEW
+        // =========================================================
+        
         /// <summary>
         /// Creates a horizontal row used as a ListView item with a type label, a namespace label, and a Generate button.
         /// </summary>
@@ -199,6 +203,8 @@ namespace Baruah.DataSmith.Editor
 
         // =========================================================
         // PIPELINE
+        // =========================================================
+        
         /// <summary>
         /// Updates the cached model entries by scanning using the current config and refreshes the ListView and count label.
         /// </summary>
@@ -223,6 +229,8 @@ namespace Baruah.DataSmith.Editor
 
         // =========================================================
         // CONFIG PERSISTENCE
+        // =========================================================
+        
         /// <summary>
         /// Persist the current DataSmithConfig reference by storing its asset GUID in EditorPrefs.
         /// </summary>
