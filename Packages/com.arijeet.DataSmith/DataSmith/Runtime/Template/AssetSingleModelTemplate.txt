@@ -16,11 +16,6 @@ namespace {{NAMESPACE}}
     /// </remarks>
     public sealed partial class {{MODEL_NAME}} : SingleAssetModel<{{DATA_TYPE}}>
     {
-        public {{MODEL_NAME}}()
-        {
-            Value = new {{DATA_TYPE}}();
-        }
-
 {{ACCESSORS}}
     }
 }

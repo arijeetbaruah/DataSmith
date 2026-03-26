@@ -10,7 +10,7 @@ namespace Baruah.DataSmith
         public IReadOnlyList<BaseAssetModel> Assets => _assets;
         
         [SerializeField]
-        private List<BaseAssetModel> _assets;
+        private List<BaseAssetModel> _assets = new();
         
         #if UNITY_EDITOR
         #if ODIN_INSPECTOR
@@ -24,7 +24,7 @@ namespace Baruah.DataSmith
             
             foreach (var asset in assets)
             {
-                if (!_assets.Any(a => a.GetType() == asset.GetType()))
+                if (_assets.All(a => a.GetType() != asset))
                 {
                     var assetFile = ScriptableObject.CreateInstance(asset) as BaseAssetModel;
 
