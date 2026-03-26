@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This is a Auto-Generated code. DO NOT MODIFY
  */
 
@@ -15,7 +15,7 @@ namespace {{NAMESPACE}}
     /// This class is auto-generated. Do not modify manually.
     /// Use the DataSmith generator to regenerate.
     /// </remarks>
-    public sealed partial class {{MODEL_NAME}} : ListGameModel<{{DATA_TYPE}}>
+    public sealed partial class {{MODEL_NAME}} : ListAssetModel<{{DATA_TYPE}}>
     {        
         public {{QUERY_NAME}} Query()
         {

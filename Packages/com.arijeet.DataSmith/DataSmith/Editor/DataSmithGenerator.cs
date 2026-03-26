@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 namespace Baruah.DataSmith.Editor
 {
@@ -30,11 +31,13 @@ namespace Baruah.DataSmith.Editor
         /// </remarks>
         public static void GenerateEntry(ModelEntry entry, string outputFolder)
         {
-            var templates = LoadTemplates();
-            
-            if (!templates.TryGetValue(entry.Attribute.ValueType, out var template))
-                return;
+            (var template, var isFound) = GetTemplate(entry);
 
+            if (!isFound)
+            {
+                throw new NotSupportedException($"Template for {entry.Attribute.StorageType} {entry.Attribute.CollectionType} not found.");
+            }
+            
             string modelCode = BuildModel(entry, template);
 
             string queryCode = BuildQuery(entry);
@@ -106,40 +109,60 @@ namespace Baruah.DataSmith.Editor
             AssetDatabase.Refresh();
         }
 
-        /// <summary>
-        /// Loads TextAsset templates from the Unity project and maps value types to template text by detecting assets whose names contain "SingleModelTemplate" or "ListModelTemplate".
-        /// </summary>
-        /// <summary>
-        /// Searches the Unity project for TextAsset generation templates and returns the found templates keyed by their ModelValueType.
-        /// </summary>
-        /// <returns>
-        /// A dictionary mapping each discovered <see cref="ModelValueType"/> (for example, <c>Single</c>, <c>List</c>, <c>DB</c>) to the corresponding template text.
-        /// Asset names containing "SingleModelTemplate", "ListModelTemplate", or "SQLGameModelTemplate" are mapped to <c>ModelValueType.Single</c>, <c>ModelValueType.List</c>, and <c>ModelValueType.DB</c> respectively; value types with no matching asset are omitted.
-        /// </returns>
-        public static Dictionary<ModelValueType, string> LoadTemplates()
+        public static (string, bool) GetTemplate(ModelEntry entry)
         {
-            var cache = new Dictionary<ModelValueType, string>();
-
             var paths = AssetDatabase.FindAssets("t:TextAsset")
                 .Select(g => AssetDatabase.GUIDToAssetPath(g));
 
+            string tpl = "";
+            
             foreach (var path in paths)
             {
                 var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
                 if (asset == null) continue;
 
-                if (asset.name.Contains("SingleModelTemplate"))
-                    cache[ModelValueType.Single] = asset.text;
+                switch (entry.Attribute.StorageType)
+                {
+                    case ModelStorageType.Memory:
 
-                if (asset.name.Contains("ListModelTemplate"))
-                    cache[ModelValueType.List] = asset.text;
-                
-                if (asset.name.Contains("SQLGameModelTemplate"))
-                    cache[ModelValueType.DB] = asset.text;
+                        switch (entry.Attribute.CollectionType)
+                        {
+                            case  ModelCollectionType.Single:
+                            if (asset.name.Contains("MemorySingleModelTemplate"))
+                                tpl = asset.text;
+                            break;
+                            case  ModelCollectionType.List:
+                            if (asset.name.Contains("MemoryListModelTemplate"))
+                                tpl = asset.text;
+                            break;
+                        }
+                        
+                        break;
+                    case ModelStorageType.DB:
+                        if (asset.name.Contains("SQLGameModelTemplate"))
+                            tpl = asset.text;
+                        break;
+                    case ModelStorageType.Asset:
+
+                        switch (entry.Attribute.CollectionType)
+                        {
+                            case ModelCollectionType.Single:
+                                if (asset.name.Contains("AssetSingleModelTemplate"))
+                                    tpl = asset.text;
+                                break;
+                            case ModelCollectionType.List:
+                                if (asset.name.Contains("AssetListModelTemplate"))
+                                    tpl = asset.text;
+                                break;
+                        }
+
+                        break;
+                }
             }
 
-            return cache;
+            return (tpl, !string.IsNullOrEmpty(tpl));
         }
+        
 
         /// <summary>
         /// Generates the accessor source fragment for a model described by the given entry based on its ValueType.
@@ -149,16 +172,25 @@ namespace Baruah.DataSmith.Editor
         public static string BuildAccessors(ModelEntry entry)
         {
             var type = entry.Type;
-            var kind = entry.Attribute.ValueType;
-            
+            var kind = entry.Attribute.StorageType;
+
             switch (kind)
             {
-                case ModelValueType.Single:
-                    return BuildSingleAccessors(type);
-                case ModelValueType.List:
-                    return BuildListAccessors(type);
-                case ModelValueType.DB:
-                    return BuildDBAccessors(entry);;
+                case ModelStorageType.Memory:
+                case ModelStorageType.Asset:
+
+                    switch (entry.Attribute.CollectionType)
+                    {
+                        case ModelCollectionType.Single:
+                            return BuildSingleAccessors(type);
+                        case ModelCollectionType.List:
+                            return BuildListAccessors(type);
+                    }
+                    
+                    break;
+                
+                case ModelStorageType.DB:
+                    return BuildDBAccessors(entry);
             }
             
             return "";
