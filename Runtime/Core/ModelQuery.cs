@@ -51,6 +51,11 @@ namespace Baruah.DataSmith
             return false;
         }
 
+        public void Where(Func<T, bool> predicate)
+        {
+            AddCondition(predicate);
+        }
+
         public bool Any(System.Func<T, bool> predicate)
         {
             foreach (var item in this)
@@ -61,6 +66,68 @@ namespace Baruah.DataSmith
                 }}
             }}
             return false;
+        }
+        
+        public int Count()
+        {
+            int count = 0;
+
+            foreach (var entry in Execute())
+            {
+                count++;
+            }
+
+            return count;
+        }
+
+        public int Sum(Func<T, int> selector)
+        {
+            int sum = 0;
+
+            foreach (var item in Execute())
+            {
+                sum += selector(item);
+            }
+
+            return sum;
+        }
+        
+        public TProperty Max<TProperty>(Func<T, TProperty> selector)
+            where TProperty : IComparable<TProperty>
+        {
+            bool hasValue = false;
+            TProperty max = default;
+
+            foreach (var item in Execute())
+            {
+                var value = selector(item);
+
+                if (!hasValue)
+                {
+                    max = value;
+                    hasValue = true;
+                    continue;
+                }
+
+                if (value != null && value.CompareTo(max) > 0)
+                    max = value;
+            }
+
+            return max;
+        }
+
+        public float Average(Func<T, int> selector)
+        {
+            int sum = 0;
+            int count = 0;
+
+            foreach (var item in Execute())
+            {
+                sum += selector(item);
+                count++;
+            }
+            
+            return count == 0 ? 0 : (float)sum / count;
         }
 
         public IEnumerator<T> GetEnumerator() => Execute().GetEnumerator();

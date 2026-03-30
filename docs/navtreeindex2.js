@@ -1,0 +1,26 @@
+var NAVTREEINDEX2 =
+{
+"md__r_e_a_d_m_e.html":[9],
+"md__s_e_c_u_r_i_t_y.html":[10],
+"md__s_e_c_u_r_i_t_y.html#autotoc_md196":[10,0],
+"md__s_e_c_u_r_i_t_y.html#autotoc_md197":[10,1],
+"models.html":[1],
+"namespace_baruah.html":[11,0,0],
+"namespace_baruah_1_1_data_smith.html":[11,0,0,0],
+"namespace_baruah_1_1_data_smith.html#adec2f664273e00043416223a27c6ebfd":[11,0,0,0,22],
+"namespace_baruah_1_1_data_smith.html#adec2f664273e00043416223a27c6ebfda0a5a4d7386065c6c6ac19c303768c7e1":[11,0,0,0,22,1],
+"namespace_baruah_1_1_data_smith.html#adec2f664273e00043416223a27c6ebfda26e9054be7f40079575582b7ad3f7363":[11,0,0,0,22,2],
+"namespace_baruah_1_1_data_smith.html#adec2f664273e00043416223a27c6ebfda4789f23283b3a61f858b641a1bef19a3":[11,0,0,0,22,0],
+"namespace_baruah_1_1_data_smith.html#afa4754c3e9ef9eeaceb94befed30acae":[11,0,0,0,21],
+"namespace_baruah_1_1_data_smith.html#afa4754c3e9ef9eeaceb94befed30acaea4ee29ca12c7d126654bd0e5275de6135":[11,0,0,0,21,1],
+"namespace_baruah_1_1_data_smith.html#afa4754c3e9ef9eeaceb94befed30acaea66ba162102bbf6ae31b522aec561735e":[11,0,0,0,21,0],
+"namespace_baruah_1_1_data_smith_1_1_database.html":[11,0,0,0,1],
+"namespace_baruah_1_1_data_smith_1_1_database_1_1_editor.html":[11,0,0,0,1,0],
+"namespace_baruah_1_1_data_smith_1_1_editor.html":[11,0,0,0,0],
+"namespace_baruah_1_1_data_smith_1_1_sample.html":[11,0,0,0,2],
+"namespacemembers.html":[11,1,0],
+"namespacemembers_enum.html":[11,1,1],
+"namespaces.html":[11,0],
+"pages.html":[],
+"queries.html":[2]
+};

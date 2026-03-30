@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['modelvaluetype_0',['ModelValueType',['../namespace_baruah_1_1_data_smith.html#a6d2836c5ed7f48b9cf3541e3eae3e43e',1,'Baruah::DataSmith']]]
+  ['modelcollectiontype_0',['ModelCollectionType',['../namespace_baruah_1_1_data_smith.html#afa4754c3e9ef9eeaceb94befed30acae',1,'Baruah::DataSmith']]],
+  ['modelstoragetype_1',['ModelStorageType',['../namespace_baruah_1_1_data_smith.html#adec2f664273e00043416223a27c6ebfd',1,'Baruah::DataSmith']]]
 ];

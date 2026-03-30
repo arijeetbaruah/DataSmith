@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['singlegamemodel_2ecs_0',['SingleGameModel.cs',['../_single_game_model_8cs.html',1,'']]],
-  ['sqlgamemodel_2ecs_1',['SQLGameModel.cs',['../_s_q_l_game_model_8cs.html',1,'']]],
-  ['sqliteproviderasset_2ecs_2',['SqliteProviderAsset.cs',['../_sqlite_provider_asset_8cs.html',1,'']]]
+  ['queries_2emd_0',['queries.md',['../queries_8md.html',1,'']]],
+  ['querybuilder_2ecs_1',['QueryBuilder.cs',['../_query_builder_8cs.html',1,'']]],
+  ['querytest_2ecs_2',['QueryTest.cs',['../_query_test_8cs.html',1,'']]]
 ];

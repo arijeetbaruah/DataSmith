@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 using UnityEngine;
 
 namespace Baruah.DataSmith.Editor
@@ -12,6 +15,9 @@ namespace Baruah.DataSmith.Editor
         public IReadOnlyList<string> IncludePaths => _includePaths;
         public IReadOnlyList<string> ExcludePaths => _excludePaths;
         
+        #if ODIN_INSPECTOR
+        [FolderPath]
+        #endif
         [SerializeField] private string _outputFolder = DefaultOutput;
 
         [SerializeField] private List<string> _includePaths = new();

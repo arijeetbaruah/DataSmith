@@ -95,7 +95,7 @@ $(function(){initNavTree('models.html','',''); });
 <div class="textblock"><p>DataSmith uses a code-first model system.</p>
 <p>You define plain C# classes, and DataSmith generates runtime model containers, queries, and persistence logic.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md77"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md129"></a>
 🧠 What Is a Model?</h2>
 <p>A model describes a type of data stored and managed by DataSmith.</p>
 <p>Models are:</p>
@@ -113,12 +113,12 @@ $(function(){initNavTree('models.html','',''); });
 <li>Persistence</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md79"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md131"></a>
 🏗 Creating a Model</h2>
 <p>Mark a class with the <span class="tt">GameModel</span> attribute.</p>
 <div class="fragment"><div class="line"><span class="keyword">using </span><a class="code hl_namespace" href="namespace_baruah_1_1_data_smith.html">Baruah.DataSmith</a>;</div>
 <div class="line"> </div>
-<div class="line"> [<a class="code hl_class" href="class_baruah_1_1_data_smith_1_1_game_model.html">GameModel</a>(<a class="code hl_enumeration" href="namespace_baruah_1_1_data_smith.html#a6d2836c5ed7f48b9cf3541e3eae3e43e">ModelValueType</a>.List)]</div>
+<div class="line"> [<a class="code hl_class" href="class_baruah_1_1_data_smith_1_1_game_model.html">GameModel</a>(ModelValueType.List)]</div>
 <div class="line"> <span class="keyword">public</span> <span class="keyword">class </span>InventoryItem</div>
 <div class="line"> {</div>
 <div class="line">     [PrimaryKey]</div>
@@ -127,18 +127,17 @@ $(function(){initNavTree('models.html','',''); });
 <div class="line">     <span class="keyword">public</span> <span class="keywordtype">string</span> Name;</div>
 <div class="line">     <span class="keyword">public</span> <span class="keywordtype">int</span> Value;</div>
 <div class="line"> }</div>
-<div class="ttc" id="aclass_baruah_1_1_data_smith_1_1_game_model_html"><div class="ttname"><a href="class_baruah_1_1_data_smith_1_1_game_model.html">Baruah.DataSmith.GameModel</a></div><div class="ttdef"><b>Definition</b> GameModel.cs:4</div></div>
-<div class="ttc" id="anamespace_baruah_1_1_data_smith_html"><div class="ttname"><a href="namespace_baruah_1_1_data_smith.html">Baruah.DataSmith</a></div><div class="ttdef"><b>Definition</b> GameModelAttribute.cs:4</div></div>
-<div class="ttc" id="anamespace_baruah_1_1_data_smith_html_a6d2836c5ed7f48b9cf3541e3eae3e43e"><div class="ttname"><a href="namespace_baruah_1_1_data_smith.html#a6d2836c5ed7f48b9cf3541e3eae3e43e">Baruah.DataSmith.ModelValueType</a></div><div class="ttdeci">ModelValueType</div><div class="ttdef"><b>Definition</b> ModelValueType.cs:6</div></div>
+<div class="ttc" id="aclass_baruah_1_1_data_smith_1_1_game_model_html"><div class="ttname"><a href="class_baruah_1_1_data_smith_1_1_game_model.html">Baruah.DataSmith.GameModel</a></div><div class="ttdef"><b>Definition</b> GameModel.cs:8</div></div>
+<div class="ttc" id="anamespace_baruah_1_1_data_smith_html"><div class="ttname"><a href="namespace_baruah_1_1_data_smith.html">Baruah.DataSmith</a></div><div class="ttdef"><b>Definition</b> DataSmithGenerator.cs:13</div></div>
 </div><!-- fragment --><p>Run the generator to create the runtime model classes.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md81"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md133"></a>
 📦 Model Types</h2>
 <p>The <span class="tt">ModelValueType</span> determines how data is stored.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md82"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md134"></a>
 🔹 Single Model</h3>
 <p>Stores exactly one instance of the data type.</p>
-<div class="fragment"><div class="line">[<a class="code hl_class" href="class_baruah_1_1_data_smith_1_1_game_model.html">GameModel</a>(<a class="code hl_enumeration" href="namespace_baruah_1_1_data_smith.html#a6d2836c5ed7f48b9cf3541e3eae3e43e">ModelValueType</a>.Single)]</div>
+<div class="fragment"><div class="line">[<a class="code hl_class" href="class_baruah_1_1_data_smith_1_1_game_model.html">GameModel</a>(ModelValueType.Single)]</div>
 <div class="line"><span class="keyword">public</span> <span class="keyword">class </span>PlayerStats</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">public</span> <span class="keywordtype">int</span> Level;</div>
@@ -151,10 +150,10 @@ $(function(){initNavTree('models.html','',''); });
 <li>Emits change events</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md84"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md136"></a>
 🔹 List Model</h3>
 <p>Stores multiple items of the data type.</p>
-<div class="fragment"><div class="line">[<a class="code hl_class" href="class_baruah_1_1_data_smith_1_1_game_model.html">GameModel</a>(<a class="code hl_enumeration" href="namespace_baruah_1_1_data_smith.html#a6d2836c5ed7f48b9cf3541e3eae3e43e">ModelValueType</a>.List)]</div>
+<div class="fragment"><div class="line">[<a class="code hl_class" href="class_baruah_1_1_data_smith_1_1_game_model.html">GameModel</a>(ModelValueType.List)]</div>
 <div class="line"><span class="keyword">public</span> <span class="keyword">class </span>InventoryItem</div>
 <div class="line">{</div>
 <div class="line">    [PrimaryKey]</div>
@@ -171,10 +170,10 @@ $(function(){initNavTree('models.html','',''); });
 <li>Can enforce uniqueness via primary keys</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md86"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md138"></a>
 🔹 Database Model (DB)</h3>
 <p>Uses an external database provider instead of in-memory storage.</p>
-<div class="fragment"><div class="line">[<a class="code hl_class" href="class_baruah_1_1_data_smith_1_1_game_model.html">GameModel</a>(<a class="code hl_enumeration" href="namespace_baruah_1_1_data_smith.html#a6d2836c5ed7f48b9cf3541e3eae3e43e">ModelValueType</a>.DB)]</div>
+<div class="fragment"><div class="line">[<a class="code hl_class" href="class_baruah_1_1_data_smith_1_1_game_model.html">GameModel</a>(ModelValueType.DB)]</div>
 <div class="line"><span class="keyword">public</span> <span class="keyword">class </span>AccountData</div>
 <div class="line">{</div>
 <div class="line">     [PrimaryKey]</div>
@@ -185,11 +184,11 @@ $(function(){initNavTree('models.html','',''); });
 <div class="line">}</div>
 </div><!-- fragment --><p> Behavior depends on the configured database provider.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md88"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md140"></a>
 🏷 Attributes</h2>
 <p>Attributes modify how models behave.</p>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md90"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md142"></a>
 🔑 PrimaryKey</h3>
 <p>Marks a field as the unique identifier for the model.</p>
 <div class="fragment"><div class="line">[PrimaryKey]</div>
@@ -201,7 +200,7 @@ $(function(){initNavTree('models.html','',''); });
 <li>Required for references</li>
 </ul>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md92"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md144"></a>
 🔗 Reference</h3>
 <p>Indicates that a field refers to another model.</p>
 <p>Typically stores the target model’s primary key.</p>
@@ -209,7 +208,7 @@ $(function(){initNavTree('models.html','',''); });
 <div class="line"><span class="keyword">public</span> <span class="keywordtype">string</span> ItemId;</div>
 </div><!-- fragment --><p>Generated code provides helper methods to retrieve the referenced object.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md94"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md146"></a>
 🔄 Generated Companion Classes</h2>
 <p>For each model type, DataSmith generates:</p>
 <ul>
@@ -220,16 +219,16 @@ $(function(){initNavTree('models.html','',''); });
 <div class="fragment"><div class="line">InventoryItem → InventoryItemModel + InventoryItemQuery</div>
 </div><!-- fragment --><p>These classes handle runtime behavior and should not be edited manually.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md96"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md148"></a>
 🧩 Accessing Models</h2>
 <p>Models are retrieved through the DataContext.</p>
 <div class="fragment"><div class="line">var inventory = DataContext.Get&lt;InventoryItemModel&gt;();</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md98"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md150"></a>
 ⚠️ Best Practices</h2>
 <p>✔ Use simple public fields ✔ Always define a primary key for list models ✔ Avoid heavy logic inside model classes ✔ Treat models as data containers only</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md100"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md152"></a>
 🔗 See Also</h2>
 <ul>
 <li><a class="el" href="queries.html" title="Query System">Query System</a></li>

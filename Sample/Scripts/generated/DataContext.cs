@@ -57,8 +57,8 @@ namespace Baruah.DataSmith
         /// </remarks>
         public static readonly Type[] Types =
         {
-            typeof(Baruah.DataSmith.Sample.InventoryItemModel),
-            typeof(Baruah.DataSmith.Sample.PlayerStatsModel)
+            typeof(Baruah.DataSmith.Sample.PlayerStatsModel),
+            typeof(Baruah.DataSmith.Sample.InventoryItemModel)
         };
         
         public static IDatabase Database

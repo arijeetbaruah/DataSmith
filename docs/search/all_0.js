@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['_5fitems_0',['_items',['../class_baruah_1_1_data_smith_1_1_list_game_model-1-g.html#a8b65705e9b87461f48b9b3ae867d6c86',1,'Baruah::DataSmith::ListGameModel-1-g']]],
-  ['_5fpredicate_1',['_predicate',['../class_baruah_1_1_data_smith_1_1_model_query-1-g.html#a47ac67b668e998ea1c15c0af8c097695',1,'Baruah::DataSmith::ModelQuery-1-g']]],
-  ['_5fsource_2',['_source',['../class_baruah_1_1_data_smith_1_1_model_query-1-g.html#aa90da21f8cce742670e41598717af7ea',1,'Baruah::DataSmith::ModelQuery-1-g']]]
+  ['0_200_201_202026_2002_2020_0',['[0.0.1] - 2026-02-20',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md11',1,'']]],
+  ['0_201_200_202026_2002_2027_1',['[0.1.0] - 2026-02-27',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md7',1,'']]],
+  ['0_201_202026_2002_2020_2',['[0.0.1] - 2026-02-20',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md11',1,'']]],
+  ['0_202026_2002_2027_3',['[0.1.0] - 2026-02-27',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md7',1,'']]],
+  ['02_2020_4',['[0.0.1] - 2026-02-20',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md11',1,'']]],
+  ['02_2027_5',['[0.1.0] - 2026-02-27',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md7',1,'']]]
 ];

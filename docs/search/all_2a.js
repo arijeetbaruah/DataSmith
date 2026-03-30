@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🧱_20attribute_20scope_0',['🧱 Attribute Scope',['../attributes.html#autotoc_md10',1,'']]]
+  ['🔑_20primarykey_0',['🔑 PrimaryKey',['../models.html#autotoc_md142',1,'']]]
 ];

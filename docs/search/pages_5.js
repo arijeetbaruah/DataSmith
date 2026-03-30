@@ -1,7 +1,29 @@
 var searchData=
 [
-  ['features_0',['🚀 Features',['../index.html#autotoc_md71',1,'']]],
-  ['filtering_1',['🔗 Fluent Filtering',['../queries.html#autotoc_md107',1,'']]],
-  ['fluent_20filtering_2',['🔗 Fluent Filtering',['../queries.html#autotoc_md107',1,'']]],
-  ['for_20references_3',['- Required for references',['../attributes.html#autotoc_md14',1,'']]]
+  ['a_20bug_20report_0',['Before Submitting a Bug Report',['../md__c_o_n_t_r_i_b_u_t_i_n_g.html#autotoc_md31',1,'']]],
+  ['a_20data_20model_1',['Creating a Data Model',['../getting_started.html#autotoc_md109',1,'']]],
+  ['a_20good_20bug_20report_2',['How Do I Submit a Good Bug Report?',['../md__c_o_n_t_r_i_b_u_t_i_n_g.html#autotoc_md32',1,'']]],
+  ['a_20good_20enhancement_20suggestion_3',['How Do I Submit a Good Enhancement Suggestion?',['../md__c_o_n_t_r_i_b_u_t_i_n_g.html#autotoc_md35',1,'']]],
+  ['a_20model_4',['a Model',['../models.html#autotoc_md131',1,'🏗 Creating a Model'],['../models.html#autotoc_md129',1,'🧠 What Is a Model?']]],
+  ['a_20new_20context_5',['When to Create a New Context',['../datacontext.html#autotoc_md93',1,'']]],
+  ['a_20provider_6',['⚙️ Configuring a Provider',['../db_support.html#autotoc_md101',1,'']]],
+  ['a_20query_7',['🚀 Creating a Query',['../queries.html#autotoc_md157',1,'']]],
+  ['a_20question_8',['I Have a Question',['../md__c_o_n_t_r_i_b_u_t_i_n_g.html#autotoc_md28',1,'']]],
+  ['a_20vulnerability_9',['Reporting a Vulnerability',['../md__s_e_c_u_r_i_t_y.html#autotoc_md197',1,'']]],
+  ['access_20points_10',['Generated Access Points',['../datacontext.html#autotoc_md83',1,'']]],
+  ['access_20your_20model_20through_20the_20datacontext_3a_11',['Access your model through the DataContext:',['../getting_started.html#autotoc_md115',1,'']]],
+  ['accessing_20models_12',['🧩 Accessing Models',['../models.html#autotoc_md148',1,'']]],
+  ['added_13',['Added',['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md3',1,'Added'],['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md8',1,'Added'],['../md__c_h_a_n_g_e_l_o_g.html#autotoc_md12',1,'Added']]],
+  ['all_20types_14',['🔹 Equality (All Types)',['../queries.html#autotoc_md161',1,'']]],
+  ['allowed_20but_20should_20be_20used_20carefully_15',['- Circular references are allowed but should be used carefully',['../attributes.html#autotoc_md66',1,'']]],
+  ['also_16',['Also',['../attributes.html#autotoc_md73',1,'🔗 See Also'],['../models.html#autotoc_md152',1,'🔗 See Also'],['../datacontext.html#autotoc_md95',1,'See Also'],['../getting_started.html#autotoc_md118',1,'See Also']]],
+  ['an_20enhancement_17',['Before Submitting an Enhancement',['../md__c_o_n_t_r_i_b_u_t_i_n_g.html#autotoc_md34',1,'']]],
+  ['and_20db_20models_18',['- Required for references and DB models',['../attributes.html#autotoc_md64',1,'']]],
+  ['and_20load_20data_19',['Save and Load Data',['../getting_started.html#autotoc_md117',1,'']]],
+  ['and_20rules_20',['⚠️ Constraints and Rules',['../attributes.html#autotoc_md62',1,'']]],
+  ['are_20allowed_20but_20should_20be_20used_20carefully_21',['- Circular references are allowed but should be used carefully',['../attributes.html#autotoc_md66',1,'']]],
+  ['attribute_22',['Attribute',['../attributes.html#autotoc_md45',1,'🏗️ GameModel Attribute'],['../attributes.html#autotoc_md48',1,'🔗 Reference Attribute']]],
+  ['attribute_20scope_23',['🧱 Attribute Scope',['../attributes.html#autotoc_md60',1,'']]],
+  ['attributes_24',['Attributes',['../models.html#autotoc_md140',1,'🏷 Attributes'],['../attributes.html',1,'Attributes']]],
+  ['attribution_25',['Attribution',['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md24',1,'Attribution'],['../md__c_o_n_t_r_i_b_u_t_i_n_g.html#autotoc_md41',1,'Attribution']]]
 ];
