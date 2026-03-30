@@ -253,8 +253,14 @@ namespace Baruah.DataSmith.Editor
                     if (path.Contains("QueryBuilderTemplate"))
                     {
                         tmp = AssetDatabase.LoadAssetAtPath<TextAsset>(path).text;
+                        break;
                     }
                 }
+                if (string.IsNullOrEmpty(tmp))
+                {
+                    throw new NotSupportedException("QueryBuilderTemplate not found in assets.");
+                }
+                
                 string namespaceName = type.Namespace;
                 string accessors = GetSQLQueryAccessor(entry);
 
@@ -345,7 +351,7 @@ namespace Baruah.DataSmith.Editor
             sb.AppendLine(
                 $@"        public {queryName} {pascal}Equals({typeName} value)
         {{
-            return Where($""{pascal} == {{value}} "");
+            return Where($""{pascal} = {{value}} "");
         }}
 ");
 
@@ -637,7 +643,15 @@ namespace Baruah.DataSmith.Editor
             var defaultAttribute = fieldInfo.GetCustomAttribute<DefaultValueAttribute>();
             if (defaultAttribute != null)
             {
-                sb.Append($" DEFAULT {defaultAttribute.Value.ToString()}");
+                var defaultVal = defaultAttribute.Value;
+                if (defaultVal is string strVal)
+                {
+                    sb.Append($" DEFAULT '{strVal.Replace("'", "''")}'");
+                }
+                else
+                {
+                    sb.Append($" DEFAULT {defaultVal}");
+                }
             }
             
             var rangeAttribute = fieldInfo.GetCustomAttribute<RangeAttribute>();

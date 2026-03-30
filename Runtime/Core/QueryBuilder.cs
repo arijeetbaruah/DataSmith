@@ -139,40 +139,16 @@ namespace Baruah.DataSmith.Database
         
         // Aggregate Functions
 
-        public int Count(string columns = "*")
-        {
-            string sql = BuildAggregate($"COUNT({columns})");
-            return ExecuteScalar<int>(sql);
-        }
+        public int Count(string columns = "*") => ExecuteScalar<int>(BuildAggregate($"COUNT({columns})"));
         
-        public int Sum(string columns = "*")
-        {
-            string sql = BuildAggregate($"SUM({columns})");
-            return ExecuteScalar<int>(sql);
-        }
+        public int Sum(string columns = "*") => ExecuteScalar<int>(BuildAggregate($"SUM({columns})"));
 
-        public float Average(string columns = "*")
-        {
-            string sql = BuildAggregate($"AVG({columns})");
-            return ExecuteScalar<float>(sql);
-        }
+        public float Average(string columns = "*") => ExecuteScalar<float>(BuildAggregate($"AVG({columns})"));
 
-        public int Max(string columns = "*")
-        {
-            return ExecuteScalar<int>("MAX(Value)");
-        }
+        public int Max(string columns = "*") => ExecuteScalar<int>($"MAX({columns})");
         
-        public int Min(string columns = "*")
-        {
-            return ExecuteScalar<int>("MIN(Value)");
-        }
+        public int Min(string columns = "*") => ExecuteScalar<int>($"MIN({columns})");
         
-        public T FirstOrDefault()
-        {
-            string sql = Limit(1)
-                .BuildSelect();
-
-            return ExecuteScalar<T>(sql);
-        }
+        public T FirstOrDefault() => ExecuteScalar<T>(Limit(1).BuildSelect());
     }
 }

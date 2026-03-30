@@ -124,7 +124,7 @@ Used to enforce rules in database-backed models.
 
 Prevent null entry for the selected field
 ```csharp
-[NotNull]
+[Required]
 public string Name;
 ```
 
@@ -142,12 +142,33 @@ public string Email;
 
 ### DefaultValue
 
-if left empty, will save this value
+If omitted, this value is written by default.
 
 ```csharp
 [DefaultValue(0)]
 public int Value;
 ```
+
+### RangeAttribute
+
+Make sure the value is between a range
+```csharp
+ [Range(0, 99)]
+ public int Quantity;
+```
+
+---
+
+### MaxLengthAttribute
+
+For string variable, ensure the string length is max this amount
+
+```csharp
+[MaxLength(30)]
+public string Name;
+```
+
+---
 
 ### Behavior
 
@@ -160,15 +181,15 @@ public int Value;
 ## 🧱 Attribute Scope
 
 | Attribute    | Applies To |
-| ------------ | ---------- |
+|--------------|------------|
 | GameModel    | Class      |
 | PrimaryKey   | Field      |
 | Reference    | Field      |
-| Column       | Field      |
-| NotNull      | Field      |
+| Range        | Field      |
+| Required     | Field      |
 | Unique       | Field      |
 | DefaultValue | Field      |
-| Index        | Field      |
+| MaxLength    | Field      |
 
 
 ---
@@ -220,12 +241,10 @@ public class InventoryUsage
 }
 ```
 This model:
-
 - Uses database storage
 - Stores multiple records
 - Has a primary key
 - References another model
-- Uses indexing for performance
 - Enforces data constraints
 
 ---

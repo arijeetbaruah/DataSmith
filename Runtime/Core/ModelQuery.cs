@@ -109,7 +109,7 @@ namespace Baruah.DataSmith
                     continue;
                 }
 
-                if (value.CompareTo(max) > 0)
+                if (value != null && value.CompareTo(max) > 0)
                     max = value;
             }
 
