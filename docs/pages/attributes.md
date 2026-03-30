@@ -117,13 +117,59 @@ Internally this compares primary keys.
 
 ---
 
+## 🚧 Column Constraints
+Used to enforce rules in database-backed models.
+
+### NotNull
+
+Prevent null entry for the selected field
+```csharp
+[NotNull]
+public string Name;
+```
+
+---
+
+### Unique
+
+Prevent duplication of data
+```csharp
+[Unique]
+public string Email;
+```
+
+---
+
+### DefaultValue
+
+if left empty, will save this value
+
+```csharp
+[DefaultValue(0)]
+public int Value;
+```
+
+### Behavior
+
+- Translates into SQL constraints
+- Ensures data integrity
+- Used during table creation
+
+---
+
 ## 🧱 Attribute Scope
 
-| Attribute  | Applies To |
-| ---------- | ---------- |
-| GameModel  | Class      |
-| PrimaryKey | Field      |
-| Reference  | Field      |
+| Attribute    | Applies To |
+| ------------ | ---------- |
+| GameModel    | Class      |
+| PrimaryKey   | Field      |
+| Reference    | Field      |
+| Column       | Field      |
+| NotNull      | Field      |
+| Unique       | Field      |
+| DefaultValue | Field      |
+| Index        | Field      |
+
 
 ---
 
@@ -131,13 +177,19 @@ Internally this compares primary keys.
 ### Primary Key Requirements
 - Must be a public field
 - Should be immutable after creation
-- Should uniquely identify each item
-- Required for references
+- Must uniquely identify each item
+- Required for references and DB models
 ---
 ###  Reference Requirements
 - Target model must have a primary key
 - Field type must match the primary key type
+- Works across Memory and DB models
 - Circular references are allowed but should be used carefully
+---
+### Database Constraints
+- Only valid for ModelStorageType.DB
+- Invalid usage in Memory/Asset models may be ignored or warned
+- Must be compatible with selected database provider
 
 ---
 
@@ -145,9 +197,10 @@ Internally this compares primary keys.
 
 ✔ Keep model classes simple<br>
 ✔ Use attributes instead of manual wiring<br>
-✔ Define primary keys for list and DB models<br>
+✔ Always define primary keys for List/DB models<br>
 ✔ Avoid business logic inside model classes<br>
 ✔ Use references instead of duplicating data<br>
+✔ Use constraints to enforce correctness at the database level<br>
 
 ---
 
@@ -156,21 +209,24 @@ Internally this compares primary keys.
 [GameModel(ModelValueType.List)]
 public class InventoryUsage
 {
-[PrimaryKey]
-public int Id;
+    [PrimaryKey]
+    public int Id;
 
     [Reference(typeof(InventoryItem))]
     public string ItemId;
-
+    
+    [NotNull]
     public int Quantity;
 }
 ```
 This model:
 
-- Stores multiple usage records
-- Has a unique identifier
-- References an inventory item
-- Supports generated queries and lookups
+- Uses database storage
+- Stores multiple records
+- Has a primary key
+- References another model
+- Uses indexing for performance
+- Enforces data constraints
 
 ---
 ## 🔗 See Also

@@ -1,0 +1,36 @@
+/* Auto-generated DB access code. DO NOT MODIFY */
+
+using System.Collections.Generic;
+using Baruah.DataSmith;
+using Baruah.DataSmith.Database;
+
+namespace {{NAMESPACE}}
+{
+    /// <summary>
+    /// Model files access sql commands for <see cref="{{TABLE_NAME}}"/>
+    /// </summary>
+    public class {{QUERY_NAME}} : QueryBuilder<{{DATA_TYPE}}>
+    {
+        protected override TResult ExecuteScalar<TResult>(string sqlFunction)
+        {
+            string table = typeof({{DATA_TYPE}}).Name;
+
+            string where = BuildWhereClause();
+
+            string sql = string.IsNullOrEmpty(where)
+                ? $"SELECT {sqlFunction} FROM {table}"
+                : $"SELECT {sqlFunction} FROM {table} WHERE {where}";
+
+            return DataContext.Database.QuerySingle<TResult>(sql);
+        }
+        
+        /// <summary>
+        /// Where Condition for {{DATA_TYPE}}
+        /// </summary>
+        /// <param name="condition">condition</param>
+        /// <returns>{{QUERY_NAME}}</returns>
+        public {{QUERY_NAME}} Where(string condition) => ({{QUERY_NAME}}) base.Where(condition);
+        
+        {{ACCESSORS}}
+    }
+}

@@ -12,6 +12,11 @@ namespace {{NAMESPACE}}
     {
         public const string TableName = "{{TABLE_NAME}}";
 
+        public {{QUERY_NAME}} Query()
+        {
+            return new {{QUERY_NAME}}();
+        }
+
         {{ACCESSORS}}
     }
 }

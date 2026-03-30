@@ -241,6 +241,34 @@ namespace Baruah.DataSmith.Editor
         public static string BuildQuery(ModelEntry entry)
         {
             var type = entry.Type;
+
+            if (entry.Attribute.StorageType == ModelStorageType.DB)
+            {
+                var paths = AssetDatabase.FindAssets("t:TextAsset")
+                    .Select(g => AssetDatabase.GUIDToAssetPath(g));
+
+                string tmp = "";
+                foreach (var path in paths)
+                {
+                    if (path.Contains("QueryBuilderTemplate"))
+                    {
+                        tmp = AssetDatabase.LoadAssetAtPath<TextAsset>(path).text;
+                    }
+                }
+                string namespaceName = type.Namespace;
+                string accessors = GetSQLQueryAccessor(entry);
+
+                tmp = tmp
+                        .Replace("{{MODEL_NAME}}", type.Name + "Model")
+                        .Replace("{{TABLE_NAME}}", type.Name)
+                        .Replace("{{DATA_TYPE}}", type.FullName)
+                        .Replace("{{NAMESPACE}}", namespaceName ?? "")
+                        .Replace("{{ACCESSORS}}", accessors)
+                        .Replace("{{QUERY_NAME}}", type.Name + "Query");
+                
+                return tmp;
+            }
+            
             string queryName = type.Name + "Query";
 
             var sb = new System.Text.StringBuilder();
@@ -282,6 +310,77 @@ namespace Baruah.DataSmith.Editor
                 sb.AppendLine("}");
 
             return sb.ToString();
+        }
+
+        private static string GetSQLQueryAccessor(ModelEntry entry)
+        {
+            StringBuilder sb = new();
+            var type = entry.Type;
+
+            foreach (var field in type.GetFields(
+                         BindingFlags.Public | BindingFlags.Instance))
+            {
+                BuildSQLQueryMethods(sb, type, field);
+            }
+
+            /*sb.AppendLine(
+                $@"        public {queryName} Where(System.Func<{type.Name}, bool> predicate)
+        {{
+            AddCondition(predicate);
+            return this;
+        }}
+");*/
+            
+            return sb.ToString();
+        }
+        
+        private static void BuildSQLQueryMethods(System.Text.StringBuilder sb, Type dataType, FieldInfo field)
+        {
+            string typeName = GetTypeName(field.FieldType);
+            string name = field.Name;
+            string pascal = UpperFirst(name);
+            string queryName = dataType.Name + "Query";
+
+            // Equality (all types)
+            sb.AppendLine(
+                $@"        public {queryName} {pascal}Equals({typeName} value)
+        {{
+            return Where($""{pascal} == {{value}} "");
+        }}
+");
+
+            // Numeric comparisons
+            if (IsNumeric(field.FieldType))
+            {
+                sb.AppendLine(
+                    $@"        public {queryName} {pascal}GreaterThan({typeName} value)
+        {{
+            return Where($""{pascal} > value"");
+        }}
+
+        public {queryName} {pascal}LessThan({typeName} value)
+        {{
+            return Where($""{pascal} < value"");
+        }}
+
+        public {queryName} {pascal}GreaterThanEqualTo({typeName} value)
+        {{
+            return Where($""{pascal} >= value"");
+        }}
+
+        public {queryName} {pascal}LessThanEqualTo({typeName} value)
+        {{
+            return Where($""{pascal} <= value"");
+        }}
+");
+            }
+
+            /*string refMethod = GenerateReferenceQueryMethod(dataType, field);
+
+            if (!string.IsNullOrEmpty(refMethod))
+            {
+                sb.AppendLine(refMethod);
+            }*/
         }
 
         /// <summary>
@@ -409,7 +508,7 @@ namespace Baruah.DataSmith.Editor
 
             foreach (var f in fields)
             {
-                string sqlType = GetSqlType(f.FieldType);
+                string sqlType = GetSqlType(f);
 
                 bool isPk = f == pk;
 
@@ -417,6 +516,8 @@ namespace Baruah.DataSmith.Editor
 
                 if (isPk)
                     col += " PRIMARY KEY";
+
+                col += " " + GetSqlInlineColumnConstraints(f);
 
                 columns.Add(col);
             }
@@ -476,7 +577,7 @@ namespace Baruah.DataSmith.Editor
 
             sb.AppendLine($@"        /// <summary>Deletes a <see cref=""{type.Name}""/>. by primary key.</summary>
         /// <param name=""id"">item id to be delete</param>");
-            sb.AppendLine($"        public override void Delete({GetTypeName(pk.FieldType)} id)");
+            sb.AppendLine($"        public void Delete({GetTypeName(pk.FieldType)} id)");
             sb.AppendLine("        {");
             sb.AppendLine("            DataContext.Database.Execute(");
             sb.AppendLine($"                \"DELETE FROM {table} WHERE {QuoteSqlIdentifier(pk.Name)}=@Id;\",");
@@ -493,7 +594,7 @@ namespace Baruah.DataSmith.Editor
         /// </summary>
         /// <param name=""id"">id of the <see cref=""{type.Name}""/></param>
         /// <returns><see cref=""{type.Name}""/> in question</returns>");
-            sb.AppendLine($"        public override {modelName} GetById({GetTypeName(pk.FieldType)} id)");
+            sb.AppendLine($"        public {modelName} GetById({GetTypeName(pk.FieldType)} id)");
             sb.AppendLine("        {");
             sb.AppendLine("            return DataContext.Database.QuerySingle<" + modelName + ">(");
             sb.AppendLine($"                \"SELECT * FROM {table} WHERE {QuoteSqlIdentifier(pk.Name)}=@Id;\",");
@@ -517,14 +618,44 @@ namespace Baruah.DataSmith.Editor
 
             return sb.ToString();
         }
-        
+        private static string GetSqlInlineColumnConstraints(FieldInfo fieldInfo)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            var requirementAttribute = fieldInfo.GetCustomAttribute<RequiredAttribute>();
+            if (requirementAttribute != null)
+            {
+                sb.Append(" NOT NULL");
+            }
+            
+            var uniqueAttribute = fieldInfo.GetCustomAttribute<UniqueAttribute>();
+            if (uniqueAttribute != null)
+            {
+                sb.Append(" UNIQUE");
+            }
+
+            var defaultAttribute = fieldInfo.GetCustomAttribute<DefaultValueAttribute>();
+            if (defaultAttribute != null)
+            {
+                sb.Append($" DEFAULT {defaultAttribute.Value.ToString()}");
+            }
+            
+            var rangeAttribute = fieldInfo.GetCustomAttribute<RangeAttribute>();
+            if (rangeAttribute != null)
+            {
+                sb.Append($" CHECK ({fieldInfo.Name} BETWEEN {rangeAttribute.Min} AND {rangeAttribute.Max})");
+            }
+
+            return sb.ToString();
+        }
+
         /// <summary>
             /// Quote an SQL identifier for safe use in SQL statements by wrapping it in double quotes.
             /// </summary>
             /// <param name="name">The identifier to quote (e.g., table or column name).</param>
             /// <returns>The identifier wrapped in double quotes; any existing double quotes inside are doubled.</returns>
             private static string QuoteSqlIdentifier(string name)
-            => "\"" + name.Replace("\"", "\"\"") + "\"";
+            => name.Replace("\"", "\"\"") ;
 
         /// <summary>
         /// Finds the first public instance field on the given type that is annotated with <see cref="PrimaryKeyAttribute"/>.
@@ -554,6 +685,8 @@ namespace Baruah.DataSmith.Editor
             Type targetType = referenceAttr.TargetModelType;
             FieldInfo pk = GetPrimaryKey(targetType);
 
+            GameModelAttribute gameModelAttribute = targetType.GetCustomAttribute<GameModelAttribute>();
+            
             if (pk == null)
                 throw new Exception(
                     $"No [PrimaryKey] found in {targetType.Name}");
@@ -567,7 +700,11 @@ namespace Baruah.DataSmith.Editor
 
             string fieldName = field.Name;
 
-            return
+            if (gameModelAttribute.StorageType == ModelStorageType.Asset ||
+                gameModelAttribute.StorageType == ModelStorageType.Memory)
+            {
+                
+                return
                 $@"
         /// <summary>
         /// Getter for {fieldName} to {targetModelName}
@@ -581,6 +718,20 @@ namespace Baruah.DataSmith.Editor
                 .Query()
                 .{pkPascal}Equals(Value.{fieldName})
                 .FirstOrDefault();
+        }}
+";
+            }
+
+            return $@"/// <summary>
+        /// Getter for {fieldName} to {targetModelName}
+        /// </summary>
+        public {targetType.FullName} {methodName}()
+        {{
+            if (Value.{fieldName} == null)
+                return default;
+
+            return DataContext.Get<{targetModelName}>()
+                .GetBy{pkPascal}(Value.{fieldName});
         }}
 ";
         }
@@ -788,8 +939,10 @@ namespace Baruah.DataSmith.Editor
         /// <param name="t">The CLR type to map to an SQLite column type.</param>
         /// <returns>The SQLite column type name (for example, "INTEGER", "REAL", or "TEXT").</returns>
         /// <exception cref="NotSupportedException">Thrown when the provided CLR type has no supported SQLite mapping.</exception>
-        private static string GetSqlType(Type t)
+        private static string GetSqlType(FieldInfo field)
         {
+            Type t = field.FieldType;
+            
             if (t == typeof(int) || t == typeof(long) ||
                 t == typeof(short) || t == typeof(byte))
                 return "INTEGER";
@@ -801,7 +954,15 @@ namespace Baruah.DataSmith.Editor
                 return "INTEGER";
 
             if (t == typeof(string))
+            {
+                var maxLength = field.GetCustomAttribute<MaxLengthAttribute>();
+                if (maxLength != null)
+                {
+                    return $"VARCHAR({maxLength.Length})";
+                }
+                
                 return "TEXT";
+            }
 
             throw new NotSupportedException($"Unsupported SQLite field type '{t.FullName}'. Add an explicit converter or extend GetSqlType().");
         }

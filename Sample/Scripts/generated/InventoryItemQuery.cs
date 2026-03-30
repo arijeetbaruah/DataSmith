@@ -1,66 +1,71 @@
-/* Auto-generated. DO NOT MODIFY */
+/* Auto-generated DB access code. DO NOT MODIFY */
+
+using System.Collections.Generic;
+using Baruah.DataSmith;
+using Baruah.DataSmith.Database;
 
 namespace Baruah.DataSmith.Sample
 {
-    public sealed class InventoryItemQuery 
-        : ModelQuery<Baruah.DataSmith.Sample.InventoryItem>
+    /// <summary>
+    /// Model files access sql commands for <see cref="InventoryItem"/>
+    /// </summary>
+    public class InventoryItemQuery : QueryBuilder<Baruah.DataSmith.Sample.InventoryItem>
     {
-        public InventoryItemQuery(System.Collections.Generic.IReadOnlyList<Baruah.DataSmith.Sample.InventoryItem> source)
-            : base(source) { }
-
-        public InventoryItemQuery IdEquals(System.String value)
+        protected override TResult ExecuteScalar<TResult>(string sqlFunction)
         {
-            AddCondition(i => i.Id == value);
-            return this;
+            string table = typeof(Baruah.DataSmith.Sample.InventoryItem).Name;
+
+            string where = BuildWhereClause();
+
+            string sql = string.IsNullOrEmpty(where)
+                ? $"SELECT {sqlFunction} FROM {table}"
+                : $"SELECT {sqlFunction} FROM {table} WHERE {where}";
+
+            return DataContext.Database.QuerySingle<TResult>(sql);
         }
-
-        public InventoryItemQuery IdContains(string value)
+        
+        /// <summary>
+        /// Where Condition for Baruah.DataSmith.Sample.InventoryItem
+        /// </summary>
+        /// <param name="condition">condition</param>
+        /// <returns>InventoryItemQuery</returns>
+        public InventoryItemQuery Where(string condition) => (InventoryItemQuery) base.Where(condition);
+        
+                public InventoryItemQuery IdEquals(System.String value)
         {
-            AddCondition(i => i.Id != null && i.Id.Contains(value));
-            return this;
+            return Where($"Id == {value} ");
         }
 
         public InventoryItemQuery QuantityEquals(System.Int32 value)
         {
-            AddCondition(i => i.Quantity == value);
-            return this;
+            return Where($"Quantity == {value} ");
         }
 
         public InventoryItemQuery QuantityGreaterThan(System.Int32 value)
         {
-            AddCondition(i => i.Quantity > value);
-            return this;
+            return Where($"Quantity > value");
         }
 
         public InventoryItemQuery QuantityLessThan(System.Int32 value)
         {
-            AddCondition(i => i.Quantity < value);
-            return this;
+            return Where($"Quantity < value");
         }
 
         public InventoryItemQuery QuantityGreaterThanEqualTo(System.Int32 value)
         {
-            AddCondition(i => i.Quantity >= value);
-            return this;
+            return Where($"Quantity >= value");
         }
 
         public InventoryItemQuery QuantityLessThanEqualTo(System.Int32 value)
         {
-            AddCondition(i => i.Quantity <= value);
-            return this;
+            return Where($"Quantity <= value");
         }
 
         public InventoryItemQuery IsEquippedEquals(System.Boolean value)
         {
-            AddCondition(i => i.IsEquipped == value);
-            return this;
+            return Where($"IsEquipped == {value} ");
         }
 
-        public InventoryItemQuery Where(System.Func<InventoryItem, bool> predicate)
-        {
-            AddCondition(predicate);
-            return this;
-        }
 
     }
 }

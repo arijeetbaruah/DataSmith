@@ -17,12 +17,12 @@ namespace Baruah.DataSmith.Sample
         public bool IsAlive => Health > 0;
     }
     
-    [GameModel(ModelStorageType.Asset)]
+    [GameModel(ModelStorageType.DB)]
     [System.Serializable]
     public class InventoryItem
     {
         [PrimaryKey] public string Id;
-        public int Quantity;
+        [Range(0, 99)] public int Quantity;
         public bool IsEquipped;
     }
 }

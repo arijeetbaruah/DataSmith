@@ -131,8 +131,7 @@ namespace Baruah.DataSmith.Sample
         public event Action<System.String> OnItemIdChanged;
 
 
-
-        /// <summary>
+/// <summary>
         /// Getter for ItemId to InventoryItemModel
         /// </summary>
         public Baruah.DataSmith.Sample.InventoryItem GetInventoryItem()
@@ -141,9 +140,7 @@ namespace Baruah.DataSmith.Sample
                 return default;
 
             return DataContext.Get<InventoryItemModel>()
-                .Query()
-                .IdEquals(Value.ItemId)
-                .FirstOrDefault();
+                .GetById(Value.ItemId);
         }
 
 
