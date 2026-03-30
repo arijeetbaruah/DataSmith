@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['single_0',['Single',['../namespace_baruah_1_1_data_smith.html#a6d2836c5ed7f48b9cf3541e3eae3e43ea66ba162102bbf6ae31b522aec561735e',1,'Baruah::DataSmith']]]
+  ['list_0',['List',['../namespace_baruah_1_1_data_smith.html#afa4754c3e9ef9eeaceb94befed30acaea4ee29ca12c7d126654bd0e5275de6135',1,'Baruah::DataSmith']]]
 ];

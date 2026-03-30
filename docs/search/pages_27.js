@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🧪_20built_20in_20sqlite_20support_0',['🧪 Built-In SQLite Support',['../db_support.html#autotoc_md51',1,'']]]
+  ['🔄_20generated_20companion_20classes_0',['🔄 Generated Companion Classes',['../models.html#autotoc_md146',1,'']]]
 ];

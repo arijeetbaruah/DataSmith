@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['outputfolder_0',['OutputFolder',['../class_baruah_1_1_data_smith_1_1_editor_1_1_data_smith_config.html#a95312a65f84a32934cfe4190d97d6f10',1,'Baruah::DataSmith::Editor::DataSmithConfig']]]
+  ['data_0',['Data',['../class_baruah_1_1_data_smith_1_1_single_asset_model-1-g.html#a508663654fb4ad89c245acd0b7670c52',1,'Baruah::DataSmith::SingleAssetModel-1-g']]]
 ];

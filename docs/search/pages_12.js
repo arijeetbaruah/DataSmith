@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['the_20datacontext_3a_0',['Access your model through the DataContext:',['../getting_started.html#autotoc_md63',1,'']]],
-  ['thread_20safety_1',['Thread Safety',['../datacontext.html#autotoc_md37',1,'']]],
-  ['through_20the_20datacontext_3a_2',['Access your model through the DataContext:',['../getting_started.html#autotoc_md63',1,'']]],
-  ['to_20create_20a_20new_20context_3',['When to Create a New Context',['../datacontext.html#autotoc_md41',1,'']]],
-  ['transactions_4',['Transactions',['../datacontext.html#autotoc_md33',1,'']]],
-  ['types_5',['Types',['../models.html#autotoc_md81',1,'📦 Model Types'],['../queries.html#autotoc_md109',1,'🔹 Equality (All Types)']]]
+  ['new_20context_0',['When to Create a New Context',['../datacontext.html#autotoc_md93',1,'']]],
+  ['notnull_1',['NotNull',['../attributes.html#autotoc_md53',1,'']]],
+  ['numeric_20comparisons_2',['🔹 Numeric Comparisons',['../queries.html#autotoc_md162',1,'']]]
 ];

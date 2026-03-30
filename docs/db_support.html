@@ -95,7 +95,7 @@ $(function(){initNavTree('db_support.html','',''); });
 <div class="textblock"><p>DataSmith supports external databases through a pluggable provider system.</p>
 <p>Instead of hardcoding a specific database engine, DataSmith communicates with databases through the <span class="tt">IDatabase</span> interface. This allows you to switch between storage backends without changing your model code.</p>
 <hr  />
- <h2 class="doxsection"><a class="anchor" id="autotoc_md45"></a>
+ <h2 class="doxsection"><a class="anchor" id="autotoc_md97"></a>
 🧠 Overview</h2>
 <p>Database-backed models use <span class="tt">ModelValueType.DB</span>.</p>
 <p>These models:</p>
@@ -111,7 +111,7 @@ $(function(){initNavTree('db_support.html','',''); });
 <p>Mark your model with ModelValueType.DB.</p>
 <div class="fragment"><div class="line"><span class="keyword">using </span><a class="code hl_namespace" href="namespace_baruah_1_1_data_smith.html">Baruah.DataSmith</a>;</div>
 <div class="line"> </div>
-<div class="line">[<a class="code hl_class" href="class_baruah_1_1_data_smith_1_1_game_model.html">GameModel</a>(<a class="code hl_enumeration" href="namespace_baruah_1_1_data_smith.html#a6d2836c5ed7f48b9cf3541e3eae3e43e">ModelValueType</a>.DB)]</div>
+<div class="line">[<a class="code hl_class" href="class_baruah_1_1_data_smith_1_1_game_model.html">GameModel</a>(ModelValueType.DB)]</div>
 <div class="line"><span class="keyword">public</span> <span class="keyword">class </span>AccountData</div>
 <div class="line">{</div>
 <div class="line">[PrimaryKey]</div>
@@ -120,12 +120,11 @@ $(function(){initNavTree('db_support.html','',''); });
 <div class="line">    <span class="keyword">public</span> <span class="keywordtype">string</span> Username;</div>
 <div class="line">    <span class="keyword">public</span> <span class="keywordtype">int</span> Coins;</div>
 <div class="line">}</div>
-<div class="ttc" id="aclass_baruah_1_1_data_smith_1_1_game_model_html"><div class="ttname"><a href="class_baruah_1_1_data_smith_1_1_game_model.html">Baruah.DataSmith.GameModel</a></div><div class="ttdef"><b>Definition</b> GameModel.cs:4</div></div>
-<div class="ttc" id="anamespace_baruah_1_1_data_smith_html"><div class="ttname"><a href="namespace_baruah_1_1_data_smith.html">Baruah.DataSmith</a></div><div class="ttdef"><b>Definition</b> GameModelAttribute.cs:4</div></div>
-<div class="ttc" id="anamespace_baruah_1_1_data_smith_html_a6d2836c5ed7f48b9cf3541e3eae3e43e"><div class="ttname"><a href="namespace_baruah_1_1_data_smith.html#a6d2836c5ed7f48b9cf3541e3eae3e43e">Baruah.DataSmith.ModelValueType</a></div><div class="ttdeci">ModelValueType</div><div class="ttdef"><b>Definition</b> ModelValueType.cs:6</div></div>
+<div class="ttc" id="aclass_baruah_1_1_data_smith_1_1_game_model_html"><div class="ttname"><a href="class_baruah_1_1_data_smith_1_1_game_model.html">Baruah.DataSmith.GameModel</a></div><div class="ttdef"><b>Definition</b> GameModel.cs:8</div></div>
+<div class="ttc" id="anamespace_baruah_1_1_data_smith_html"><div class="ttname"><a href="namespace_baruah_1_1_data_smith.html">Baruah.DataSmith</a></div><div class="ttdef"><b>Definition</b> DataSmithGenerator.cs:13</div></div>
 </div><!-- fragment --><p>Generated models will use the active database provider for storage and queries.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md48"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md100"></a>
 🔌 Database Provider System</h2>
 <p>DataSmith communicates with databases using the IDatabase interface.</p>
 <p>A provider implements this interface and executes commands against a specific backend.</p>
@@ -135,13 +134,13 @@ $(function(){initNavTree('db_support.html','',''); });
 <div class="line">    <span class="keywordtype">int</span> Execute(<span class="keywordtype">string</span> commandText);</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>The exact interface may vary depending on the provider implementation.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md49"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md101"></a>
 ⚙️ Configuring a Provider</h3>
 <p>The active database provider is configured through the DataContext.</p>
 <div class="fragment"><div class="line">DataContext.Database = <span class="keyword">new</span> SqliteDatabase(connectionString);</div>
 </div><!-- fragment --><p>Once configured, all DB models will use this provider automatically.</p>
 <hr  />
-<h3 class="doxsection"><a class="anchor" id="autotoc_md51"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md103"></a>
 🧪 Built-In SQLite Support</h3>
 <p>DataSmith can work with Mono.Data.Sqlite when available.</p>
 <p>SQLite is ideal for:</p>
@@ -155,7 +154,7 @@ $(function(){initNavTree('db_support.html','',''); });
 <li><span class="tt">Mono.Data.Sqlite.dll</span> present in the project</li>
 <li>Compatible Unity scripting backend</li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md52"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md104"></a>
 Custom Database Providers</h3>
 <p>You can implement support for any database system by creating your own provider.</p>
 <p><b>Example: Custom Provider</b></p>

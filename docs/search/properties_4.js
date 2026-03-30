@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['targetmodeltype_0',['TargetModelType',['../class_baruah_1_1_data_smith_1_1_reference_attribute.html#a2d7a6b9993458a6850226db22bea547c',1,'Baruah::DataSmith::ReferenceAttribute']]],
-  ['this_5bint_20index_5d_1',['this[int index]',['../class_baruah_1_1_data_smith_1_1_model_query-1-g.html#afc143bd36cc96d98deccacae81c9ddcf',1,'Baruah::DataSmith::ModelQuery-1-g']]]
+  ['includepaths_0',['IncludePaths',['../class_baruah_1_1_data_smith_1_1_editor_1_1_data_smith_config.html#ad96eb4c4e82855df74778cc3cd70e581',1,'Baruah::DataSmith::Editor::DataSmithConfig']]],
+  ['isalive_1',['IsAlive',['../class_baruah_1_1_data_smith_1_1_sample_1_1_player_stats.html#aaeb0aa39355ca8e48fbfef23402f3f4d',1,'Baruah::DataSmith::Sample::PlayerStats']]],
+  ['items_2',['Items',['../class_baruah_1_1_data_smith_1_1_list_asset_model-1-g.html#ac4598946fdfe8fada0b0debd976239d3',1,'Baruah.DataSmith.ListAssetModel-1-g.Items'],['../class_baruah_1_1_data_smith_1_1_list_game_model-1-g.html#ab1572470ea747f241e03e4cb36128674',1,'Baruah.DataSmith.ListGameModel-1-g.Items']]]
 ];

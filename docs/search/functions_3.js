@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['execute_0',['Execute',['../interface_baruah_1_1_data_smith_1_1_database_1_1_i_database.html#ab6fe5ec73cbbcfe1e5f8a86624c53a62',1,'Baruah.DataSmith.Database.IDatabase.Execute()'],['../class_baruah_1_1_data_smith_1_1_model_query-1-g.html#a89d7fe88149afbd0d2d53926aa78b619',1,'Baruah.DataSmith.ModelQuery-1-g.Execute()'],['../class_baruah_1_1_data_smith_1_1_database_1_1_sqlite_provider_asset_1_1_sqlite_database.html#a772ecc77629af8a63d5f0c53854090bd',1,'Baruah.DataSmith.Database.SqliteProviderAsset.SqliteDatabase.Execute()']]]
+  ['defaultvalueattribute_0',['DefaultValueAttribute',['../class_baruah_1_1_data_smith_1_1_default_value_attribute.html#a85b956e8afa7b78555d2f7e6733d51af',1,'Baruah::DataSmith::DefaultValueAttribute']]],
+  ['delete_1',['Delete',['../class_baruah_1_1_data_smith_1_1_sample_1_1_inventory_item_model.html#afd3f1d6001eb2fa407057dc2f1962757',1,'Baruah::DataSmith::Sample::InventoryItemModel']]],
+  ['deserialize_2',['Deserialize',['../class_baruah_1_1_data_smith_1_1_game_model.html#ab1e22d8c871fc5faf5eb00d12a5bf284',1,'Baruah.DataSmith.GameModel.Deserialize()'],['../class_baruah_1_1_data_smith_1_1_list_game_model-1-g.html#a2e1e8355902110da8a46bd4cd5cbfc67',1,'Baruah.DataSmith.ListGameModel-1-g.Deserialize()'],['../class_baruah_1_1_data_smith_1_1_single_game_model-1-g.html#a2532b44007bb88b76e724e18ea6164ca',1,'Baruah.DataSmith.SingleGameModel-1-g.Deserialize()'],['../class_baruah_1_1_data_smith_1_1_s_q_l_game_model-1-g.html#a25f3a96382b28ae3e308674bf094f6be',1,'Baruah.DataSmith.SQLGameModel-1-g.Deserialize()']]]
 ];

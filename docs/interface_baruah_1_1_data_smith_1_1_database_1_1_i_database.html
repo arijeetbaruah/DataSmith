@@ -105,8 +105,11 @@ Inheritance diagram for Baruah.DataSmith.Database.IDatabase:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab6fe5ec73cbbcfe1e5f8a86624c53a62" id="r_ab6fe5ec73cbbcfe1e5f8a86624c53a62"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab6fe5ec73cbbcfe1e5f8a86624c53a62">Execute</a> (string sql, object param=null)</td></tr>
+<tr class="memdesc:ab6fe5ec73cbbcfe1e5f8a86624c53a62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes the provided SQL statement against the database.  <br /></td></tr>
 <tr class="memitem:a7e150b2f3b9347a15b6f013564b9fc8d" id="r_a7e150b2f3b9347a15b6f013564b9fc8d"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#a7e150b2f3b9347a15b6f013564b9fc8d">QuerySingle&lt; T &gt;</a> (string sql, object param=null)</td></tr>
+<tr class="memdesc:a7e150b2f3b9347a15b6f013564b9fc8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a SQL query expected to return a single row and maps that row to <em>T</em> .  <br /></td></tr>
 <tr class="memitem:af489d2a9ceed09660044a300cb738486" id="r_af489d2a9ceed09660044a300cb738486"><td class="memItemLeft">IEnumerable&lt; T &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af489d2a9ceed09660044a300cb738486">Query&lt; T &gt;</a> (string sql, object param=null)</td></tr>
+<tr class="memdesc:af489d2a9ceed09660044a300cb738486"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes the provided SQL query and maps each result row to an instance of <em>T</em> .  <br /></td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="ab6fe5ec73cbbcfe1e5f8a86624c53a62" name="ab6fe5ec73cbbcfe1e5f8a86624c53a62"></a>
@@ -127,6 +130,15 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Executes the provided SQL statement against the database. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sql</td><td>The SQL command text to execute.</td></tr>
+    <tr><td class="paramname">param</td><td>Optional parameters for the SQL statement (e.g., anonymous object or parameter collection).</td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="class_baruah_1_1_data_smith_1_1_database_1_1_sqlite_provider_asset_1_1_sqlite_database.html#a772ecc77629af8a63d5f0c53854090bd">Baruah.DataSmith.Database.SqliteProviderAsset.SqliteDatabase</a>.</p>
 
@@ -151,6 +163,16 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Executes the provided SQL query and maps each result row to an instance of <em>T</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sql</td><td>The SQL query to execute.</td></tr>
+    <tr><td class="paramname">param</td><td>Optional parameters for the query (e.g., a named-parameter object); pass null if none.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An enumerable of results mapped to <em>T</em> .</dd></dl>
+
 <p>Implemented in <a class="el" href="class_baruah_1_1_data_smith_1_1_database_1_1_sqlite_provider_asset_1_1_sqlite_database.html#a8a93ca045f972bf174cfec4e32d97932">Baruah.DataSmith.Database.SqliteProviderAsset.SqliteDatabase</a>.</p>
 
 </div>
@@ -174,12 +196,22 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Executes a SQL query expected to return a single row and maps that row to <em>T</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sql</td><td>SQL query text to execute.</td></tr>
+    <tr><td class="paramname">param</td><td>Optional parameters for the query; may be null.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An instance of <em>T</em>  representing the mapped result.</dd></dl>
+
 <p>Implemented in <a class="el" href="class_baruah_1_1_data_smith_1_1_database_1_1_sqlite_provider_asset_1_1_sqlite_database.html#a8da5fa41777503a2ddd327bf770e61ec">Baruah.DataSmith.Database.SqliteProviderAsset.SqliteDatabase</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li>Packages/com.arijeet.DataSmith/DataSmith/Runtime/Core/<a class="el" href="_i_database_8cs.html">IDatabase.cs</a></li>
+<li>Runtime/Core/<a class="el" href="_i_database_8cs.html">IDatabase.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

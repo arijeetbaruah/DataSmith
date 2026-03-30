@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['🔄_20generated_20companion_20classes_0',['🔄 Generated Companion Classes',['../models.html#autotoc_md94',1,'']]]
+  ['⚙️_20configuring_20a_20provider_0',['⚙️ Configuring a Provider',['../db_support.html#autotoc_md101',1,'']]],
+  ['⚙️_20generated_20condition_20methods_1',['⚙️ Generated Condition Methods',['../queries.html#autotoc_md160',1,'']]]
 ];

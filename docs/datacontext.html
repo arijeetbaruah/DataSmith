@@ -95,12 +95,12 @@ $(function(){initNavTree('datacontext.html','',''); });
 <div class="textblock"><p>The <b>DataContext</b> is the central entry point for all database operations within the DataSmith framework.</p>
 <p>It acts as a unit-of-work that manages database connections, provides access to generated models and queries, and coordinates data operations in a consistent and efficient manner.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md75"></a>
 Overview</h2>
 <p>A DataContext instance represents an active session with the database. All reads, writes, and transactions should be performed through this object.</p>
 <p>The Generator Tool produces strongly-typed accessors that attach to the DataContext, allowing you to interact with your database using compile-time safe APIs instead of raw SQL.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md77"></a>
 Responsibilities</h2>
 <p>The DataContext is responsible for:</p>
 <ul>
@@ -112,7 +112,7 @@ Responsibilities</h2>
 <li>Coordinating data operations across models</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md79"></a>
 Lifecycle</h2>
 <p>Typically, a DataContext is created when database access begins and disposed when the operation completes.</p>
 <p>Depending on your application architecture, it may be:</p>
@@ -122,7 +122,7 @@ Lifecycle</h2>
 <li>Long-lived (application-wide)</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md81"></a>
 Basic Usage</h2>
 <div class="fragment"><div class="line"><span class="keyword">using</span> (var context = <span class="keyword">new</span> GameDataContext())</div>
 <div class="line">{</div>
@@ -132,7 +132,7 @@ Basic Usage</h2>
 <div class="line">    context.SaveChanges();</div>
 <div class="line">}</div>
 </div><!-- fragment --><hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md83"></a>
 Generated Access Points</h2>
 <p>The Generator Tool creates properties on the DataContext that expose database entities and queries.</p>
 <p>Example:</p>
@@ -149,7 +149,7 @@ Generated Access Points</h2>
 <li>Custom generated queries</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md85"></a>
 Transactions</h2>
 <p>The DataContext can coordinate multiple operations within a single database transaction to ensure atomicity.</p>
 <div class="fragment"><div class="line"><span class="keyword">using</span> (var context = <span class="keyword">new</span> GameDataContext())</div>
@@ -164,17 +164,17 @@ Transactions</h2>
 <div class="line">}</div>
 </div><!-- fragment --><p>If a failure occurs before commit, all changes are rolled back.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md35"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md87"></a>
 Connection Management</h2>
 <p>The DataContext handles opening and closing the database connection automatically.</p>
 <p>Manual connection handling is typically unnecessary and discouraged, as improper usage can lead to resource leaks or inconsistent state.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md37"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md89"></a>
 Thread Safety</h2>
 <p>DataContext instances are generally <b>not thread-safe</b>.</p>
 <p>Each thread or task should use its own instance unless explicitly documented otherwise.</p>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md39"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md91"></a>
 Best Practices</h2>
 <ul>
 <li>Create DataContext instances only when needed</li>
@@ -184,7 +184,7 @@ Best Practices</h2>
 <li>Prefer generated APIs over raw SQL when possible</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md41"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md93"></a>
 When to Create a New Context</h2>
 <p>Create a new DataContext when:</p>
 <ul>
@@ -194,7 +194,7 @@ When to Create a New Context</h2>
 <li>Isolation between operations is required</li>
 </ul>
 <hr  />
-<h2 class="doxsection"><a class="anchor" id="autotoc_md43"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md95"></a>
 See Also</h2>
 <ul>
 <li><a class="el" href="models.html" title="Model System">Models</a></li>

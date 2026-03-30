@@ -98,7 +98,9 @@ Inheritance diagram for Baruah.DataSmith.SQLGameModel&lt; T &gt;:</div>
  <div class="center">
   <img src="class_baruah_1_1_data_smith_1_1_s_q_l_game_model-1-g.png" usemap="#Baruah_2EDataSmith_2ESQLGameModel_3C_20T_20_3E_map" alt=""/>
   <map id="Baruah_2EDataSmith_2ESQLGameModel_3C_20T_20_3E_map" name="Baruah_2EDataSmith_2ESQLGameModel_3C_20T_20_3E_map">
-<area href="class_baruah_1_1_data_smith_1_1_game_model.html" alt="Baruah.DataSmith.GameModel" shape="rect" coords="0,0,240,24"/>
+<area href="class_baruah_1_1_data_smith_1_1_game_model.html" alt="Baruah.DataSmith.GameModel" shape="rect" coords="0,56,272,80"/>
+<area href="interface_baruah_1_1_data_smith_1_1_i_game_model.html" alt="Baruah.DataSmith.IGameModel" shape="rect" coords="0,0,272,24"/>
+<area href="class_baruah_1_1_data_smith_1_1_sample_1_1_inventory_item_model.html" title="Model files access sql commands for InventoryItem." alt="Baruah.DataSmith.Sample.InventoryItemModel" shape="rect" coords="0,168,272,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -107,17 +109,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afe03a4975a043895f52d468c92b74929" id="r_afe03a4975a043895f52d468c92b74929"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afe03a4975a043895f52d468c92b74929">CreateTable</a> ()</td></tr>
 <tr class="memdesc:afe03a4975a043895f52d468c92b74929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the database table if it does not exist.  <br /></td></tr>
 <tr class="memitem:a63e7d7bc126a452a4aa78074b9ca2301" id="r_a63e7d7bc126a452a4aa78074b9ca2301"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a63e7d7bc126a452a4aa78074b9ca2301">Insert</a> (T item)</td></tr>
-<tr class="memdesc:a63e7d7bc126a452a4aa78074b9ca2301"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a new record.  <br /></td></tr>
 <tr class="memitem:a5ec4de742ef7c83ebf0025c68f4b1fb1" id="r_a5ec4de742ef7c83ebf0025c68f4b1fb1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5ec4de742ef7c83ebf0025c68f4b1fb1">Update</a> (T item)</td></tr>
-<tr class="memdesc:a5ec4de742ef7c83ebf0025c68f4b1fb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates an existing record.  <br /></td></tr>
-<tr class="memitem:a6439aa8a5e017bd945163415158f7e2d" id="r_a6439aa8a5e017bd945163415158f7e2d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6439aa8a5e017bd945163415158f7e2d">Delete</a> (System.String id)</td></tr>
-<tr class="memdesc:a6439aa8a5e017bd945163415158f7e2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes a record by primary key.  <br /></td></tr>
-<tr class="memitem:a4a8c943c742d582be25806052263da9b" id="r_a4a8c943c742d582be25806052263da9b"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#a4a8c943c742d582be25806052263da9b">GetById</a> (System.String id)</td></tr>
-<tr class="memdesc:a4a8c943c742d582be25806052263da9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a record by primary key.  <br /></td></tr>
 <tr class="memitem:a6cf45b279f0df27dc2a411317ddafe9d" id="r_a6cf45b279f0df27dc2a411317ddafe9d"><td class="memItemLeft">IEnumerable&lt; T &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6cf45b279f0df27dc2a411317ddafe9d">GetAll</a> ()</td></tr>
-<tr class="memdesc:a6cf45b279f0df27dc2a411317ddafe9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves all records.  <br /></td></tr>
 <tr class="memitem:add9f7c7c4ca2a387bf144afd69c02e50" id="r_add9f7c7c4ca2a387bf144afd69c02e50"><td class="memItemLeft">override string&#160;</td><td class="memItemRight"><a class="el" href="#add9f7c7c4ca2a387bf144afd69c02e50">Serialize</a> ()</td></tr>
+<tr class="memdesc:add9f7c7c4ca2a387bf144afd69c02e50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produces a serialized representation of this SQL-backed game model.  <br /></td></tr>
 <tr class="memitem:a25f3a96382b28ae3e308674bf094f6be" id="r_a25f3a96382b28ae3e308674bf094f6be"><td class="memItemLeft">override void&#160;</td><td class="memItemRight"><a class="el" href="#a25f3a96382b28ae3e308674bf094f6be">Deserialize</a> (string <a class="el" href="mainpage_8dox.html#a2974f422c345b6ae2bd7c74a797ade17">data</a>)</td></tr>
+<tr class="memdesc:a25f3a96382b28ae3e308674bf094f6be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ignores the provided serialized data and performs no action.  <br /></td></tr>
 <tr class="inherit_header pub_methods_class_baruah_1_1_data_smith_1_1_game_model"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_baruah_1_1_data_smith_1_1_game_model')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="class_baruah_1_1_data_smith_1_1_game_model.html">Baruah.DataSmith.GameModel</a></td></tr>
 <tr class="memitem:ab0bb349c600c19e3c4a8bcf0f77fd2b3 inherit pub_methods_class_baruah_1_1_data_smith_1_1_game_model" id="r_ab0bb349c600c19e3c4a8bcf0f77fd2b3"><td class="memItemLeft">string&#160;</td><td class="memItemRight"><a class="el" href="class_baruah_1_1_data_smith_1_1_game_model.html#ab0bb349c600c19e3c4a8bcf0f77fd2b3">Serialize</a> ()</td></tr>
 <tr class="memitem:ab1e22d8c871fc5faf5eb00d12a5bf284 inherit pub_methods_class_baruah_1_1_data_smith_1_1_game_model" id="r_ab1e22d8c871fc5faf5eb00d12a5bf284"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="class_baruah_1_1_data_smith_1_1_game_model.html#ab1e22d8c871fc5faf5eb00d12a5bf284">Deserialize</a> (string <a class="el" href="mainpage_8dox.html#a2974f422c345b6ae2bd7c74a797ade17">data</a>)</td></tr>
@@ -155,33 +152,6 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a6439aa8a5e017bd945163415158f7e2d" name="a6439aa8a5e017bd945163415158f7e2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6439aa8a5e017bd945163415158f7e2d">&#9670;&#160;</a></span>Delete()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Baruah.DataSmith.SQLGameModel&lt; T &gt;.Delete </td>
-          <td>(</td>
-          <td class="paramtype">System.String</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel abstract">abstract</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Deletes a record by primary key. </p>
-
-</div>
-</div>
 <a id="a25f3a96382b28ae3e308674bf094f6be" name="a25f3a96382b28ae3e308674bf094f6be"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a25f3a96382b28ae3e308674bf094f6be">&#9670;&#160;</a></span>Deserialize()</h2>
 
@@ -196,6 +166,14 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Ignores the provided serialized data and performs no action. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Serialized data to deserialize (ignored).</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -221,35 +199,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Retrieves all records. </p>
-
-</div>
-</div>
-<a id="a4a8c943c742d582be25806052263da9b" name="a4a8c943c742d582be25806052263da9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a8c943c742d582be25806052263da9b">&#9670;&#160;</a></span>GetById()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T Baruah.DataSmith.SQLGameModel&lt; T &gt;.GetById </td>
-          <td>(</td>
-          <td class="paramtype">System.String</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel abstract">abstract</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Retrieves a record by primary key. </p>
+<p>Retrieves all records of type <em>T</em>  from the model's data store.</p>
+<dl class="section return"><dt>Returns</dt><dd>An IEnumerable&lt;T&gt; containing every record of type <em>T</em>  in the model's data store.</dd></dl>
 
 </div>
 </div>
@@ -275,8 +226,13 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Inserts a new record. </p>
+<p>Inserts the provided entity as a new record in the underlying data store.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>The entity to insert.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -294,6 +250,9 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Produces a serialized representation of this SQL-backed game model. </p>
+<dl class="section return"><dt>Returns</dt><dd>An empty string.</dd></dl>
 
 </div>
 </div>
@@ -319,13 +278,18 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Updates an existing record. </p>
+<p>Updates the database record that corresponds to the provided item.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>The entity containing the updated values; its identifier is used to locate the existing record.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>Packages/com.arijeet.DataSmith/DataSmith/Runtime/Core/<a class="el" href="_s_q_l_game_model_8cs.html">SQLGameModel.cs</a></li>
+<li>Runtime/Core/<a class="el" href="_s_q_l_game_model_8cs.html">SQLGameModel.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

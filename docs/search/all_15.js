@@ -1,6 +1,29 @@
 var searchData=
 [
-  ['value_0',['Value',['../class_baruah_1_1_data_smith_1_1_single_game_model-1-g.html#a04f498ace1ec12f4b59520d5d998eb89',1,'Baruah::DataSmith::SingleGameModel-1-g']]],
-  ['valuetype_1',['ValueType',['../class_baruah_1_1_data_smith_1_1_game_model_attribute.html#a33826444ccb13ddc63e5129c89dcbeae',1,'Baruah::DataSmith::GameModelAttribute']]],
-  ['vs_20list_20models_2',['📦 Single vs List Models',['../queries.html#autotoc_md116',1,'']]]
+  ['package_20manager_20git_20url_0',['Unity Package Manager (Git URL)',['../md__r_e_a_d_m_e.html#autotoc_md182',1,'']]],
+  ['path_1',['Path',['../class_baruah_1_1_data_smith_1_1_editor_1_1_model_entry.html#a58897a7f9454e1979c82644c2ef01b3a',1,'Baruah::DataSmith::Editor::ModelEntry']]],
+  ['permanent_20ban_2',['4. Permanent Ban',['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md23',1,'']]],
+  ['playerid_3',['playerId',['../class_baruah_1_1_data_smith_1_1_sample_1_1_player_stats.html#a3a757f4158f0581cb34dfb8a2eb58980',1,'Baruah::DataSmith::Sample::PlayerStats']]],
+  ['playeridcontains_4',['PlayerIdContains',['../class_baruah_1_1_data_smith_1_1_sample_1_1_player_stats_query.html#ad1db2fd10de31fe85f1120088564ff68',1,'Baruah::DataSmith::Sample::PlayerStatsQuery']]],
+  ['playeridequals_5',['PlayerIdEquals',['../class_baruah_1_1_data_smith_1_1_sample_1_1_player_stats_query.html#af0e7033a4fa9d6ed23b807823cc2896c',1,'Baruah::DataSmith::Sample::PlayerStatsQuery']]],
+  ['playerstats_6',['PlayerStats',['../class_baruah_1_1_data_smith_1_1_sample_1_1_player_stats.html',1,'Baruah::DataSmith::Sample']]],
+  ['playerstats_2ecs_7',['PlayerStats.cs',['../_player_stats_8cs.html',1,'']]],
+  ['playerstatsmodel_8',['PlayerStatsModel',['../class_baruah_1_1_data_smith_1_1_sample_1_1_player_stats_model.html',1,'Baruah.DataSmith.Sample.PlayerStatsModel'],['../class_baruah_1_1_data_smith_1_1_sample_1_1_player_stats_model.html#a7e012fa87e5739a0e11981e79a527cff',1,'Baruah.DataSmith.Sample.PlayerStatsModel.PlayerStatsModel()']]],
+  ['playerstatsmodel_2ecs_9',['PlayerStatsModel.cs',['../_player_stats_model_8cs.html',1,'']]],
+  ['playerstatsquery_10',['PlayerStatsQuery',['../class_baruah_1_1_data_smith_1_1_sample_1_1_player_stats_query.html',1,'Baruah.DataSmith.Sample.PlayerStatsQuery'],['../class_baruah_1_1_data_smith_1_1_sample_1_1_player_stats_query.html#a61db012ecb7aedcc029143509eaa5d1a',1,'Baruah.DataSmith.Sample.PlayerStatsQuery.PlayerStatsQuery()']]],
+  ['playerstatsquery_2ecs_11',['PlayerStatsQuery.cs',['../_player_stats_query_8cs.html',1,'']]],
+  ['pledge_12',['Our Pledge',['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md14',1,'']]],
+  ['points_13',['Points',['../datacontext.html#autotoc_md83',1,'Generated Access Points'],['../getting_started.html#autotoc_md111',1,'Key Points']]],
+  ['policy_14',['Security Policy',['../md__s_e_c_u_r_i_t_y.html',1,'']]],
+  ['practices_15',['Practices',['../models.html#autotoc_md150',1,'⚠️ Best Practices'],['../queries.html#autotoc_md172',1,'⚠️ Best Practices'],['../attributes.html#autotoc_md69',1,'🧠 Best Practices'],['../datacontext.html#autotoc_md91',1,'Best Practices']]],
+  ['predicateextensions_2ecs_16',['PredicateExtensions.cs',['../_predicate_extensions_8cs.html',1,'']]],
+  ['primary_20key_20requirements_17',['Primary Key Requirements',['../attributes.html#autotoc_md63',1,'']]],
+  ['primarykey_18',['🔑 PrimaryKey',['../models.html#autotoc_md142',1,'']]],
+  ['primarykeyattribute_19',['PrimaryKeyAttribute',['../class_baruah_1_1_data_smith_1_1_primary_key_attribute.html',1,'Baruah::DataSmith']]],
+  ['primarykeyattribute_2ecs_20',['PrimaryKeyAttribute.cs',['../_primary_key_attribute_8cs.html',1,'']]],
+  ['project_21',['⭐ Support the Project',['../md__r_e_a_d_m_e.html#autotoc_md194',1,'']]],
+  ['project_20team_22',['Join The Project Team',['../md__c_o_n_t_r_i_b_u_t_i_n_g.html#autotoc_md40',1,'']]],
+  ['provider_23',['Provider',['../db_support.html#autotoc_md101',1,'⚙️ Configuring a Provider'],['../class_baruah_1_1_data_smith_1_1_database_1_1_database_config_asset.html#a5717b61cb84cc0d81715c91f69f9e179',1,'Baruah.DataSmith.Database.DatabaseConfigAsset.Provider']]],
+  ['provider_20system_24',['🔌 Database Provider System',['../db_support.html#autotoc_md100',1,'']]],
+  ['providers_25',['Custom Database Providers',['../db_support.html#autotoc_md104',1,'']]]
 ];

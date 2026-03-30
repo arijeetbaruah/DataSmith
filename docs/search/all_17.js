@@ -1,4 +1,25 @@
 var searchData=
 [
-  ['your_20model_20through_20the_20datacontext_3a_0',['Access your model through the DataContext:',['../getting_started.html#autotoc_md63',1,'']]]
+  ['rangeattribute_0',['RangeAttribute',['../class_baruah_1_1_data_smith_1_1_range_attribute.html',1,'Baruah.DataSmith.RangeAttribute'],['../class_baruah_1_1_data_smith_1_1_range_attribute.html#a97e266ddb742d2a7327ac5b4dcc2ad25',1,'Baruah.DataSmith.RangeAttribute.RangeAttribute()']]],
+  ['rangeattribute_2ecs_1',['RangeAttribute.cs',['../_range_attribute_8cs.html',1,'']]],
+  ['readme_2',['README',['../md__r_e_a_d_m_e.html',1,'']]],
+  ['readme_2emd_3',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
+  ['reference_4',['🔗 Reference',['../models.html#autotoc_md144',1,'']]],
+  ['reference_20attribute_5',['🔗 Reference Attribute',['../attributes.html#autotoc_md48',1,'']]],
+  ['reference_20queries_6',['🔗 Reference Queries',['../queries.html#autotoc_md164',1,'']]],
+  ['reference_20requirements_7',['Reference Requirements',['../attributes.html#autotoc_md65',1,'']]],
+  ['referenceattribute_8',['ReferenceAttribute',['../class_baruah_1_1_data_smith_1_1_reference_attribute.html',1,'Baruah.DataSmith.ReferenceAttribute'],['../class_baruah_1_1_data_smith_1_1_reference_attribute.html#a7b00ce2406d59841d8f601651ee6b3f9',1,'Baruah.DataSmith.ReferenceAttribute.ReferenceAttribute()']]],
+  ['referenceattribute_2ecs_9',['ReferenceAttribute.cs',['../_reference_attribute_8cs.html',1,'']]],
+  ['references_20and_20db_20models_10',['- Required for references and DB models',['../attributes.html#autotoc_md64',1,'']]],
+  ['references_20are_20allowed_20but_20should_20be_20used_20carefully_11',['- Circular references are allowed but should be used carefully',['../attributes.html#autotoc_md66',1,'']]],
+  ['remove_12',['Remove',['../class_baruah_1_1_data_smith_1_1_list_game_model-1-g.html#a78999f1d92df8689442cc0d6cd93ecc7',1,'Baruah::DataSmith::ListGameModel-1-g']]],
+  ['report_13',['Report',['../md__c_o_n_t_r_i_b_u_t_i_n_g.html#autotoc_md31',1,'Before Submitting a Bug Report'],['../md__c_o_n_t_r_i_b_u_t_i_n_g.html#autotoc_md32',1,'How Do I Submit a Good Bug Report?']]],
+  ['reporting_20a_20vulnerability_14',['Reporting a Vulnerability',['../md__s_e_c_u_r_i_t_y.html#autotoc_md197',1,'']]],
+  ['reporting_20bugs_15',['Reporting Bugs',['../md__c_o_n_t_r_i_b_u_t_i_n_g.html#autotoc_md30',1,'']]],
+  ['required_20for_20references_20and_20db_20models_16',['- Required for references and DB models',['../attributes.html#autotoc_md64',1,'']]],
+  ['requiredattribute_17',['RequiredAttribute',['../class_baruah_1_1_data_smith_1_1_required_attribute.html',1,'Baruah::DataSmith']]],
+  ['requiredattribute_2ecs_18',['RequiredAttribute.cs',['../_required_attribute_8cs.html',1,'']]],
+  ['requirements_19',['Requirements',['../attributes.html#autotoc_md63',1,'Primary Key Requirements'],['../attributes.html#autotoc_md65',1,'Reference Requirements']]],
+  ['responsibilities_20',['Responsibilities',['../md__c_o_d_e___o_f___c_o_n_d_u_c_t.html#autotoc_md16',1,'Enforcement Responsibilities'],['../datacontext.html#autotoc_md77',1,'Responsibilities']]],
+  ['rules_21',['⚠️ Constraints and Rules',['../attributes.html#autotoc_md62',1,'']]]
 ];

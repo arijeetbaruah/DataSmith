@@ -105,9 +105,13 @@ Inheritance diagram for Baruah.DataSmith.Database.SqliteProviderAsset.SqliteData
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6af1401b1ef021acda8ae6c70e65d924" id="r_a6af1401b1ef021acda8ae6c70e65d924"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6af1401b1ef021acda8ae6c70e65d924">SqliteDatabase</a> (string path)</td></tr>
+<tr class="memdesc:a6af1401b1ef021acda8ae6c70e65d924"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a <a class="el" href="class_baruah_1_1_data_smith_1_1_database_1_1_sqlite_provider_asset_1_1_sqlite_database.html">SqliteDatabase</a> with a SQLite connection string that points to the specified database file.  <br /></td></tr>
 <tr class="memitem:a772ecc77629af8a63d5f0c53854090bd" id="r_a772ecc77629af8a63d5f0c53854090bd"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a772ecc77629af8a63d5f0c53854090bd">Execute</a> (string sql, object param=null)</td></tr>
+<tr class="memdesc:a772ecc77629af8a63d5f0c53854090bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a SQL non-query command against the configured SQLite database.  <br /></td></tr>
 <tr class="memitem:a8da5fa41777503a2ddd327bf770e61ec" id="r_a8da5fa41777503a2ddd327bf770e61ec"><td class="memItemLeft">T&#160;</td><td class="memItemRight"><a class="el" href="#a8da5fa41777503a2ddd327bf770e61ec">QuerySingle&lt; T &gt;</a> (string sql, object param=null)</td></tr>
+<tr class="memdesc:a8da5fa41777503a2ddd327bf770e61ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetches the first result of the provided SQL query and maps it to an instance of <em>T</em> .  <br /></td></tr>
 <tr class="memitem:a8a93ca045f972bf174cfec4e32d97932" id="r_a8a93ca045f972bf174cfec4e32d97932"><td class="memItemLeft">IEnumerable&lt; T &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8a93ca045f972bf174cfec4e32d97932">Query&lt; T &gt;</a> (string sql, object param=null)</td></tr>
+<tr class="memdesc:a8a93ca045f972bf174cfec4e32d97932"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes the provided SQL query and yields instances of <em>T</em>  mapped from each result row.  <br /></td></tr>
 </table>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6af1401b1ef021acda8ae6c70e65d924" name="a6af1401b1ef021acda8ae6c70e65d924"></a>
@@ -124,6 +128,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Initializes a <a class="el" href="class_baruah_1_1_data_smith_1_1_database_1_1_sqlite_provider_asset_1_1_sqlite_database.html">SqliteDatabase</a> with a SQLite connection string that points to the specified database file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The full filesystem path to the SQLite database file; used to construct the connection string as "URI=file:{path}".</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -146,6 +158,15 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Executes a SQL non-query command against the configured SQLite database. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sql</td><td>The SQL statement or command to execute.</td></tr>
+    <tr><td class="paramname">param</td><td>An optional object whose public instance fields and readable properties are bound as parameters by name (prefixed with '@'); null if there are no parameters.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implements <a class="el" href="interface_baruah_1_1_data_smith_1_1_database_1_1_i_database.html#ab6fe5ec73cbbcfe1e5f8a86624c53a62">Baruah.DataSmith.Database.IDatabase</a>.</p>
 
@@ -170,6 +191,16 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Executes the provided SQL query and yields instances of <em>T</em>  mapped from each result row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sql</td><td>The SQL query to execute.</td></tr>
+    <tr><td class="paramname">param</td><td>An optional parameter object whose public instance fields and readable public instance properties are bound as SQL parameters (parameter names are the member names prefixed with '@').</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An enumerable that yields a mapped <em>T</em>  for each row in the result set. Enumeration opens a database connection and reader; the connection and reader are closed when the enumeration is disposed or completed.</dd></dl>
+
 <p>Implements <a class="el" href="interface_baruah_1_1_data_smith_1_1_database_1_1_i_database.html#af489d2a9ceed09660044a300cb738486">Baruah.DataSmith.Database.IDatabase</a>.</p>
 
 </div>
@@ -193,12 +224,21 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Fetches the first result of the provided SQL query and maps it to an instance of <em>T</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>An optional object whose public instance fields and readable properties are bound as query parameters (named by member). Null values become System.DBNull.Value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The first mapped instance of <em>T</em>  if a row is returned, otherwise <code>default(T)</code>.</dd></dl>
+
 <p>Implements <a class="el" href="interface_baruah_1_1_data_smith_1_1_database_1_1_i_database.html#a7e150b2f3b9347a15b6f013564b9fc8d">Baruah.DataSmith.Database.IDatabase</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>Packages/com.arijeet.DataSmith/DataSmith/Runtime/Core/SQLLite/<a class="el" href="_sqlite_provider_asset_8cs.html">SqliteProviderAsset.cs</a></li>
+<li>Runtime/Core/SQLLite/<a class="el" href="_sqlite_provider_asset_8cs.html">SqliteProviderAsset.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
