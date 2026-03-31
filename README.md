@@ -87,7 +87,7 @@ DataSmith creates:
 3. Paste:
 
 ```
-https://github.com/arijeetbaruah/DataSmith.git?path=Packages/com.arijeet.DataSmith/DataSmith
+https://github.com/arijeetbaruah/DataSmith.git
 ```
 
 Unity will install the package automatically.
