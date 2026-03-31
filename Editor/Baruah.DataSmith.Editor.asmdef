@@ -2,7 +2,8 @@
     "name": "Baruah.DataSmith.Editor",
     "rootNamespace": "Baruah.DataSmith.Editor",
     "references": [
-        "GUID:43db6601fd095684eb28de9f409e1a25"
+        "GUID:43db6601fd095684eb28de9f409e1a25",
+        "GUID:cc9e53b3deb0e0845a18508114f6f024"
     ],
     "includePlatforms": [
         "Editor"
