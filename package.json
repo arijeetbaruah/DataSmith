@@ -5,7 +5,7 @@
   "description": "DataSmith is an attribute-driven data modeling framework for Unity that automatically generates strongly-typed models and fluent query APIs.",
   "unity": "2021.3",
   "documentationUrl": "https://github.com/arijeetbaruah/DataSmith",
-  "changelogUrl": "https://raw.githubusercontent.com/arijeetbaruah/DataSmith/refs/heads/main/Packages/com.arijeet.DataSmith/DataSmith/CHANGELOG.md",
+  "changelogUrl": "https://raw.githubusercontent.com/arijeetbaruah/DataSmith/refs/heads/main/CHANGELOG.md",
   "licensesUrl": "https://raw.githubusercontent.com/arijeetbaruah/DataSmith/refs/heads/main/LICENSE",
   "author": {
     "name": "Arijeet Baruah",
